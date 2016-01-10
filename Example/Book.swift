@@ -20,4 +20,8 @@ class Book: NSObject {
     var summary: String?
     var price: String?
     var tags: Array<Tag>?
+    
+    func setupReplaceClass() -> [String : AnyObject] {
+        return ["tags": Tag.self]
+    }
 }
