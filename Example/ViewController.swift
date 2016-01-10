@@ -12,7 +12,16 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        let bookPath = NSBundle.mainBundle().pathForResource("book", ofType: nil)
+        print("", bookPath)
+        let url = NSURL.fileURLWithPath(bookPath!)
+        let bookData = NSData(contentsOfURL: url)
+        print(bookData)
+//        let book = Book()
+//        book.replacePropertyName = []
+        let book = Reflect.model(bookData, type: Book.self)
+        print(book)
     }
 
     override func didReceiveMemoryWarning() {

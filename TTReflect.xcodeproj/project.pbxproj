@@ -7,13 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		045D6F2C1C42127400D5B3F7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045D6F2B1C42127400D5B3F7 /* AppDelegate.swift */; };
-		045D6F2E1C42127400D5B3F7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045D6F2D1C42127400D5B3F7 /* ViewController.swift */; };
-		045D6F311C42127400D5B3F7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 045D6F2F1C42127400D5B3F7 /* Main.storyboard */; };
-		045D6F331C42127400D5B3F7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 045D6F321C42127400D5B3F7 /* Assets.xcassets */; };
-		045D6F361C42127400D5B3F7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 045D6F341C42127400D5B3F7 /* LaunchScreen.storyboard */; };
+		043EB0F11C421BB7007959D8 /* book in Resources */ = {isa = PBXBuildFile; fileRef = 043EB0F01C421BB7007959D8 /* book */; };
+		043EB0F31C422385007959D8 /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043EB0F21C422385007959D8 /* Tag.swift */; };
 		045D6F411C42127400D5B3F7 /* TTReflectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045D6F401C42127400D5B3F7 /* TTReflectTests.swift */; };
 		045D6F4C1C42127400D5B3F7 /* TTReflectUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045D6F4B1C42127400D5B3F7 /* TTReflectUITests.swift */; };
+		045D6F631C42135900D5B3F7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045D6F5A1C42135900D5B3F7 /* AppDelegate.swift */; };
+		045D6F641C42135900D5B3F7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 045D6F5B1C42135900D5B3F7 /* Assets.xcassets */; };
+		045D6F651C42135900D5B3F7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 045D6F5C1C42135900D5B3F7 /* LaunchScreen.storyboard */; };
+		045D6F661C42135900D5B3F7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 045D6F5E1C42135900D5B3F7 /* Main.storyboard */; };
+		045D6F671C42135900D5B3F7 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 045D6F601C42135900D5B3F7 /* Info.plist */; };
+		045D6F681C42135900D5B3F7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045D6F611C42135900D5B3F7 /* ViewController.swift */; };
+		045D6F6A1C42138C00D5B3F7 /* Reflect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045D6F691C42138C00D5B3F7 /* Reflect.swift */; };
+		045D6F701C42150C00D5B3F7 /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045D6F6F1C42150C00D5B3F7 /* Book.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,19 +39,23 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		043EB0F01C421BB7007959D8 /* book */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = book; sourceTree = "<group>"; };
+		043EB0F21C422385007959D8 /* Tag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
 		045D6F281C42127400D5B3F7 /* TTReflect.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TTReflect.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		045D6F2B1C42127400D5B3F7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		045D6F2D1C42127400D5B3F7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		045D6F301C42127400D5B3F7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		045D6F321C42127400D5B3F7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		045D6F351C42127400D5B3F7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		045D6F371C42127400D5B3F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		045D6F3C1C42127400D5B3F7 /* TTReflectTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TTReflectTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		045D6F401C42127400D5B3F7 /* TTReflectTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TTReflectTests.swift; sourceTree = "<group>"; };
 		045D6F421C42127400D5B3F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		045D6F471C42127400D5B3F7 /* TTReflectUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TTReflectUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		045D6F4B1C42127400D5B3F7 /* TTReflectUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TTReflectUITests.swift; sourceTree = "<group>"; };
 		045D6F4D1C42127400D5B3F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		045D6F5A1C42135900D5B3F7 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		045D6F5B1C42135900D5B3F7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		045D6F5D1C42135900D5B3F7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		045D6F5F1C42135900D5B3F7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		045D6F601C42135900D5B3F7 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		045D6F611C42135900D5B3F7 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		045D6F691C42138C00D5B3F7 /* Reflect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reflect.swift; sourceTree = "<group>"; };
+		045D6F6F1C42150C00D5B3F7 /* Book.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,7 +86,8 @@
 		045D6F1F1C42127400D5B3F7 = {
 			isa = PBXGroup;
 			children = (
-				045D6F2A1C42127400D5B3F7 /* TTReflect */,
+				045D6F591C42135900D5B3F7 /* Example */,
+				045D6F621C42135900D5B3F7 /* TTReflect */,
 				045D6F3F1C42127400D5B3F7 /* TTReflectTests */,
 				045D6F4A1C42127400D5B3F7 /* TTReflectUITests */,
 				045D6F291C42127400D5B3F7 /* Products */,
@@ -92,19 +102,6 @@
 				045D6F471C42127400D5B3F7 /* TTReflectUITests.xctest */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		045D6F2A1C42127400D5B3F7 /* TTReflect */ = {
-			isa = PBXGroup;
-			children = (
-				045D6F2B1C42127400D5B3F7 /* AppDelegate.swift */,
-				045D6F2D1C42127400D5B3F7 /* ViewController.swift */,
-				045D6F2F1C42127400D5B3F7 /* Main.storyboard */,
-				045D6F321C42127400D5B3F7 /* Assets.xcassets */,
-				045D6F341C42127400D5B3F7 /* LaunchScreen.storyboard */,
-				045D6F371C42127400D5B3F7 /* Info.plist */,
-			);
-			path = TTReflect;
 			sourceTree = "<group>";
 		};
 		045D6F3F1C42127400D5B3F7 /* TTReflectTests */ = {
@@ -123,6 +120,46 @@
 				045D6F4D1C42127400D5B3F7 /* Info.plist */,
 			);
 			path = TTReflectUITests;
+			sourceTree = "<group>";
+		};
+		045D6F591C42135900D5B3F7 /* Example */ = {
+			isa = PBXGroup;
+			children = (
+				045D6F6E1C42140D00D5B3F7 /* Res */,
+				045D6F6D1C42140000D5B3F7 /* Model */,
+				045D6F5A1C42135900D5B3F7 /* AppDelegate.swift */,
+				045D6F5B1C42135900D5B3F7 /* Assets.xcassets */,
+				045D6F5C1C42135900D5B3F7 /* LaunchScreen.storyboard */,
+				045D6F5E1C42135900D5B3F7 /* Main.storyboard */,
+				045D6F601C42135900D5B3F7 /* Info.plist */,
+				045D6F611C42135900D5B3F7 /* ViewController.swift */,
+			);
+			path = Example;
+			sourceTree = "<group>";
+		};
+		045D6F621C42135900D5B3F7 /* TTReflect */ = {
+			isa = PBXGroup;
+			children = (
+				045D6F691C42138C00D5B3F7 /* Reflect.swift */,
+			);
+			path = TTReflect;
+			sourceTree = "<group>";
+		};
+		045D6F6D1C42140000D5B3F7 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				045D6F6F1C42150C00D5B3F7 /* Book.swift */,
+				043EB0F21C422385007959D8 /* Tag.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		045D6F6E1C42140D00D5B3F7 /* Res */ = {
+			isa = PBXGroup;
+			children = (
+				043EB0F01C421BB7007959D8 /* book */,
+			);
+			name = Res;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -229,9 +266,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				045D6F361C42127400D5B3F7 /* LaunchScreen.storyboard in Resources */,
-				045D6F331C42127400D5B3F7 /* Assets.xcassets in Resources */,
-				045D6F311C42127400D5B3F7 /* Main.storyboard in Resources */,
+				045D6F671C42135900D5B3F7 /* Info.plist in Resources */,
+				045D6F661C42135900D5B3F7 /* Main.storyboard in Resources */,
+				045D6F641C42135900D5B3F7 /* Assets.xcassets in Resources */,
+				045D6F651C42135900D5B3F7 /* LaunchScreen.storyboard in Resources */,
+				043EB0F11C421BB7007959D8 /* book in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -256,8 +295,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				045D6F2E1C42127400D5B3F7 /* ViewController.swift in Sources */,
-				045D6F2C1C42127400D5B3F7 /* AppDelegate.swift in Sources */,
+				045D6F6A1C42138C00D5B3F7 /* Reflect.swift in Sources */,
+				045D6F681C42135900D5B3F7 /* ViewController.swift in Sources */,
+				043EB0F31C422385007959D8 /* Tag.swift in Sources */,
+				045D6F701C42150C00D5B3F7 /* Book.swift in Sources */,
+				045D6F631C42135900D5B3F7 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -293,20 +335,20 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		045D6F2F1C42127400D5B3F7 /* Main.storyboard */ = {
+		045D6F5C1C42135900D5B3F7 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				045D6F301C42127400D5B3F7 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		045D6F341C42127400D5B3F7 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				045D6F351C42127400D5B3F7 /* Base */,
+				045D6F5D1C42135900D5B3F7 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		045D6F5E1C42135900D5B3F7 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				045D6F5F1C42135900D5B3F7 /* Base */,
+			);
+			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -396,8 +438,7 @@
 		045D6F511C42127400D5B3F7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				INFOPLIST_FILE = TTReflect/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Example/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tsusolo.TTReflect;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -407,8 +448,7 @@
 		045D6F521C42127400D5B3F7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				INFOPLIST_FILE = TTReflect/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Example/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tsusolo.TTReflect;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -482,6 +522,7 @@
 				045D6F521C42127400D5B3F7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		045D6F531C42127400D5B3F7 /* Build configuration list for PBXNativeTarget "TTReflectTests" */ = {
 			isa = XCConfigurationList;
@@ -490,6 +531,7 @@
 				045D6F551C42127400D5B3F7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		045D6F561C42127400D5B3F7 /* Build configuration list for PBXNativeTarget "TTReflectUITests" */ = {
 			isa = XCConfigurationList;
@@ -498,6 +540,7 @@
 				045D6F581C42127400D5B3F7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
