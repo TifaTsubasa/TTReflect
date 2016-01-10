@@ -1,0 +1,42 @@
+[
+{
+"avatars": {
+"small": "https://img1.doubanio.com/img/celebrity/small/51597.jpg",
+"large": "https://img1.doubanio.com/img/celebrity/large/51597.jpg",
+"medium": "https://img1.doubanio.com/img/celebrity/medium/51597.jpg"
+},
+"alt": "http://movie.douban.com/celebrity/1054395/",
+"id": "1054395",
+"name": "伊利亚·伍德"
+},
+{
+"avatars": {
+"small": "https://img3.doubanio.com/img/celebrity/small/3996.jpg",
+"large": "https://img3.doubanio.com/img/celebrity/large/3996.jpg",
+"medium": "https://img3.doubanio.com/img/celebrity/medium/3996.jpg"
+},
+"alt": "http://movie.douban.com/celebrity/1016673/",
+"id": "1016673",
+"name": "詹妮弗·康纳利"
+},
+{
+"avatars": {
+"small": "https://img1.doubanio.com/img/celebrity/small/55994.jpg",
+"large": "https://img1.doubanio.com/img/celebrity/large/55994.jpg",
+"medium": "https://img1.doubanio.com/img/celebrity/medium/55994.jpg"
+},
+"alt": "http://movie.douban.com/celebrity/1017907/",
+"id": "1017907",
+"name": "约翰·C·赖利"
+},
+{
+"avatars": {
+"small": "https://img1.doubanio.com/img/celebrity/small/42033.jpg",
+"large": "https://img1.doubanio.com/img/celebrity/large/42033.jpg",
+"medium": "https://img1.doubanio.com/img/celebrity/medium/42033.jpg"
+},
+"alt": "http://movie.douban.com/celebrity/1036321/",
+"id": "1036321",
+"name": "克里斯托弗·普卢默"
+}
+]

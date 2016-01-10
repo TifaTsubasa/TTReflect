@@ -19,4 +19,5 @@ class Book: NSObject {
     var publisher: String?
     var summary: String?
     var price: String?
+    var tags: Array<Tag>?
 }

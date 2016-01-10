@@ -13,14 +13,19 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let bookPath = NSBundle.mainBundle().pathForResource("book", ofType: nil)
-        print("", bookPath)
-        let url = NSURL.fileURLWithPath(bookPath!)
-        let bookData = NSData(contentsOfURL: url)
-        print(bookData)
+        let bookUrl = NSURL.fileURLWithPath(NSBundle.mainBundle().pathForResource("book", ofType: nil)!)
+        let bookData = NSData(contentsOfURL: bookUrl)
+        
+        let castUrl = NSURL.fileURLWithPath(NSBundle.mainBundle().pathForResource("casts", ofType: nil)!)
+        let castsData = NSData(contentsOfURL: castUrl)
+//        print(bookData)
 //        let book = Book()
 //        book.replacePropertyName = []
+        
+        let casts = Reflect.modelArray(castsData, type: Cast.self)
+            print(casts)
         let book = Reflect.model(bookData, type: Book.self)
+//        let casts = Reflect.modelArray(<#T##json: AnyObject?##AnyObject?#>, type: <#T##T.Type#>)
         print(book)
     }
 
