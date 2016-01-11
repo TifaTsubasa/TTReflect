@@ -39,21 +39,17 @@ class Reflect {
         return nil
     }
     static func model<T: NSObject>(plistName: String?, type: T.Type) -> T? {
-        let plistUrl = NSURL.fileURLWithPath(NSBundle.mainBundle().pathForResource(plistName, ofType: nil)!)
-        let data = NSData(contentsOfURL: plistUrl)
-        let model = T()
-        if let _ = data {
-            do {
-                let json : AnyObject! = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)
-                if json is NSDictionary {
-                    model.setProperty(json)
-                    return model
-                } else {
-                    print("error: reflect model need a dictionary json")
-                }
-            } catch {
-                print("Serializat json error, \(error)")
+        let plistPath = NSBundle.mainBundle().pathForResource(plistName, ofType: "plist")
+        if let _ = plistPath {
+            let plistUrl = NSURL.fileURLWithPath(plistPath!)
+            let json = NSDictionary(contentsOfURL: plistUrl)
+            let model = T()
+            if let _ = json {
+                model.setProperty(json)
+                return model
             }
+        } else {
+            print("error plist name")
         }
         return nil
     }
@@ -93,6 +89,24 @@ class Reflect {
             } catch {
                 print("Serializat json error, \(error)")
             }
+        }
+        return nil
+    }
+    static func modelArray<T: NSObject>(plistName: String?, type: T.Type) -> [T]? {
+        let plistPath = NSBundle.mainBundle().pathForResource(plistName, ofType: "plist")
+        if let _ = plistPath {
+            let json = NSArray(contentsOfURL: NSURL.fileURLWithPath(plistPath!))
+            var modelArray = [T]()
+            if let _ = json {
+                for jsonObj in json! {
+                    let model = T()
+                    model.setProperty(jsonObj)
+                    modelArray.append(model)
+                }
+                return modelArray
+            }
+        } else {
+            print("error plist name")
         }
         return nil
     }

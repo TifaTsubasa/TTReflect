@@ -11,6 +11,8 @@
 		043EB0F31C422385007959D8 /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043EB0F21C422385007959D8 /* Tag.swift */; };
 		043EB0F51C4266AE007959D8 /* casts in Resources */ = {isa = PBXBuildFile; fileRef = 043EB0F41C4266AE007959D8 /* casts */; };
 		043EB0F71C4266D0007959D8 /* Cast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043EB0F61C4266D0007959D8 /* Cast.swift */; };
+		043EB0FF1C43E347007959D8 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043EB0FE1C43E347007959D8 /* Item.swift */; };
+		043EB1011C43E350007959D8 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043EB1001C43E350007959D8 /* User.swift */; };
 		045D6F411C42127400D5B3F7 /* TTReflectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045D6F401C42127400D5B3F7 /* TTReflectTests.swift */; };
 		045D6F4C1C42127400D5B3F7 /* TTReflectUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045D6F4B1C42127400D5B3F7 /* TTReflectUITests.swift */; };
 		045D6F631C42135900D5B3F7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045D6F5A1C42135900D5B3F7 /* AppDelegate.swift */; };
@@ -48,6 +50,8 @@
 		043EB0F21C422385007959D8 /* Tag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
 		043EB0F41C4266AE007959D8 /* casts */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = casts; sourceTree = "<group>"; };
 		043EB0F61C4266D0007959D8 /* Cast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cast.swift; sourceTree = "<group>"; };
+		043EB0FE1C43E347007959D8 /* Item.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		043EB1001C43E350007959D8 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		045D6F281C42127400D5B3F7 /* TTReflect.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TTReflect.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		045D6F3C1C42127400D5B3F7 /* TTReflectTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TTReflectTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		045D6F401C42127400D5B3F7 /* TTReflectTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TTReflectTests.swift; sourceTree = "<group>"; };
@@ -168,6 +172,8 @@
 				043EB0F61C4266D0007959D8 /* Cast.swift */,
 				5C089F811C43764A00341D52 /* Images.swift */,
 				5CD3B0761C43BA410050CDDF /* Movie.swift */,
+				043EB0FE1C43E347007959D8 /* Item.swift */,
+				043EB1001C43E350007959D8 /* User.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -384,12 +390,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				5C089F821C43764A00341D52 /* Images.swift in Sources */,
+				043EB0FF1C43E347007959D8 /* Item.swift in Sources */,
 				045D6F6A1C42138C00D5B3F7 /* Reflect.swift in Sources */,
 				045D6F681C42135900D5B3F7 /* ViewController.swift in Sources */,
 				043EB0F31C422385007959D8 /* Tag.swift in Sources */,
 				045D6F701C42150C00D5B3F7 /* Book.swift in Sources */,
 				043EB0F71C4266D0007959D8 /* Cast.swift in Sources */,
 				5CD3B0771C43BA410050CDDF /* Movie.swift in Sources */,
+				043EB1011C43E350007959D8 /* User.swift in Sources */,
 				045D6F631C42135900D5B3F7 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
