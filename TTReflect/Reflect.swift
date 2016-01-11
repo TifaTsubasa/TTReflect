@@ -137,7 +137,6 @@ extension NSObject: TTReflectProtocol {
                     let type = replaceObjectClass![key]!
                     if let cls = NSClassFromString(NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleName")!.description + "." + type) as? NSObject.Type {
                         let obj = cls.init()
-                        print(json.valueForKey(key))
                         obj.setProperty(json.valueForKey(key));
                         self.setValue(obj, forKey: key)
                     } else {

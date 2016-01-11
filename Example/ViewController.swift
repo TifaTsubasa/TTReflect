@@ -22,11 +22,12 @@ class ViewController: UIViewController {
         let castsData = NSData(contentsOfURL: castUrl)
 //        print(bookData)
 //        let book = Book()
-//        book.replacePropertyName = []
+        //        book.replacePropertyName = []
         let casts = Reflect.modelArray(castsData, type: Cast.self)
-//            print(casts)
+        print(casts)
+
         let book = Reflect.model(bookData, type: Book.self)
-//        let casts = Reflect.modelArray(<#T##json: AnyObject?##AnyObject?#>, type: <#T##T.Type#>)
+        NSLog("end")
         
         let tags = book?.tags
         tags?.forEach({ (tag: Tag) -> () in
@@ -40,6 +41,7 @@ class ViewController: UIViewController {
         Alamofire.request(.GET, "https://api.douban.com/v2/movie/subject/1764796", parameters: nil)
             .response { request, response, data, error in
                 let movie = Reflect.model(data, type: Movie.self)
+                print(movie)
         }
     }
     
