@@ -21,12 +21,14 @@ class ViewController: UIViewController {
 //        print(bookData)
 //        let book = Book()
 //        book.replacePropertyName = []
-        
+        print(NSDate())
         let casts = Reflect.modelArray(castsData, type: Cast.self)
-            print(casts)
+//            print(casts)
         let book = Reflect.model(bookData, type: Book.self)
 //        let casts = Reflect.modelArray(<#T##json: AnyObject?##AnyObject?#>, type: <#T##T.Type#>)
-        print(book?.tags?[0].count)
+        
+        print(NSDate())
+//        print(book?.tags?[0].count)
         let tag = book?.tags?[1]
         tag?.count
     }

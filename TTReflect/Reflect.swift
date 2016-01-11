@@ -69,7 +69,6 @@ class Reflect {
         }
         return nil
     }
-    
 }
 
 @objc
@@ -80,8 +79,6 @@ protocol TTReflectProtocol {
 }
 
 extension NSObject: TTReflectProtocol {
-    
-    
     
     func setProperty(json: AnyObject!) {
         // check protocol
@@ -105,15 +102,13 @@ extension NSObject: TTReflectProtocol {
         for item in mirror.children {
             let key = item.label!
             self.setValue(json!.valueForKey(key), forKey: key)
-            //
-            
             
             // set sub model
             if let _ = replaceObjectClass {
                 for nameKey in replaceObjectClass!.keys {
                     if key == nameKey {
                         let type = replaceObjectClass![key]!
-                        if let cls = NSClassFromString(NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleName")!.description + "." + type) as? NSObject.Type{
+                        if let cls = NSClassFromString(NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleName")!.description + "." + type) as? NSObject.Type {
                             let obj = cls.init()
                             obj.setProperty(json.valueForKey(key));
                             self.setValue(obj, forKey: key)
@@ -145,10 +140,6 @@ extension NSObject: TTReflectProtocol {
                         } else {
                             print("setup replace object class with error name!");
                         }
-                        
-//
-//                        let arr = Reflect.modelArray(json!.valueForKey(key), type: type)
-//                        self.setValue(arr, forKey: key)
                     }
                 }
             }
