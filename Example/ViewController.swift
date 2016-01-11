@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import AFNetworking
+import Alamofire
 
 class ViewController: UIViewController {
 
@@ -30,6 +32,23 @@ class ViewController: UIViewController {
         tags?.forEach({ (tag: Tag) -> () in
             print(tag.title)
         })
+        self.useAlamofire()
+        self.useAFNetworking()
+    }
+    
+    func useAlamofire() {
+        Alamofire.request(.GET, "https://api.douban.com/v2/movie/subject/1764796", parameters: nil)
+            .response { request, response, data, error in
+                let movie = Reflect.model(data, type: Movie.self)
+        }
+    }
+    
+    func useAFNetworking() {
+        let manager = AFHTTPRequestOperationManager()
+        manager.GET("https://api.douban.com/v2/movie/subject/1764796", parameters: nil, success: { (operation, responseData) -> Void in
+            let movie = Reflect.model(responseData, type: Movie.self)
+            print(movie)
+            }, failure: nil)
     }
 
     override func didReceiveMemoryWarning() {
