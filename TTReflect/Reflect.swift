@@ -74,66 +74,79 @@ class Reflect {
 
 @objc
 protocol TTReflectProtocol {
-    optional func setupReplaceClass() -> [String: AnyObject]
     optional func setupReplacePropertyName() -> [String: String]
+    optional func setupReplaceObjectClass() -> [String: AnyObject]
+    optional func setupReplaceElementClass() -> [String: AnyObject]
 }
 
 extension NSObject: TTReflectProtocol {
     
-//    struct ReplaceAttribute {
-//        static var replaceClass: [String: AnyObject]?
-//        static var replacePropertyName: [String: String]?
-//    }
-//    
-//    var replaceClass: [String: AnyObject]? {
-//        get {
-//            return objc_getAssociatedObject(self, &ReplaceAttribute.replaceClass) as! [String: AnyObject]?
-//        }
-//        set {
-//            if let newValue = newValue {
-//                objc_setAssociatedObject(self, &ReplaceAttribute.replaceClass, newValue as [String: AnyObject]?, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-//            }
-//        }
-//    }
-//    var replacePropertyName: [String: String]? {
-//        get {
-//            return objc_getAssociatedObject(self, &ReplaceAttribute.replacePropertyName) as! [String: String]?
-//        }
-//        set {
-//            if let newValue = newValue {
-//                objc_setAssociatedObject(self, &ReplaceAttribute.replacePropertyName, newValue as [String: String]?, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-//            }
-//        }
-//    }
+    
     
     func setProperty(json: AnyObject!) {
         // check protocol
-        var replaceClass: [String: AnyObject]?
         var replacePropertyName: [String: String]?
-        if self.respondsToSelector("setupReplaceClass") {
-            let res = self.performSelector("setupReplaceClass")
-            replaceClass = res.takeUnretainedValue() as? [String: AnyObject]
-        }
+        var replaceObjectClass: [String: AnyObject]?
+        var replaceElementClass: [String: AnyObject]?
         if self.respondsToSelector("setupReplacePropertyName") {
             let res = self.performSelector("setupReplacePropertyName")
             replacePropertyName = res.takeUnretainedValue() as? [String: String]
+        }
+        if self.respondsToSelector("setupReplaceObjectClass") {
+            let res = self.performSelector("setupReplaceObjectClass")
+            replaceObjectClass = res.takeUnretainedValue() as? [String: AnyObject]
+        }
+        if self.respondsToSelector("setupReplaceElementClass") {
+            let res = self.performSelector("setupReplaceElementClass")
+            replaceElementClass = res.takeUnretainedValue() as? [String: AnyObject]
         }
         
         let mirror = Mirror(reflecting: self)
         for item in mirror.children {
             let key = item.label!
-            //
             self.setValue(json!.valueForKey(key), forKey: key)
-            if let _ = replaceClass {
-                for nameKey in replaceClass!.keys {
+            //
+            let testCls = self.valueForKey(key)
+//            print(key, testCls?.classForKeyedArchiver)
+            if testCls is NSDictionary {
+                print(testCls!.classForCoder)
+            }
+            let images = Images()
+//            print(images.classForCoder)
+            //
+            if key == "images" {
+                if let cls = NSClassFromString(NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleName")!.description + "." + "Images") as? NSObject.Type{
+                    let obj = cls.init()
+                    //                obj.self
+//                    print(key, obj, json.valueForKey(key))
+                    obj.setProperty(json.valueForKey(key))
+                    self.setValue(obj, forKey: key)
+//                    print(key, obj.self)
+                }
+            }
+            
+            
+            // set sub model
+            if let _ = replaceObjectClass {
+                for nameKey in replaceObjectClass!.keys {
                     if key == nameKey {
-                        let arr = Reflect.modelArray(json!.valueForKey(key), type: Tag.self)
+//                        let submodel = Reflect.model(json!.valueForKey(key), type: replaceObjectClass[key])
+                        
+                    }
+                }
+            }
+            // set sub model array
+            if let _ = replaceElementClass {
+                for nameKey in replaceElementClass!.keys {
+                    if key == nameKey {
+                        let type = replaceElementClass![key] as! Tag.Type
+                        let arr = Reflect.modelArray(json!.valueForKey(key), type: type)
                         self.setValue(arr, forKey: key)
                     }
                 }
             }
-            //
         }
+        // set replace property name
         if let _ = replacePropertyName {
             for key in replacePropertyName!.keys {
                 self.setValue(json!.valueForKey(key), forKey: replacePropertyName![key]!)

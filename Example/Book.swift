@@ -19,13 +19,18 @@ class Book: NSObject {
     var publisher: String?
     var summary: String?
     var price: String?
+    var images: Images?
     var tags: Array<Tag>?
     
     func setupReplacePropertyName() -> [String : String] {
         return ["title": "tt"]
     }
     
-    func setupReplaceClass() -> [String : AnyObject] {
+    func setupReplaceObjectClass() -> [String : AnyObject] {
+        return ["images": Images.self]
+    }
+    
+    func setupReplaceElementClass() -> [String : AnyObject] {
         return ["tags": Tag.self]
     }
 }

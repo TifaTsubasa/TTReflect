@@ -21,6 +21,7 @@
 		045D6F681C42135900D5B3F7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045D6F611C42135900D5B3F7 /* ViewController.swift */; };
 		045D6F6A1C42138C00D5B3F7 /* Reflect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045D6F691C42138C00D5B3F7 /* Reflect.swift */; };
 		045D6F701C42150C00D5B3F7 /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045D6F6F1C42150C00D5B3F7 /* Book.swift */; };
+		5C089F821C43764A00341D52 /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C089F811C43764A00341D52 /* Images.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +61,7 @@
 		045D6F611C42135900D5B3F7 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		045D6F691C42138C00D5B3F7 /* Reflect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reflect.swift; sourceTree = "<group>"; };
 		045D6F6F1C42150C00D5B3F7 /* Book.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
+		5C089F811C43764A00341D52 /* Images.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -155,6 +157,7 @@
 				045D6F6F1C42150C00D5B3F7 /* Book.swift */,
 				043EB0F21C422385007959D8 /* Tag.swift */,
 				043EB0F61C4266D0007959D8 /* Cast.swift */,
+				5C089F811C43764A00341D52 /* Images.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -302,6 +305,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5C089F821C43764A00341D52 /* Images.swift in Sources */,
 				045D6F6A1C42138C00D5B3F7 /* Reflect.swift in Sources */,
 				045D6F681C42135900D5B3F7 /* ViewController.swift in Sources */,
 				043EB0F31C422385007959D8 /* Tag.swift in Sources */,
