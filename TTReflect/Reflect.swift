@@ -38,6 +38,25 @@ class Reflect {
         }
         return nil
     }
+    static func model<T: NSObject>(plistName: String?, type: T.Type) -> T? {
+        let plistUrl = NSURL.fileURLWithPath(NSBundle.mainBundle().pathForResource(plistName, ofType: nil)!)
+        let data = NSData(contentsOfURL: plistUrl)
+        let model = T()
+        if let _ = data {
+            do {
+                let json : AnyObject! = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)
+                if json is NSDictionary {
+                    model.setProperty(json)
+                    return model
+                } else {
+                    print("error: reflect model need a dictionary json")
+                }
+            } catch {
+                print("Serializat json error, \(error)")
+            }
+        }
+        return nil
+    }
     // reflect model array
     static func modelArray<T: NSObject>(json: AnyObject?, type: T.Type) -> [T]? {
         var modelArray = [T]()
