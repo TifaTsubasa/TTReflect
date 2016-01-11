@@ -75,6 +75,7 @@ class Reflect {
 @objc
 protocol TTReflectProtocol {
     optional func setupReplaceClass() -> [String: AnyObject]
+    optional func setupReplacePropertyName() -> [String: String]
 }
 
 extension NSObject: TTReflectProtocol {
@@ -95,32 +96,27 @@ extension NSObject: TTReflectProtocol {
         }
     }
     
-    func setProperty(json: AnyObject?) {
+    func setProperty(json: AnyObject!) {
         // check protocol
         if self.respondsToSelector("setupReplaceClass") {
-//            replaceClass = print(self.performSelector("setupReplaceClass", withObject: nil))
-        } else {
-            print("does not have")
+            let res = self.performSelector("setupReplaceClass")
+            replaceClass = res.takeUnretainedValue() as? [String: AnyObject]
         }
-        replaceClass = Book().setupReplaceClass()
         
-        if let _ = json {
-            let mirror = Mirror(reflecting: self)
-            for item in mirror.children {
-                let key = item.label!
-                //
+        let mirror = Mirror(reflecting: self)
+        for item in mirror.children {
+            let key = item.label!
+            //
+            self.setValue(json!.valueForKey(key), forKey: key)
+            if let _ = replaceClass {
                 for nameKey in replaceClass!.keys {
                     if key == nameKey {
-                        print(json!.valueForKey(key))
                         let arr = Reflect.modelArray(json!.valueForKey(key), type: Tag.self)
                         self.setValue(arr, forKey: key)
-                    } else {
-                        
-                        self.setValue(json!.valueForKey(key), forKey: key)
                     }
                 }
-                //
             }
+            //
         }
     }
 }

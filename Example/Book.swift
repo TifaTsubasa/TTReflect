@@ -9,7 +9,7 @@
 import UIKit
 
 class Book: NSObject {
-    var subtitle: String?
+    var tt: String?
     var pubdate: String?
     var image: String?
     var binding: String?
