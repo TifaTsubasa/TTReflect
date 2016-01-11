@@ -12,8 +12,12 @@ class Reflect {
     static func model<T: NSObject>(json: AnyObject?, type: T.Type) -> T? {
         let model = T()
         if let _ = json {
-            model.setProperty(json)
-            return model
+            if json is NSDictionary {
+                model.setProperty(json)
+                return model
+            } else {
+                print("error: reflect model need a dictionary json")
+            }
         }
         return nil
     }
@@ -22,8 +26,12 @@ class Reflect {
         if let _ = data {
             do {
                 let json : AnyObject! = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)
-                model.setProperty(json)
-                return model
+                if json is NSDictionary {
+                    model.setProperty(json)
+                    return model
+                } else {
+                    print("error: reflect model need a dictionary json")
+                }
             } catch {
                 print("Serializat json error, \(error)")
             }
@@ -42,7 +50,7 @@ class Reflect {
                 }
                 return modelArray
             } else {
-                print("input json not be a array!")
+                print("error: reflect model need a array json")
             }
             
         }
@@ -61,7 +69,7 @@ class Reflect {
                     }
                     return modelArray
                 } else {
-                    print("Serializat json not be a array!")
+                    print("error: reflect model need a array json")
                 }
             } catch {
                 print("Serializat json error, \(error)")
@@ -110,13 +118,12 @@ extension NSObject: TTReflectProtocol {
                     let type = replaceObjectClass![key]!
                     if let cls = NSClassFromString(NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleName")!.description + "." + type) as? NSObject.Type {
                         let obj = cls.init()
+                        print(json.valueForKey(key))
                         obj.setProperty(json.valueForKey(key));
                         self.setValue(obj, forKey: key)
                     } else {
                         print("setup replace object class with error name!");
                     }
-                } else {
-                    self.setValue(json!.valueForKey(key), forKey: key)
                 }
             }
             // set sub model array
@@ -140,9 +147,6 @@ extension NSObject: TTReflectProtocol {
                     } else {
                         print("setup replace object class with error name!");
                     }
-                    
-                } else {
-                    self.setValue(json!.valueForKey(key), forKey: key)
                 }
             }
         }
