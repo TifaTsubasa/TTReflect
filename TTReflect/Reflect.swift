@@ -103,44 +103,46 @@ extension NSObject: TTReflectProtocol {
             let key = item.label!
             self.setValue(json!.valueForKey(key), forKey: key)
             
+            
             // set sub model
             if let _ = replaceObjectClass {
-                for nameKey in replaceObjectClass!.keys {
-                    if key == nameKey {
-                        let type = replaceObjectClass![key]!
-                        if let cls = NSClassFromString(NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleName")!.description + "." + type) as? NSObject.Type {
-                            let obj = cls.init()
-                            obj.setProperty(json.valueForKey(key));
-                            self.setValue(obj, forKey: key)
-                        } else {
-                            print("setup replace object class with error name!");
-                        }
+                if replaceObjectClass!.keys.contains(key) {
+                    let type = replaceObjectClass![key]!
+                    if let cls = NSClassFromString(NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleName")!.description + "." + type) as? NSObject.Type {
+                        let obj = cls.init()
+                        obj.setProperty(json.valueForKey(key));
+                        self.setValue(obj, forKey: key)
+                    } else {
+                        print("setup replace object class with error name!");
                     }
+                } else {
+                    self.setValue(json!.valueForKey(key), forKey: key)
                 }
             }
             // set sub model array
             if let _ = replaceElementClass {
-                for nameKey in replaceElementClass!.keys {
-                    if key == nameKey {
-                        let type = replaceElementClass![key]!
-                        if let cls = NSClassFromString(NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleName")!.description + "." + type) as? NSObject.Type{
-                            if let subJsonArray = json!.valueForKey(key) as? NSArray {
-                                var submodelArray = [NSObject]()
-                                for subJson in subJsonArray {
-                                    let obj = cls.init()
-                                    print(subJson)
-                                    obj.setProperty(subJson);
-                                    submodelArray.append(obj)
-                                }
-                                self.setValue(submodelArray, forKey: key)
-                                
-                            } else {
-                                print("parse sub model array without array json")
+                if replaceElementClass!.keys.contains(key) {
+                    let type = replaceElementClass![key]!
+                    
+                    if let cls = NSClassFromString(NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleName")!.description + "." + type) as? NSObject.Type {
+                        if let subJsonArray = json!.valueForKey(key) as? NSArray {
+                            var subModelArray = [NSObject]()
+                            for subJson in subJsonArray {
+                                let obj = cls.init()
+                                obj.setProperty(subJson);
+                                subModelArray.append(obj)
                             }
+                            self.setValue(subModelArray, forKey: key)
+                            
                         } else {
-                            print("setup replace object class with error name!");
+                            print("parse sub model array without array json")
                         }
+                    } else {
+                        print("setup replace object class with error name!");
                     }
+                    
+                } else {
+                    self.setValue(json!.valueForKey(key), forKey: key)
                 }
             }
         }

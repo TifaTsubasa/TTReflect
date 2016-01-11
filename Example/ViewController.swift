@@ -21,16 +21,15 @@ class ViewController: UIViewController {
 //        print(bookData)
 //        let book = Book()
 //        book.replacePropertyName = []
-        print(NSDate())
         let casts = Reflect.modelArray(castsData, type: Cast.self)
 //            print(casts)
         let book = Reflect.model(bookData, type: Book.self)
 //        let casts = Reflect.modelArray(<#T##json: AnyObject?##AnyObject?#>, type: <#T##T.Type#>)
         
-        print(NSDate())
-//        print(book?.tags?[0].count)
-        let tag = book?.tags?[1]
-        tag?.count
+        let tags = book?.tags
+        tags?.forEach({ (tag: Tag) -> () in
+            print(tag.title)
+        })
     }
 
     override func didReceiveMemoryWarning() {
