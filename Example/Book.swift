@@ -26,11 +26,11 @@ class Book: NSObject {
         return ["title": "tt"]
     }
     
-    func setupReplaceObjectClass() -> [String : AnyObject] {
-        return ["images": Images.self]
+    func setupReplaceObjectClass() -> [String : String] {
+        return ["images": "Images"]
     }
     
-    func setupReplaceElementClass() -> [String : AnyObject] {
-        return ["tags": Tag.self]
+    func setupReplaceElementClass() -> [String : String] {
+        return ["tags": "Tag"]
     }
 }

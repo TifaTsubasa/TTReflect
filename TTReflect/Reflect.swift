@@ -75,8 +75,8 @@ class Reflect {
 @objc
 protocol TTReflectProtocol {
     optional func setupReplacePropertyName() -> [String: String]
-    optional func setupReplaceObjectClass() -> [String: AnyObject]
-    optional func setupReplaceElementClass() -> [String: AnyObject]
+    optional func setupReplaceObjectClass() -> [String: String]
+    optional func setupReplaceElementClass() -> [String: String]
 }
 
 extension NSObject: TTReflectProtocol {
@@ -86,19 +86,19 @@ extension NSObject: TTReflectProtocol {
     func setProperty(json: AnyObject!) {
         // check protocol
         var replacePropertyName: [String: String]?
-        var replaceObjectClass: [String: AnyObject]?
-        var replaceElementClass: [String: AnyObject]?
+        var replaceObjectClass: [String: String]?
+        var replaceElementClass: [String: String]?
         if self.respondsToSelector("setupReplacePropertyName") {
             let res = self.performSelector("setupReplacePropertyName")
             replacePropertyName = res.takeUnretainedValue() as? [String: String]
         }
         if self.respondsToSelector("setupReplaceObjectClass") {
             let res = self.performSelector("setupReplaceObjectClass")
-            replaceObjectClass = res.takeUnretainedValue() as? [String: AnyObject]
+            replaceObjectClass = res.takeUnretainedValue() as? [String: String]
         }
         if self.respondsToSelector("setupReplaceElementClass") {
             let res = self.performSelector("setupReplaceElementClass")
-            replaceElementClass = res.takeUnretainedValue() as? [String: AnyObject]
+            replaceElementClass = res.takeUnretainedValue() as? [String: String]
         }
         
         let mirror = Mirror(reflecting: self)
@@ -106,32 +106,20 @@ extension NSObject: TTReflectProtocol {
             let key = item.label!
             self.setValue(json!.valueForKey(key), forKey: key)
             //
-            let testCls = self.valueForKey(key)
-//            print(key, testCls?.classForKeyedArchiver)
-            if testCls is NSDictionary {
-                print(testCls!.classForCoder)
-            }
-            let images = Images()
-//            print(images.classForCoder)
-            //
-            if key == "images" {
-                if let cls = NSClassFromString(NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleName")!.description + "." + "Images") as? NSObject.Type{
-                    let obj = cls.init()
-                    //                obj.self
-//                    print(key, obj, json.valueForKey(key))
-                    obj.setProperty(json.valueForKey(key))
-                    self.setValue(obj, forKey: key)
-//                    print(key, obj.self)
-                }
-            }
             
             
             // set sub model
             if let _ = replaceObjectClass {
                 for nameKey in replaceObjectClass!.keys {
                     if key == nameKey {
-//                        let submodel = Reflect.model(json!.valueForKey(key), type: replaceObjectClass[key])
-                        
+                        let type = replaceObjectClass![key]!
+                        if let cls = NSClassFromString(NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleName")!.description + "." + type) as? NSObject.Type{
+                            let obj = cls.init()
+                            obj.setProperty(json.valueForKey(key));
+                            self.setValue(obj, forKey: key)
+                        } else {
+                            print("setup replace object class with error name!");
+                        }
                     }
                 }
             }
@@ -139,9 +127,28 @@ extension NSObject: TTReflectProtocol {
             if let _ = replaceElementClass {
                 for nameKey in replaceElementClass!.keys {
                     if key == nameKey {
-                        let type = replaceElementClass![key] as! Tag.Type
-                        let arr = Reflect.modelArray(json!.valueForKey(key), type: type)
-                        self.setValue(arr, forKey: key)
+                        let type = replaceElementClass![key]!
+                        if let cls = NSClassFromString(NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleName")!.description + "." + type) as? NSObject.Type{
+                            if let subJsonArray = json!.valueForKey(key) as? NSArray {
+                                var submodelArray = [NSObject]()
+                                for subJson in subJsonArray {
+                                    let obj = cls.init()
+                                    print(subJson)
+                                    obj.setProperty(subJson);
+                                    submodelArray.append(obj)
+                                }
+                                self.setValue(submodelArray, forKey: key)
+                                
+                            } else {
+                                print("parse sub model array without array json")
+                            }
+                        } else {
+                            print("setup replace object class with error name!");
+                        }
+                        
+//
+//                        let arr = Reflect.modelArray(json!.valueForKey(key), type: type)
+//                        self.setValue(arr, forKey: key)
                     }
                 }
             }
