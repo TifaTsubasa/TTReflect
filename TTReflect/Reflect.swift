@@ -80,27 +80,43 @@ protocol TTReflectProtocol {
 
 extension NSObject: TTReflectProtocol {
     
-    struct ReplaceAttribute {
-        static var replaceClass: [String: AnyObject]?
-        static var replacePropertyName: [String: String]?
-    }
-    
-    var replaceClass: [String: AnyObject]? {
-        get {
-            return objc_getAssociatedObject(self, &ReplaceAttribute.replaceClass) as! [String: AnyObject]?
-        }
-        set {
-            if let newValue = newValue {
-                objc_setAssociatedObject(self, &ReplaceAttribute.replaceClass, newValue as [String: AnyObject]?, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-            }
-        }
-    }
+//    struct ReplaceAttribute {
+//        static var replaceClass: [String: AnyObject]?
+//        static var replacePropertyName: [String: String]?
+//    }
+//    
+//    var replaceClass: [String: AnyObject]? {
+//        get {
+//            return objc_getAssociatedObject(self, &ReplaceAttribute.replaceClass) as! [String: AnyObject]?
+//        }
+//        set {
+//            if let newValue = newValue {
+//                objc_setAssociatedObject(self, &ReplaceAttribute.replaceClass, newValue as [String: AnyObject]?, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+//            }
+//        }
+//    }
+//    var replacePropertyName: [String: String]? {
+//        get {
+//            return objc_getAssociatedObject(self, &ReplaceAttribute.replacePropertyName) as! [String: String]?
+//        }
+//        set {
+//            if let newValue = newValue {
+//                objc_setAssociatedObject(self, &ReplaceAttribute.replacePropertyName, newValue as [String: String]?, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+//            }
+//        }
+//    }
     
     func setProperty(json: AnyObject!) {
         // check protocol
+        var replaceClass: [String: AnyObject]?
+        var replacePropertyName: [String: String]?
         if self.respondsToSelector("setupReplaceClass") {
             let res = self.performSelector("setupReplaceClass")
             replaceClass = res.takeUnretainedValue() as? [String: AnyObject]
+        }
+        if self.respondsToSelector("setupReplacePropertyName") {
+            let res = self.performSelector("setupReplacePropertyName")
+            replacePropertyName = res.takeUnretainedValue() as? [String: String]
         }
         
         let mirror = Mirror(reflecting: self)
@@ -117,6 +133,11 @@ extension NSObject: TTReflectProtocol {
                 }
             }
             //
+        }
+        if let _ = replacePropertyName {
+            for key in replacePropertyName!.keys {
+                self.setValue(json!.valueForKey(key), forKey: replacePropertyName![key]!)
+            }
         }
     }
 }
