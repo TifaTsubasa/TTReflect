@@ -16,7 +16,7 @@ class Reflect {
                 model.setProperty(json)
                 return model
             } else {
-                print("error: reflect model need a dictionary json")
+                debugPrint("error: reflect model need a dictionary json")
             }
         }
         return nil
@@ -30,10 +30,10 @@ class Reflect {
                     model.setProperty(json)
                     return model
                 } else {
-                    print("error: reflect model need a dictionary json")
+                    debugPrint("error: reflect model need a dictionary json")
                 }
             } catch {
-                print("Serializat json error, \(error)")
+                debugPrint("Serializat json error, \(error)")
             }
         }
         return nil
@@ -49,7 +49,7 @@ class Reflect {
                 return model
             }
         } else {
-            print("error plist name")
+            debugPrint("error plist name")
         }
         return nil
     }
@@ -65,7 +65,7 @@ class Reflect {
                 }
                 return modelArray
             } else {
-                print("error: reflect model need a array json")
+                debugPrint("error: reflect model need a array json")
             }
             
         }
@@ -84,10 +84,10 @@ class Reflect {
                     }
                     return modelArray
                 } else {
-                    print("error: reflect model need a array json")
+                    debugPrint("error: reflect model need a array json")
                 }
             } catch {
-                print("Serializat json error, \(error)")
+                debugPrint("Serializat json error, \(error)")
             }
         }
         return nil
@@ -106,7 +106,7 @@ class Reflect {
                 return modelArray
             }
         } else {
-            print("error plist name")
+            debugPrint("error plist name")
         }
         return nil
     }
@@ -144,7 +144,6 @@ extension NSObject: TTReflectProtocol {
             let key = item.label!
             self.setValue(json!.valueForKey(key), forKey: key)
             
-            
             // set sub model
             if let _ = replaceObjectClass {
                 if replaceObjectClass!.keys.contains(key) {
@@ -154,7 +153,7 @@ extension NSObject: TTReflectProtocol {
                         obj.setProperty(json.valueForKey(key));
                         self.setValue(obj, forKey: key)
                     } else {
-                        print("setup replace object class with error name!");
+                        debugPrint("setup replace object class with error name!");
                     }
                 }
             }
@@ -174,10 +173,10 @@ extension NSObject: TTReflectProtocol {
                             self.setValue(subModelArray, forKey: key)
                             
                         } else {
-                            print("parse sub model array without array json")
+                            debugPrint("parse sub model array without array json")
                         }
                     } else {
-                        print("setup replace object class with error name!");
+                        debugPrint("setup replace object class with error name!");
                     }
                 }
             }
