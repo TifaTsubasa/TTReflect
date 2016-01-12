@@ -27,7 +27,7 @@ class ViewController: UIViewController {
         //        book.replacePropertyName = []
         let casts = Reflect.modelArray(castsData, type: Cast.self)
         print(casts)
-
+        
         let book = Reflect.model(bookData, type: Book.self)
         NSLog("end")
         
