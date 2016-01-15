@@ -11,8 +11,12 @@
 
 ```
 platform :ios, '8.0'
-pod 'TTReflect', '~> 0.1.0'
+use_frameworks!
+pod 'TTReflect', '~> 0.2.0'
 ```
+
+需要导入框架
+`import TTReflect`
 =======
 
 
@@ -30,6 +34,8 @@ class Tag: NSObject {
 **1.模型需要继承于NSObject**
 
 **2.Int等基本属性不可以使用可选类型**
+
+**3.数字等基本类型可以使用NSNumber**
 
 ####关键方法
 ![Alt text](http://7xq01t.com1.z0.glb.clouddn.com/TTReflect_main_function-zh.png)
