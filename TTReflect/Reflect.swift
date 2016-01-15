@@ -8,8 +8,8 @@
 
 import Foundation
 
-class Reflect {
-    static func model<T: NSObject>(json: AnyObject?, type: T.Type) -> T? {
+public class Reflect {
+    public static func model<T: NSObject>(json: AnyObject?, type: T.Type) -> T? {
         let model = T()
         if let _ = json {
             if json is NSDictionary {
@@ -21,7 +21,7 @@ class Reflect {
         }
         return nil
     }
-    static func model<T: NSObject>(data: NSData?, type: T.Type) -> T? {
+    public static func model<T: NSObject>(data: NSData?, type: T.Type) -> T? {
         let model = T()
         if let _ = data {
             do {
@@ -38,7 +38,7 @@ class Reflect {
         }
         return nil
     }
-    static func model<T: NSObject>(plistName: String?, type: T.Type) -> T? {
+    public static func model<T: NSObject>(plistName: String?, type: T.Type) -> T? {
         let plistPath = NSBundle.mainBundle().pathForResource(plistName, ofType: "plist")
         if let _ = plistPath {
             let plistUrl = NSURL.fileURLWithPath(plistPath!)
@@ -54,7 +54,7 @@ class Reflect {
         return nil
     }
     // reflect model array
-    static func modelArray<T: NSObject>(json: AnyObject?, type: T.Type) -> [T]? {
+    public static func modelArray<T: NSObject>(json: AnyObject?, type: T.Type) -> [T]? {
         var modelArray = [T]()
         if let _ = json {
             if json is NSArray {
@@ -71,7 +71,7 @@ class Reflect {
         }
         return nil
     }
-    static func modelArray<T: NSObject>(data: NSData?, type: T.Type) -> [T]? {
+    public static func modelArray<T: NSObject>(data: NSData?, type: T.Type) -> [T]? {
         var modelArray = [T]()
         if let _ = data {
             do {
@@ -92,7 +92,7 @@ class Reflect {
         }
         return nil
     }
-    static func modelArray<T: NSObject>(plistName: String?, type: T.Type) -> [T]? {
+    public static func modelArray<T: NSObject>(plistName: String?, type: T.Type) -> [T]? {
         let plistPath = NSBundle.mainBundle().pathForResource(plistName, ofType: "plist")
         if let _ = plistPath {
             let json = NSArray(contentsOfURL: NSURL.fileURLWithPath(plistPath!))

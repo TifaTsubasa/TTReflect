@@ -30,6 +30,7 @@ class ViewController: UIViewController {
         
         let book = Reflect.model(bookData, type: Book.self)
         NSLog("end")
+        book?.images?.large
         
         let tags = book?.tags
         tags?.forEach({ (tag: Tag) -> () in
