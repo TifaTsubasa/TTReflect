@@ -33,7 +33,7 @@ class Tag: NSObject {
 }
 ```
 
-**1.Your model should be subclass of `NSObject` **
+**1.Your model should be subclass of `NSObject`**
 
 **2.Can not use optionals for basic types, and you could use optional NSNumber? for `Int、long...`**
 
