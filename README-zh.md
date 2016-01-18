@@ -1,14 +1,13 @@
 #TTReflect
-####swift: json convert to model
-**[中文介绍](https://github.com/TifaTsubasa/TTReflect/blob/master/README-zh.md)**
+####swift版 json转model 框架
 
-###Installation
-####Manually
-#####
-drop `TTReflect.swift` to your project
+###安装
+####iOS 7
+#####手动导入
+将TTReflect.swift拖到项目中即可使用
 
 ####iOS 8+
-#####CocoaPods
+#####使用CocoaPods安装
 
 ```
 platform :ios, '8.0'
@@ -16,14 +15,15 @@ use_frameworks!
 pod 'TTReflect', '~> 0.2.0'
 ```
 
-**import lib**
+需要导入框架
 ```
 import TTReflect
 ```
+=======
 
 
-###Usage
-####Model requirements
+###使用
+####模型要求
 
 ```
 class Tag: NSObject {
@@ -33,41 +33,47 @@ class Tag: NSObject {
 }
 ```
 
-**1.Your model should be subclass of `NSObject` **
+**1.模型需要继承于NSObject**
 
-**2.Can not use optionals for basic types, and you could use optional NSNumber? for `Int、long...`**
+**2.Int等基本属性不可以使用可选类型**
 
-####Main function
+**3.数字等基本类型可以使用NSNumber**
 
-![Alt text](http://7xq01t.com1.z0.glb.clouddn.com/tsusolo.com%2FqiniuTTReflect_main_function.png)
+####关键方法
+![Alt text](http://7xq01t.com1.z0.glb.clouddn.com/TTReflect_main_function-zh.png)
 
-####Example
+####实例
+**具体见代码示例**
+#####字典转模型
 
-#####Dictionary -> Model
-
-######Specifies json/data and model type
+######指定需要转换的json或data，并指定转换的模型类型
 
 ```
 let book = Reflect.model(bookData, type: Book.self)
 ```
 
 ![enter image description here](http://7xq01t.com1.z0.glb.clouddn.com/tsusolo.com/qiniumodel_basic.png)
-
-#####Array<Dictionary> -> Array<Model>
-######Specifies json/data and array element type
+#####字典数组转模型数组
+######指定需要转换的json或data，并指定转换的模型数组内的元素类型
+```
+let book = Reflect.model(bookData, type: Book.self)
+```
+![enter image description here](http://7xq01t.com1.z0.glb.clouddn.com/tsusolo.com/qiniumodel_basic.png)
+#####字典数组转模型数组
+######指定需要转换的json或data，并指定转换的模型数组内的元素类型
 ```
 let casts = Reflect.modelArray(castsData, type: Cast.self)
 ```
 
 ![enter image description here](http://7xq01t.com1.z0.glb.clouddn.com/tsusolo.com/qiniumodel_array_basic.png)
 
+
 =======
 
-###Protocol function
-
-####1.Replace attribute
-
-json["title"] reflect model.tt
+###补充方法
+**补充方法皆遵守于协议，可代码提示**
+####1.需要替换的属性名
+希望将json的`title`属性对应到模型的`tt`属性
 
 ```
 func setupReplacePropertyName() -> [String : String] {
@@ -75,8 +81,8 @@ func setupReplacePropertyName() -> [String : String] {
 }
 ```
 
-####2.Model of embedding model
-Specifies subclass type and key in json
+####2.模型内嵌套子类模型
+需要指定子类模型的key以及子类的类名
 
 ```
 func setupReplaceObjectClass() -> [String : String] {
@@ -84,8 +90,8 @@ func setupReplaceObjectClass() -> [String : String] {
 }
 ```
 
-####3.Model array embedded in model
-Specifies model array element type and key in json
+####3.模型内嵌套子类模型数组
+需要指定子类模型数组的key以及子类的类名
 
 ```
 func setupReplaceElementClass() -> [String : String] {
@@ -93,7 +99,7 @@ func setupReplaceElementClass() -> [String : String] {
 }
 ```
 
-####Full model example
+####完整模型演示
 ```
 class Book: NSObject {
     var tt: String?
@@ -123,14 +129,14 @@ class Book: NSObject {
 }
 ```
 
-####Full reflect
+####完整转换效果
 ![enter image description here](http://7xq01t.com1.z0.glb.clouddn.com/tsusolo.com/qiniumodel_full.png)
 
 
 =======
-###Help
-1.Please commit issues when you encounter bug or expect new function, thanks!
+###帮助
+1.如果在使用过程中遇到bug，或是有期待的功能，请留下Issues联系我，我将尽快答复
 
-2.Please pull request when you have good idea ^ ^
+2.如果希望能够完善这个框架，敬请pull request
 
 **E-mail: tifatsubasa@163.com**
