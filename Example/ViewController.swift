@@ -29,7 +29,6 @@ class ViewController: UIViewController {
         print(casts)
         
         let book = Reflect.model(bookData, type: Book.self)
-        NSLog("end")
         book?.images?.large
         
         let tags = book?.tags

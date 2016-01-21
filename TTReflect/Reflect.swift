@@ -142,10 +142,9 @@ extension NSObject: TTReflectProtocol {
         let mirror = Mirror(reflecting: self)
         for item in mirror.children {
             let key = item.label!
-            
             if let value =  json!.valueForKey(key) as? NSNull {
-                debugPrint("The key \(key)   value is \(value)")
-            }else{
+                debugPrint("The key \(key) value is \(value)")
+            } else {
                 self.setValue(json!.valueForKey(key), forKey: key)
             }
             
@@ -189,7 +188,11 @@ extension NSObject: TTReflectProtocol {
         // set replace property name
         if let _ = replacePropertyName {
             for key in replacePropertyName!.keys {
-                self.setValue(json!.valueForKey(key), forKey: replacePropertyName![key]!)
+                if let value =  json!.valueForKey(key) as? NSNull {
+                    debugPrint("The key \(key) value is \(value)")
+                } else {
+                    self.setValue(json!.valueForKey(key), forKey: replacePropertyName![key]!)
+                }
             }
         }
     }
