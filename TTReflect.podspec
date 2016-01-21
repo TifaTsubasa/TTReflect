@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "TTReflect"
-  s.version      = "0.1.1"
+  s.version      = "0.2.1"
   s.summary      = "TTReflect: swift - convert json with model easily"
   s.description  = <<-DESC
                   Swift: convert json with model easily, use data with grace way
