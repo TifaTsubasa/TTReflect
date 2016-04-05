@@ -47,7 +47,7 @@ class Tag: NSObject {
 **3.对象属性可以使用可选类型**
 
 ####关键方法
-![Alt text](http://7xq01t.com1.z0.glb.clouddn.com/reflect_method_name.png)
+![Alt text](http://7xq01t.com1.z0.glb.clouddn.com/reflect_method_name_zh.png)
 
 ####实例
 **具体见代码示例**
