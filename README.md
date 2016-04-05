@@ -2,6 +2,11 @@
 ####swift: json convert to model
 **[中文介绍](https://github.com/TifaTsubasa/TTReflect/blob/master/README-zh.md)**
 
+### Change Log
+#### 1.0.0
+###### 1.change method name
+###### 2.return null object with error source data, avoid crash with no more unwrapped optional
+
 ###Installation
 ####Manually
 #####
@@ -28,14 +33,17 @@ import TTReflect
 ```
 class Tag: NSObject {
     var count: Int = 0
-    var name: String?
-    var title: String?
+    var name: String = ""
+    var title: String = ""
+    var isOpen: Bool = false
 }
 ```
+> Commend evey property have default value, will show model with nothing, not crash with nil
 
-**1.Your model should be subclass of `NSObject`**
+**1.Your model should be subclass of NSObject**
 
-**2.Can not use optionals for basic types, and you could use optional NSNumber? for `Int、long...`**
+**2.Comend property have default value**
+
 
 ####Main function
 
