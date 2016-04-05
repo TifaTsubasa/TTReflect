@@ -22,22 +22,23 @@ import TTReflect
 =======
 
 
-###使用
-####模型要求
+### 使用
+#### 推荐模型样式
 
 ```
 class Tag: NSObject {
     var count: Int = 0
-    var name: String?
-    var title: String?
+    var name: String = ""
+    var title: String = ""
 }
 ```
+> 推荐所有的属性都使用默认值，能够避免在原始数据错误时，过多的可选判断或空对象崩溃
 
 **1.模型需要继承于NSObject**
 
-**2.Int等基本属性不可以使用可选类型**
+**2.Int等基本属性需要使用默认值**
 
-**3.数字等基本类型可以使用NSNumber**
+**3.对象属性可以使用可选类型**
 
 ####关键方法
 ![Alt text](http://7xq01t.com1.z0.glb.clouddn.com/TTReflect_main_function-zh.png)
