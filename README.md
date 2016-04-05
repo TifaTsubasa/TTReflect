@@ -47,7 +47,7 @@ class Tag: NSObject {
 
 ####Main function
 
-![Alt text](http://7xq01t.com1.z0.glb.clouddn.com/tsusolo.com%2FqiniuTTReflect_main_function.png)
+![Alt text](http://7xq01t.com1.z0.glb.clouddn.com/reflect_method_name.png)
 
 ####Example
 
@@ -56,7 +56,8 @@ class Tag: NSObject {
 ######Specifies json/data and model type
 
 ```
-let book = Reflect.model(bookData, type: Book.self)
+let book = Reflect.model(data: bookData, type: Book.self)
+let book = Reflect.model(json: bookJson, type: Book.self)
 ```
 
 ![enter image description here](http://7xq01t.com1.z0.glb.clouddn.com/tsusolo.com/qiniumodel_basic.png)
@@ -64,7 +65,8 @@ let book = Reflect.model(bookData, type: Book.self)
 #####Array<Dictionary> -> Array<Model>
 ######Specifies json/data and array element type
 ```
-let casts = Reflect.modelArray(castsData, type: Cast.self)
+let casts = Reflect.modelArray(data: castsData, type: Cast.self)
+let casts = Reflect.modelArray(json: castsJson, type: Cast.self)
 ```
 
 ![enter image description here](http://7xq01t.com1.z0.glb.clouddn.com/tsusolo.com/qiniumodel_array_basic.png)
@@ -104,18 +106,18 @@ func setupReplaceElementClass() -> [String : String] {
 ####Full model example
 ```
 class Book: NSObject {
-    var tt: String?
-    var pubdate: String?
-    var image: String?
-    var binding: String?
-    var pages: String?
-    var alt: String?
-    var id: String?
-    var publisher: String?
-    var summary: String?
-    var price: String?
-    var images: Images?
-    var tags: Array<Tag>?
+    var tt: String = ""
+    var pubdate: String = ""
+    var image: String = ""
+    var binding: String = ""
+    var pages: String = ""
+    var alt: String = ""
+    var id: String = ""
+    var publisher: String = ""
+    var summary: String = ""
+    var price: String = ""
+    var images: Images = ""
+    var tags = [Tag]()
 
     func setupReplacePropertyName() -> [String : String] {
         return ["title": "tt"]
