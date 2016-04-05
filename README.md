@@ -116,7 +116,7 @@ class Book: NSObject {
     var publisher: String = ""
     var summary: String = ""
     var price: String = ""
-    var images: Images = ""
+    var images: Images()
     var tags = [Tag]()
 
     func setupReplacePropertyName() -> [String : String] {
