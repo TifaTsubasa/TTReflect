@@ -11,6 +11,10 @@ import AFNetworking
 import Alamofire
 
 class ViewController: UIViewController {
+    
+    func injected() {
+        self.viewDidLoad()
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,13 +29,13 @@ class ViewController: UIViewController {
 //        print(bookData)
 //        let book = Book()
         //        book.replacePropertyName = []
-        let casts = Reflect.modelArray(castsData, type: Cast.self)
+        let casts = Reflect.modelArray(data: castsData, type: Cast.self)
         print(casts)
         
-        let book = Reflect.model(bookData, type: Book.self)
-        book?.images?.large
-        
-        let tags = book?.tags
+      let book = Reflect.model(data: bookData, type: Book.self)
+        book.images?.large
+      
+        let tags = book.tags
         tags?.forEach({ (tag: Tag) -> () in
             print(tag.title)
         })
@@ -42,7 +46,7 @@ class ViewController: UIViewController {
     func useAlamofire() {
         Alamofire.request(.GET, "https://api.douban.com/v2/movie/subject/1764796", parameters: nil)
             .response { request, response, data, error in
-                let movie = Reflect.model(data, type: Movie.self)
+              let movie = Reflect.model(data: data, type: Movie.self)
                 print(movie)
         }
     }
@@ -50,7 +54,7 @@ class ViewController: UIViewController {
     func useAFNetworking() {
         let manager = AFHTTPRequestOperationManager()
         manager.GET("https://api.douban.com/v2/movie/subject/1764796", parameters: nil, success: { (operation, responseData) -> Void in
-            let movie = Reflect.model(responseData, type: Movie.self)
+          let movie = Reflect.model(json: responseData, type: Movie.self)
             print(movie)
             }, failure: nil)
     }
