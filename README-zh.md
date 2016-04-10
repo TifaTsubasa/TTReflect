@@ -21,7 +21,7 @@
 ```
 platform :ios, '8.0'
 use_frameworks!
-pod 'TTReflect', '~> 1.0.0'
+pod 'TTReflect', '~> 1.1.0'
 ```
 
 需要导入框架
