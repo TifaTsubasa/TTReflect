@@ -3,6 +3,10 @@
 **[中文介绍](https://github.com/TifaTsubasa/TTReflect/blob/master/README-zh.md)**
 
 ### Change Log
+
+#### 1.1.0
+###### 1.fix crash when run `Mirror(reflecting: self)`, it is Swift bug when iOS7
+
 #### 1.0.0
 ###### 1.change method name
 ###### 2.return null object with error source data, avoid crash with no more unwrapped optional
