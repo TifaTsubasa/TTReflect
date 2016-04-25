@@ -113,7 +113,7 @@ public class Reflect {
 }
 
 @objc
-protocol TTReflectProtocol {
+public protocol TTReflectProtocol {
     optional func setupReplacePropertyName() -> [String: String]
     optional func setupReplaceObjectClass() -> [String: String]
     optional func setupReplaceElementClass() -> [String: String]
