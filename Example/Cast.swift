@@ -9,7 +9,12 @@
 import UIKit
 
 class Cast: NSObject {
-    var alt: String?
-    var id: String?
-    var name: String?
+  var alt: String = ""
+  var id: String = ""
+  var name: String = ""
+  var avatars = Images()
+  
+  func setupReplaceObjectClass() -> [String : String] {
+    return ["avatars": "Images"]
+  }
 }

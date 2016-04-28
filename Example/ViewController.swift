@@ -11,59 +11,32 @@ import AFNetworking
 import Alamofire
 
 class ViewController: UIViewController {
+  
+  func injected() {
+    self.viewDidLoad()
+  }
+  
+  override func viewDidLoad() {
+    super.viewDidLoad()
     
-    func injected() {
-        self.viewDidLoad()
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        let home = Reflect.modelArray("Home", type: Item.self)
-        
-        let bookUrl = NSURL.fileURLWithPath(NSBundle.mainBundle().pathForResource("book", ofType: nil)!)
-        let bookData = NSData(contentsOfURL: bookUrl)
-        
-        let castUrl = NSURL.fileURLWithPath(NSBundle.mainBundle().pathForResource("casts", ofType: nil)!)
-        let castsData = NSData(contentsOfURL: castUrl)
-//        print(bookData)
-//        let book = Book()
-        //        book.replacePropertyName = []
-        let casts = Reflect.modelArray(data: castsData, type: Cast.self)
-        print(casts)
-        
-      let book = Reflect.model(data: bookData, type: Book.self)
-        book.images?.large
-      
-        let tags = book.tags
-        tags?.forEach({ (tag: Tag) -> () in
-            print(tag.title)
-        })
-        self.useAlamofire()
-        self.useAFNetworking()
-    }
+    let home = Reflect.modelArray("Home", type: Item.self)
     
-    func useAlamofire() {
-        Alamofire.request(.GET, "https://api.douban.com/v2/movie/subject/1764796", parameters: nil)
-            .response { request, response, data, error in
-              let movie = Reflect.model(data: data, type: Movie.self)
-                print(movie)
-        }
-    }
-    
-    func useAFNetworking() {
-        let manager = AFHTTPRequestOperationManager()
-        manager.GET("https://api.douban.com/v2/movie/subject/1764796", parameters: nil, success: { (operation, responseData) -> Void in
-          let movie = Reflect.model(json: responseData, type: Movie.self)
-            print(movie)
-            }, failure: nil)
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-
+    self.useAFNetworking()
+  }
+  
+  func useAFNetworking() {
+    let manager = AFHTTPRequestOperationManager()
+    manager.GET("https://api.douban.com/v2/movie/subject/1764796", parameters: nil, success: { (operation, responseData) -> Void in
+      let movie = Reflect.model(json: responseData, type: Movie.self)
+      print(movie)
+      }, failure: nil)
+  }
+  
+  override func didReceiveMemoryWarning() {
+    super.didReceiveMemoryWarning()
+    // Dispose of any resources that can be recreated.
+  }
+  
+  
 }
 

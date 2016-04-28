@@ -111,9 +111,9 @@
 				E2AE9654A9AA1141937E9EEF /* Pods */,
 				7E7AABBFBE2793C01C91A767 /* Frameworks */,
 			);
-			indentWidth = 4;
+			indentWidth = 2;
 			sourceTree = "<group>";
-			tabWidth = 4;
+			tabWidth = 2;
 			usesTabs = 0;
 		};
 		045D6F291C42127400D5B3F7 /* Products */ = {
@@ -542,6 +542,7 @@
 			baseConfigurationReference = 3B0A5A9F4AD77F8A5B75B40F /* Pods.debug.xcconfig */;
 			buildSettings = {
 				INFOPLIST_FILE = "$(SRCROOT)/Example/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tsusolo.TTReflect;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -553,6 +554,7 @@
 			baseConfigurationReference = CBCE05229E5003B64AAF4099 /* Pods.release.xcconfig */;
 			buildSettings = {
 				INFOPLIST_FILE = "$(SRCROOT)/Example/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tsusolo.TTReflect;
 				PRODUCT_NAME = "$(TARGET_NAME)";

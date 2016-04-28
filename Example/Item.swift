@@ -9,10 +9,10 @@
 import UIKit
 
 class Item: NSObject {
-    var username: String?
+    var username: String = ""
     var index: Int = 0
-    var type: String?
-    var users: Array<User>?
+    var type: String = ""
+    var users = [User]()
     
     func setupReplaceElementClass() -> [String : String] {
         return ["users": "User"]
