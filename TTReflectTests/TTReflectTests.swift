@@ -25,6 +25,7 @@ class TTReflectTests: XCTestCase {
     XCTAssertEqual(book.images.large, "https://img1.doubanio.com/lpic/s1747553.jpg")
     XCTAssertEqual(book.tags.last?.title, "")
     XCTAssertEqual(book.tags.first?.title, "片山恭一")
+    XCTAssertNotNil(book.test_null)
   }
   
   func testCast() {

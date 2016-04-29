@@ -55,6 +55,7 @@
         "large": "https:\/\/img1.doubanio.com\/lpic\/s1747553.jpg",
         "medium": null
     },
+    "test_null": null,
     "alt": "http:\/\/book.douban.com\/subject\/1220562\/",
     "id": "1220562",
     "publisher": "青岛出版社",

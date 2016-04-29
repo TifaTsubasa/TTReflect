@@ -128,61 +128,40 @@ public class Reflect {
 
 @objc
 public protocol TTReflectProtocol {
-  optional func setupReplacePropertyName() -> [String: String]
+  
+  @available (*, deprecated, message="please") optional func setupReplacePropertyName() -> [String: String]
   optional func setupReplaceObjectClass() -> [String: String]
   optional func setupReplaceElementClass() -> [String: String]
 }
 
 extension NSObject: TTReflectProtocol {
   
-  func setProperty(json: AnyObject) {
-    // check protocol
-    var replacePropertyName = [String: String]()
-    var replaceObjectClass: [String: String]?
-    var replaceElementClass: [String: String]?
-    if self.respondsToSelector(#selector(TTReflectProtocol.setupReplacePropertyName)) {
-      let res = self.performSelector(#selector(TTReflectProtocol.setupReplacePropertyName))
-      replacePropertyName = res.takeUnretainedValue() as! [String: String]
-      var tmpReplacePropertyName = [String: String]()
-      let _ = replacePropertyName.flatMap {
-        tmpReplacePropertyName[$0.1] = $0.0
-      }
-      replacePropertyName = tmpReplacePropertyName
+  private func setProperty(json: AnyObject?) {
+    // return when json is nil or null
+    guard let json =  json else {
+      return
     }
-    if self.respondsToSelector(#selector(TTReflectProtocol.setupReplaceObjectClass)) {
-      let res = self.performSelector(#selector(TTReflectProtocol.setupReplaceObjectClass))
-      replaceObjectClass = res.takeUnretainedValue() as? [String: String]
-    }
-    if self.respondsToSelector(#selector(TTReflectProtocol.setupReplaceElementClass)) {
-      let res = self.performSelector(#selector(TTReflectProtocol.setupReplaceElementClass))
-      replaceElementClass = res.takeUnretainedValue() as? [String: String]
+    if json is NSNull {
+      return
     }
     
-    var keys = [String]()
-    if #available(iOS 8.0, *) {
-      let mirror = Mirror(reflecting: self)
-      keys = mirror.children.map {
-        return $0.label!
-      }
-    } else {
-      var propNum: UInt32 = 0
-      let propList = class_copyPropertyList(self.classForCoder, &propNum)
-      for index in 0..<numericCast(propNum) {
-        let prop: objc_property_t = propList[index]
-        keys.append(String(UTF8String: property_getName(prop))!)
-      }
-    }
+    // check protocol
+    var replacePropertyName = getReplacePropertyName()
+    var replaceObjectClass = getReplaceObjectClass()
+    var replaceElementClass = getReplaceElementClass()
+    
+    let keys = genereteObjectKeys()
     
     for key in keys {
       
       let objKey = replacePropertyName[key] ?? key
       let value = json.valueForKey(objKey)
       
-      let needReplaceObject = replaceObjectClass?.keys.contains(objKey) ?? false
-      let needReplaceElement = replaceElementClass?.keys.contains(objKey) ?? false
+      let needReplaceObject = replaceObjectClass.keys.contains(objKey) ?? false
+      let needReplaceElement = replaceElementClass.keys.contains(objKey) ?? false
       
       if needReplaceObject {
-        let type = replaceObjectClass![objKey]!
+        let type = replaceObjectClass[objKey]!
         if let cls = NSClassFromString(Reflect.appName + "." + type) as? NSObject.Type {
           let obj = cls.init()
           if let value = value {
@@ -195,7 +174,7 @@ extension NSObject: TTReflectProtocol {
       }
       
       if needReplaceElement {
-        let type = replaceElementClass![objKey]!
+        let type = replaceElementClass[objKey]!
         
         if let cls = NSClassFromString(Reflect.appName + "." + type) as? NSObject.Type {
           if let subJsonArray = value as? NSArray {
@@ -220,6 +199,7 @@ extension NSObject: TTReflectProtocol {
       } else {
         self.setPropertyValue(value, forKey: key)
       }
+      
     }
   }
   
@@ -231,6 +211,53 @@ extension NSObject: TTReflectProtocol {
         debugPrint("The value have diff type when key is '\(key)'")
       }
     }
-    
+  }
+  
+  private func getReplacePropertyName() -> [String: String] {
+    var replacePropertyName = [String: String]()
+    if self.respondsToSelector(#selector(TTReflectProtocol.setupReplacePropertyName)) {
+      let res = self.performSelector(#selector(TTReflectProtocol.setupReplacePropertyName))
+      replacePropertyName = res.takeUnretainedValue() as! [String: String]
+      var tmpReplacePropertyName = [String: String]()
+      let _ = replacePropertyName.flatMap {
+        tmpReplacePropertyName[$0.1] = $0.0
+      }
+      return tmpReplacePropertyName
+    }
+    return replacePropertyName
+  }
+  
+  private func getReplaceObjectClass() -> [String: String] {
+    if self.respondsToSelector(#selector(TTReflectProtocol.setupReplaceObjectClass)) {
+      let res = self.performSelector(#selector(TTReflectProtocol.setupReplaceObjectClass))
+      return res.takeUnretainedValue() as! [String: String]
+    }
+    return [String: String]()
+  }
+  
+  private func getReplaceElementClass() -> [String: String] {
+    if self.respondsToSelector(#selector(TTReflectProtocol.setupReplaceElementClass)) {
+      let res = self.performSelector(#selector(TTReflectProtocol.setupReplaceElementClass))
+      return res.takeUnretainedValue() as! [String: String]
+    }
+    return [String: String]()
+  }
+  
+  private func genereteObjectKeys() -> [String] {
+    var keys = [String]()
+    if #available(iOS 8.0, *) {
+      let mirror = Mirror(reflecting: self)
+      keys = mirror.children.map {
+        $0.label!
+      }
+    } else {
+      var propNum: UInt32 = 0
+      let propList = class_copyPropertyList(self.classForCoder, &propNum)
+      for index in 0..<numericCast(propNum) {
+        let prop: objc_property_t = propList[index]
+        keys.append(String(UTF8String: property_getName(prop))!)
+      }
+    }
+    return keys
   }
 }
