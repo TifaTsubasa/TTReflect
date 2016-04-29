@@ -129,7 +129,7 @@ public class Reflect {
 @objc
 public protocol TTReflectProtocol {
   
-  @available (*, deprecated, message="please") optional func setupReplacePropertyName() -> [String: String]
+  optional func setupReplacePropertyName() -> [String: String]
   optional func setupReplaceObjectClass() -> [String: String]
   optional func setupReplaceElementClass() -> [String: String]
 }
