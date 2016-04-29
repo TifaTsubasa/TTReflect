@@ -43,17 +43,17 @@
              {
              "count": 8,
              "name": "外国文学",
-             "title": "外国文学"
+             "title": null
              }
              ],
     "origin_title": "",
     "image": null,
     "binding": "平装",
-    "pages": "180",
+    "pages": 180,
     "images": {
         "small": "https:\/\/img1.doubanio.com\/spic\/s1747553.jpg",
         "large": "https:\/\/img1.doubanio.com\/lpic\/s1747553.jpg",
-        "medium": "https:\/\/img1.doubanio.com\/mpic\/s1747553.jpg"
+        "medium": null
     },
     "alt": "http:\/\/book.douban.com\/subject\/1220562\/",
     "id": "1220562",

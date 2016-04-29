@@ -12,20 +12,19 @@ import Alamofire
 
 class TTReflectTests: XCTestCase {
   
-  func testExample() {
-    
-  }
-  
   func testBook() {
     let bookUrl = NSURL.fileURLWithPath(NSBundle.mainBundle().pathForResource("book", ofType: nil)!)
     let bookData = NSData(contentsOfURL: bookUrl)
     let book = Reflect.model(data: bookData, type: Book.self)
     XCTAssertEqual(book.tt, "满月之夜白鲸现")
-    XCTAssertEqual(book.images.large, "https://img1.doubanio.com/lpic/s1747553.jpg")
     XCTAssertEqual(book.tags.count, 8)
     XCTAssertEqual(book.tags.first?.count, 136)
     XCTAssertNotNil(book.image)
     XCTAssertEqual(book.image, "")
+    XCTAssertEqual(book.images.medium, "")
+    XCTAssertEqual(book.images.large, "https://img1.doubanio.com/lpic/s1747553.jpg")
+    XCTAssertEqual(book.tags.last?.title, "")
+    XCTAssertEqual(book.tags.first?.title, "片山恭一")
   }
   
   func testCast() {
@@ -43,7 +42,6 @@ class TTReflectTests: XCTestCase {
       .response { request, response, data, error in
         let movie = Reflect.model(data: data, type: Movie.self)
         XCTAssertEqual(movie.title, "机器人9号")
-        XCTAssertEqual(movie.reviews_count, 291)
         XCTAssertEqual(movie.images.small, "https://img1.doubanio.com/view/movie_poster_cover/ipst/public/p494268647.jpg")
         XCTAssertEqual(movie.subtype, "movie")
         expectation.fulfill()

@@ -10,7 +10,7 @@ import Foundation
 
 public class Reflect {
   public static func model<T: NSObject>(json json: AnyObject?, type: T.Type) -> T {
-    if let _ = json {
+    if let json = json {
       let model = T()
       if json is NSDictionary {
         model.setProperty(json)
@@ -23,10 +23,10 @@ public class Reflect {
   }
   
   public static func model<T: NSObject>(data data: NSData?, type: T.Type) -> T {
-    if let _ = data {
+    if let data = data {
       let model = T()
       do {
-        let json : AnyObject! = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)
+        let json : AnyObject! = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers)
         if json is NSDictionary {
           model.setProperty(json)
           return model
@@ -42,11 +42,11 @@ public class Reflect {
   
   public static func model<T: NSObject>(plistName: String?, type: T.Type) -> T {
     let plistPath = NSBundle.mainBundle().pathForResource(plistName, ofType: "plist")
-    if let _ = plistPath {
-      let plistUrl = NSURL.fileURLWithPath(plistPath!)
+    if let plistPath = plistPath {
+      let plistUrl = NSURL.fileURLWithPath(plistPath)
       let json = NSDictionary(contentsOfURL: plistUrl)
       let model = T()
-      if let _ = json {
+      if let json = json {
         model.setProperty(json)
         return model
       }
@@ -58,7 +58,7 @@ public class Reflect {
   
   // reflect model array
   public static func modelArray<T: NSObject>(json json: AnyObject?, type: T.Type) -> [T] {
-    if let _ = json {
+    if let json = json {
       var modelArray = [T]()
       if json is NSArray {
         for jsonObj in json as! NSArray {
@@ -76,10 +76,10 @@ public class Reflect {
   }
   
   public static func modelArray<T: NSObject>(data data: NSData?, type: T.Type) -> [T] {
-    if let _ = data {
+    if let data = data {
       var modelArray = [T]()
       do {
-        let json: AnyObject! = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)
+        let json: AnyObject! = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers)
         if json is NSArray {
           for jsonObj in json as! NSArray {
             let model = T()
@@ -99,11 +99,11 @@ public class Reflect {
   
   public static func modelArray<T: NSObject>(plistName: String?, type: T.Type) -> [T] {
     let plistPath = NSBundle.mainBundle().pathForResource(plistName, ofType: "plist")
-    if let _ = plistPath {
-      let json = NSArray(contentsOfURL: NSURL.fileURLWithPath(plistPath!))
+    if let plistPath = plistPath {
+      let json = NSArray(contentsOfURL: NSURL.fileURLWithPath(plistPath))
       var modelArray = [T]()
-      if let _ = json {
-        for jsonObj in json! {
+      if let json = json {
+        for jsonObj in json {
           let model = T()
           model.setProperty(jsonObj)
           modelArray.append(model)
@@ -135,14 +135,19 @@ public protocol TTReflectProtocol {
 
 extension NSObject: TTReflectProtocol {
   
-  func setProperty(json: AnyObject!) {
+  func setProperty(json: AnyObject) {
     // check protocol
-    var replacePropertyName: [String: String]?
+    var replacePropertyName = [String: String]()
     var replaceObjectClass: [String: String]?
     var replaceElementClass: [String: String]?
     if self.respondsToSelector(#selector(TTReflectProtocol.setupReplacePropertyName)) {
       let res = self.performSelector(#selector(TTReflectProtocol.setupReplacePropertyName))
-      replacePropertyName = res.takeUnretainedValue() as? [String: String]
+      replacePropertyName = res.takeUnretainedValue() as! [String: String]
+      var tmpReplacePropertyName = [String: String]()
+      let _ = replacePropertyName.flatMap {
+        tmpReplacePropertyName[$0.1] = $0.0
+      }
+      replacePropertyName = tmpReplacePropertyName
     }
     if self.respondsToSelector(#selector(TTReflectProtocol.setupReplaceObjectClass)) {
       let res = self.performSelector(#selector(TTReflectProtocol.setupReplaceObjectClass))
@@ -154,7 +159,6 @@ extension NSObject: TTReflectProtocol {
     }
     
     var keys = [String]()
-    
     if #available(iOS 8.0, *) {
       let mirror = Mirror(reflecting: self)
       keys = mirror.children.map {
@@ -169,61 +173,64 @@ extension NSObject: TTReflectProtocol {
       }
     }
     
-    
-    
     for key in keys {
-      if let value =  json!.valueForKey(key) as? NSNull {
-        debugPrint("The key \(key) value is \(value)")
-      } else {
-        self.setValue(json!.valueForKey(key), forKey: key)
+      
+      let objKey = replacePropertyName[key] ?? key
+      let value = json.valueForKey(objKey)
+      
+      let needReplaceObject = replaceObjectClass?.keys.contains(objKey) ?? false
+      let needReplaceElement = replaceElementClass?.keys.contains(objKey) ?? false
+      
+      if needReplaceObject {
+        let type = replaceObjectClass![objKey]!
+        if let cls = NSClassFromString(Reflect.appName + "." + type) as? NSObject.Type {
+          let obj = cls.init()
+          if let value = value {
+            obj.setProperty(value)
+          }
+          self.setValue(obj, forKey: key)
+        } else {
+          debugPrint("setup replace object class with error name!");
+        }
       }
       
-      // set sub model
-      if let _ = replaceObjectClass {
-        if replaceObjectClass!.keys.contains(key) {
-          let type = replaceObjectClass![key]!
-          if let cls = NSClassFromString(Reflect.appName + "." + type) as? NSObject.Type {
-            let obj = cls.init()
-            obj.setProperty(json.valueForKey(key));
-            self.setValue(obj, forKey: key)
-          } else {
-            debugPrint("setup replace object class with error name!");
-          }
-        }
-      }
-      // set sub model array
-      if let _ = replaceElementClass {
-        if replaceElementClass!.keys.contains(key) {
-          let type = replaceElementClass![key]!
-          
-          if let cls = NSClassFromString(Reflect.appName + "." + type) as? NSObject.Type {
-            if let subJsonArray = json!.valueForKey(key) as? NSArray {
-              var subModelArray = [NSObject]()
-              for subJson in subJsonArray {
-                let obj = cls.init()
-                obj.setProperty(subJson);
-                subModelArray.append(obj)
-              }
-              self.setValue(subModelArray, forKey: key)
-              
-            } else {
-              debugPrint("parse sub model array without array json")
+      if needReplaceElement {
+        let type = replaceElementClass![objKey]!
+        
+        if let cls = NSClassFromString(Reflect.appName + "." + type) as? NSObject.Type {
+          if let subJsonArray = value as? NSArray {
+            var subModelArray = [NSObject]()
+            for subJson in subJsonArray {
+              let obj = cls.init()
+              obj.setProperty(subJson);
+              subModelArray.append(obj)
             }
+            self.setValue(subModelArray, forKey: key)
+            
           } else {
-            debugPrint("setup replace object class with error name!");
+            debugPrint("parse sub model array without array json")
           }
-        }
-      }
-    }
-    // set replace property name
-    if let _ = replacePropertyName {
-      for key in replacePropertyName!.keys {
-        if let value =  json!.valueForKey(key) as? NSNull {
-          debugPrint("The key \(key) value is \(value)")
         } else {
-          self.setValue(json!.valueForKey(key), forKey: replacePropertyName![key]!)
+          debugPrint("setup replace object class with error name!");
         }
       }
+      
+      if let value =  value as? NSNull {
+        debugPrint("The key \(objKey) value is \(value)")
+      } else {
+        self.setPropertyValue(value, forKey: key)
+      }
     }
+  }
+  
+  private func setPropertyValue(value: AnyObject?, forKey key: String) {
+    if self.valueForKey(key)?.classForCoder == value?.classForCoder {
+      self.setValue(value, forKey: key)
+    } else {
+      if value != nil && !(value is NSDictionary) && !(value is NSArray) {
+        debugPrint("The value have diff type when key is '\(key)'")
+      }
+    }
+    
   }
 }
