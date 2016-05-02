@@ -41,6 +41,7 @@ class TTReflectTests: XCTestCase {
      let expectation = expectationWithDescription("Swift Expectations")
     Alamofire.request(.GET, "https://api.douban.com/v2/movie/subject/1764796", parameters: nil)
       .response { request, response, data, error in
+//        let json = try! NSJSONSerialization.JSONObjectWithData(data!, options: .MutableContainers)
         let movie = Reflect.model(data: data, type: Movie.self)
         XCTAssertEqual(movie.title, "机器人9号")
         XCTAssertEqual(movie.images.small, "https://img1.doubanio.com/view/movie_poster_cover/ipst/public/p494268647.jpg")

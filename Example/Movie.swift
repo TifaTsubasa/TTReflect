@@ -9,13 +9,18 @@
 import UIKit
 
 class Movie: NSObject {
-    var reviews_count: Int = 0
-    var title: String = ""
-    var share_url: String = ""
-    var subtype: String = ""
-    var images = Images()
-    
-    func setupReplaceObjectClass() -> [String : String] {
-        return ["images": "Images"]
-    }
+  var reviews_count = 0
+  var wish_count = 0
+  var collect_count = 0
+  var douban_site = ""
+  var mobile_url = ""
+  var share_url = ""
+  var title = ""
+  var id = ""
+  var subtype: String = ""
+  var images = Images()
+  
+  func setupReplaceObjectClass() -> [String : String] {
+    return ["images": "Images"]
+  }
 }

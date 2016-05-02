@@ -115,21 +115,11 @@ public class Reflect {
     }
     return [T]()
   }
-  
-  static var appName: String {
-    get {
-      let selfClass = NSStringFromClass(Reflect)
-      let range = selfClass.rangeOfString(".", options: NSStringCompareOptions.BackwardsSearch, range: nil, locale: nil)
-      let appRange = Range(selfClass.startIndex ..< range!.startIndex)
-      return selfClass.substringWithRange(appRange)
-    }
-  }
 }
 
 @objc
 public protocol TTReflectProtocol {
-  
-  @available (*, deprecated, message="please") optional func setupReplacePropertyName() -> [String: String]
+  optional func setupReplacePropertyName() -> [String: String]
   optional func setupReplaceObjectClass() -> [String: String]
   optional func setupReplaceElementClass() -> [String: String]
 }
@@ -162,7 +152,7 @@ extension NSObject: TTReflectProtocol {
       
       if needReplaceObject {
         let type = replaceObjectClass[objKey]!
-        if let cls = NSClassFromString(Reflect.appName + "." + type) as? NSObject.Type {
+        if let cls = NSClassFromString(NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleName")!.description + "." + type) as? NSObject.Type {
           let obj = cls.init()
           if let value = value {
             obj.setProperty(value)
@@ -176,7 +166,7 @@ extension NSObject: TTReflectProtocol {
       if needReplaceElement {
         let type = replaceElementClass[objKey]!
         
-        if let cls = NSClassFromString(Reflect.appName + "." + type) as? NSObject.Type {
+        if let cls = NSClassFromString(NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleName")!.description + "." + type) as? NSObject.Type {
           if let subJsonArray = value as? NSArray {
             var subModelArray = [NSObject]()
             for subJson in subJsonArray {
