@@ -12,6 +12,9 @@ import Alamofire
 
 class TTReflectTests: XCTestCase {
   
+  func testNewBook() {
+  }
+  
   func testBook() {
     let bookUrl = NSURL.fileURLWithPath(NSBundle.mainBundle().pathForResource("book", ofType: nil)!)
     let bookData = NSData(contentsOfURL: bookUrl)

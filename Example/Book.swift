@@ -17,7 +17,7 @@ class Book: NSObject {
   var pubdate: String = ""
   var image: String = ""
   var binding: String = ""
-  var pages: String = ""
+  var pages = 0
   var alt: String = ""
   var id: String = ""
   var publisher: String = ""
