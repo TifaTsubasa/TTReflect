@@ -9,10 +9,8 @@
 import Foundation
 
 public class Reflect2<M: NSObject> {
-  public static func mapping(json json: AnyObject?) -> M {
-    guard let json = json else {
-      return M()
-    }
+  public static func mapObject(json json: AnyObject?) -> M {
+    guard let json = json else { return M() }
     guard json is NSDictionary else {
       debugPrint("Reflect error: mapping model without a dictionary json")
       return M()
@@ -21,6 +19,37 @@ public class Reflect2<M: NSObject> {
     model.mapProperty(json)
     return model
   }
+  
+  public static func mapObject(data data: NSData?) -> M {
+    guard let data = data else { return M() }
+    do {
+      let json = try NSJSONSerialization.JSONObjectWithData(data, options: .MutableContainers)
+      return Reflect2<M>.mapObject(json: json)
+    } catch {
+      debugPrint("Serializat json error: \(error)")
+    }
+    return M()
+  }
+  
+  public static func mapObjects(json json: AnyObject?) -> [M] {
+    guard let json = json else {
+      return [M]()
+    }
+    guard json is NSDictionary else {
+      debugPrint("Reflect error: mapping model without a dictionary json")
+      return [M]()
+    }
+    let models = [M]()
+//    model.mapProperty(json)
+    return models
+  }
+}
+
+@objc
+public protocol TTReflectProtocol2 {
+  optional func setupReplacePropertyName() -> [String: String]
+  optional func setupReplaceObjectClass() -> [String: AnyClass]
+  optional func setupReplaceElementClass() -> [String: AnyClass]
 }
 
 extension NSObject {

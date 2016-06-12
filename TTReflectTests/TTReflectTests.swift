@@ -15,10 +15,7 @@ class TTReflectTests: XCTestCase {
   func testNewBook() {
   }
   
-  func testBook() {
-    let bookUrl = NSURL.fileURLWithPath(NSBundle.mainBundle().pathForResource("book", ofType: nil)!)
-    let bookData = NSData(contentsOfURL: bookUrl)
-    let book = Reflect.model(data: bookData, type: Book.self)
+  func assertBook(book: Book) {
     XCTAssertEqual(book.tt, "满月之夜白鲸现")
     XCTAssertEqual(book.tags.count, 8)
     XCTAssertEqual(book.tags.first?.count, 136)
@@ -31,13 +28,40 @@ class TTReflectTests: XCTestCase {
     XCTAssertNotNil(book.test_null)
   }
   
-  func testCast() {
-    let castUrl = NSURL.fileURLWithPath(NSBundle.mainBundle().pathForResource("casts", ofType: nil)!)
-    let castsData = NSData(contentsOfURL: castUrl)
-    let casts = Reflect.modelArray(data: castsData, type: Cast.self)
+  func assertCast(casts: [Cast]) {
     XCTAssertEqual(casts.count, 4)
     XCTAssertEqual(casts.first?.alt, "http://movie.douban.com/celebrity/1054395/")
     XCTAssertEqual(casts.last?.avatars.medium, "https://img1.doubanio.com/img/celebrity/medium/42033.jpg")
+  }
+  
+  func testBookData() {
+    let bookUrl = NSURL.fileURLWithPath(NSBundle.mainBundle().pathForResource("book", ofType: nil)!)
+    let bookData = NSData(contentsOfURL: bookUrl)
+    let book = Reflect.model(data: bookData, type: Book.self)
+    assertBook(book)
+  }
+  
+  func testBookJson() {
+    let bookUrl = NSURL.fileURLWithPath(NSBundle.mainBundle().pathForResource("book", ofType: nil)!)
+    let bookData = NSData(contentsOfURL: bookUrl)
+    let json = try! NSJSONSerialization.JSONObjectWithData(bookData!, options: .MutableContainers)
+    let book = Reflect2<Book>.mapping(json: json)
+    assertBook(book)
+  }
+  
+  func testCastData() {
+    let castUrl = NSURL.fileURLWithPath(NSBundle.mainBundle().pathForResource("casts", ofType: nil)!)
+    let castsData = NSData(contentsOfURL: castUrl)
+    let casts = Reflect.modelArray(data: castsData, type: Cast.self)
+    assertCast(casts)
+  }
+  
+  func testCastJson() {
+    let castUrl = NSURL.fileURLWithPath(NSBundle.mainBundle().pathForResource("casts", ofType: nil)!)
+    let castsData = NSData(contentsOfURL: castUrl)
+    let castsJson = try! NSJSONSerialization.JSONObjectWithData(castsData!, options: .MutableContainers)
+    let casts = Reflect.modelArray(json: castsJson, type: Cast.self)
+    assertCast(casts)
   }
   
   func testAlamofire() {

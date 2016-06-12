@@ -24,8 +24,9 @@ class ViewController: UIViewController {
     let bookUrl = NSURL.fileURLWithPath(NSBundle.mainBundle().pathForResource("book", ofType: nil)!)
     let bookData = NSData(contentsOfURL: bookUrl)
     let json = try! NSJSONSerialization.JSONObjectWithData(bookData!, options: NSJSONReadingOptions.AllowFragments)
-    let book = Reflect2<Book>.mapping(json: json)
-    let books = Reflect2<[Book]>.mapping(json: json)
+    let book = Reflect2<Book>.mapObject(json: json)
+//    let books = Reflect2<[Book]>.mapping(json: json)
+    let books = Reflect2<Book>.mapObjects(json: json)
     debugPrint(book)
     
     self.useAFNetworking()
