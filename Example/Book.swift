@@ -27,9 +27,13 @@ class Book: NSObject {
   var tags = [Tag]()
   var test_null = TTNull()
   
-  func setupReplacePropertyName() -> [String : String] {
-    return ["title": "tt"]
+  func setupMappingReplaceProperty() -> [String : String] {
+    return ["tt": "title"]
   }
+  
+//  func setupMappingIgnorePropertyNames() -> [String] {
+//    return ["tt"]
+//  }
   
   func setupReplaceObjectClass() -> [String : String] {
     return ["images": "Images", "test_null": "TTNull"]

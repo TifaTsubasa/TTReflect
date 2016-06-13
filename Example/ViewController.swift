@@ -19,14 +19,14 @@ class ViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    let home = Reflect.modelArray("Home", type: Item.self)
+//    let home = Reflect.modelArray("Home", type: Item.self)
     
     let bookUrl = NSURL.fileURLWithPath(NSBundle.mainBundle().pathForResource("book", ofType: nil)!)
     let bookData = NSData(contentsOfURL: bookUrl)
     let json = try! NSJSONSerialization.JSONObjectWithData(bookData!, options: NSJSONReadingOptions.AllowFragments)
-    let book = Reflect2<Book>.mapObject(json: json)
+    let book = Reflect<Book>.mapObject(json: json)
 //    let books = Reflect2<[Book]>.mapping(json: json)
-    let books = Reflect2<Book>.mapObjects(json: json)
+//    let books = Reflect<Book>.mapObjects(json: json)
     debugPrint(book)
     
     self.useAFNetworking()
@@ -35,7 +35,7 @@ class ViewController: UIViewController {
   func useAFNetworking() {
     let manager = AFHTTPRequestOperationManager()
     manager.GET("https://api.douban.com/v2/movie/subject/1764796", parameters: nil, success: { (operation, responseData) -> Void in
-      let movie = Reflect.model(json: responseData, type: Movie.self)
+      let movie = Reflect<Movie>.mapObjects(json: responseData)
       print(movie)
       }, failure: nil)
   }
