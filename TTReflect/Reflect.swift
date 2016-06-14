@@ -82,21 +82,22 @@ extension NSObject {
     let keys = ergodicObjectKeys()
     for key in keys {
       let jsonKey = replacePropertyName[key] ?? key
-      var value = json.valueForKey(jsonKey)
+      let jsonValue = json.valueForKey(jsonKey)
       
       guard !ignorePropertyNames.contains(key) else {continue}  // ignore property
-      if let value =  value as? NSNull {  // ignore null porperty
+      guard var value = jsonValue else {return}
+      if value is NSNull {  // ignore null porperty
         debugPrint("Reflect error: The key \(jsonKey) value is \(value)")
         continue
       }
       
       // map sub object
       if mappingObjectClass.keys.contains(jsonKey) {
-        mapSubObject(key, jsonKey: jsonKey, mappingObjectClass: mappingObjectClass, value: &value!)
+        mapSubObject(key, jsonKey: jsonKey, mappingObjectClass: mappingObjectClass, value: &value)
       }
       
       if mappingElementClass.keys.contains(jsonKey) {
-        mapSubObjectArray(key, jsonKey: jsonKey, mappingElementClass: mappingElementClass, value: &value!)
+        mapSubObjectArray(key, jsonKey: jsonKey, mappingElementClass: mappingElementClass, value: &value)
       }
       
       // map sub array
@@ -128,7 +129,11 @@ extension NSObject {
     }
     let submodelArray: [NSObject] = subArrayJson.map {
       let submodel = objClass.init()
-      submodel.mapProperty($0)
+      if $0 is NSDictionary || $0 is [String: AnyObject] {
+        submodel.mapProperty($0)
+      } else {
+        debugPrint("Reflect error: Error key: \(key) -- mapping sub-model array element without a dictionary json")
+      }
       return submodel
     }
     value = submodelArray
