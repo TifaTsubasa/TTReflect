@@ -77,8 +77,7 @@ extension NSObject {
     let replacePropertyName = self.getMappingReplaceProperty()
     let ignorePropertyNames = self.getMappingIgnorePropertyNames()
     let mappingObjectClass = self.getMappingObjectClass()
-    debugPrint("replacePropertyName: ", replacePropertyName)
-    debugPrint("ignorePropertyNames: ", ignorePropertyNames)
+    let mappingElementClass = self.getMappingElementClass()
     
     let keys = ergodicObjectKeys()
     for key in keys {
@@ -94,6 +93,10 @@ extension NSObject {
       // map sub object
       if mappingObjectClass.keys.contains(jsonKey) {
         mapSubObject(key, jsonKey: jsonKey, mappingObjectClass: mappingObjectClass, value: &value!)
+      }
+      
+      if mappingElementClass.keys.contains(jsonKey) {
+        mapSubObjectArray(key, jsonKey: jsonKey, mappingElementClass: mappingElementClass, value: &value!)
       }
       
       // map sub array
@@ -115,19 +118,20 @@ extension NSObject {
     value = model
   }
   
-  private func mapSubObjectArray(key: String, jsonKey: String, inout value: AnyObject) {
-    let mappingElementClass = self.getMappingElementClass()
-    guard mappingElementClass.keys.contains(jsonKey) else {return}
+  private func mapSubObjectArray(key: String, jsonKey: String, mappingElementClass: [String: AnyClass], inout value: AnyObject) {
     guard let objClass = mappingElementClass[jsonKey] as? NSObject.Type else {
       fatalError("Reflect error: Sub-model is not a subclass of NSObject")
     }
-    let model = objClass.init()
-    guard value is NSDictionary || value is [String: AnyObject] else {
-      debugPrint("Reflect error: Error key: \(key) -- mapping sub-model without a dictionary json")
+    guard let subArrayJson = value as? [AnyObject] else {
+      debugPrint("Reflect error: Error key: \(key) -- mapping sub-model array without a array json")
       return
     }
-    model.mapProperty(value)
-    value = model
+    let submodelArray: [NSObject] = subArrayJson.map {
+      let submodel = objClass.init()
+      submodel.mapProperty($0)
+      return submodel
+    }
+    value = submodelArray
   }
   
   private func setPropertyValue(value: AnyObject?, forKey key: String) {
