@@ -13,8 +13,8 @@ class Item: NSObject {
     var index: Int = 0
     var type: String = ""
     var users = [User]()
-    
-    func setupReplaceElementClass() -> [String : String] {
-        return ["users": "User"]
-    }
+  
+  func setupMappingElementClass() -> [String : AnyClass] {
+    return ["users": User.self]
+  }
 }

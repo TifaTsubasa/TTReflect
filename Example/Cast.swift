@@ -14,7 +14,7 @@ class Cast: NSObject {
   var name: String = ""
   var avatars = Images()
   
-  func setupReplaceObjectClass() -> [String : String] {
-    return ["avatars": "Images"]
+  func setupMappingObjectClass() -> [String : AnyClass] {
+    return ["avatars": Images.self]
   }
 }

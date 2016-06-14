@@ -24,31 +24,19 @@ class Book: NSObject {
   var summary: String = ""
   var price: String = ""
   var secretly: Bool = false
-  var images = Images()
+  var imgs = Images()
   var tags = [Tag]()
   var test_null = TTNull()
   
   func setupMappingReplaceProperty() -> [String : String] {
-    return ["tt": "title"]
+    return ["tt": "title", "imgs": "images"]
   }
-  
-//  func setupMappingIgnorePropertyNames() -> [String] {
-//    return ["tt"]
-//  }
   
   func setupMappingObjectClass() -> [String : AnyClass] {
     return ["images": Images.self, "test_null": TTNull.self]
   }
-  
-//  func setupReplaceObjectClass() -> [String : String] {
-//    return ["images": "Images", "test_null": "TTNull"]
-//  }
 
   func setupMappingElementClass() -> [String : AnyClass] {
     return ["tags": Tag.self]
   }
-  
-//  func setupReplaceElementClass() -> [String : String] {
-//    return ["tags": "Tag"]
-//  }
 }

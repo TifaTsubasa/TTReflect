@@ -20,7 +20,7 @@ class Movie: NSObject {
   var subtype: String = ""
   var images = Images()
   
-  func setupReplaceObjectClass() -> [String : String] {
-    return ["images": "Images"]
+  func setupMappingObjectClass() -> [String : AnyClass] {
+    return ["images": Images.self]
   }
 }
