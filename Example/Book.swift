@@ -23,6 +23,7 @@ class Book: NSObject {
   var publisher: String = ""
   var summary: String = ""
   var price: String = ""
+  var secretly: Bool = false
   var images = Images()
   var tags = [Tag]()
   var test_null = TTNull()

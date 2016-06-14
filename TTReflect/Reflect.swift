@@ -9,9 +9,10 @@
 import Foundation
 
 public class Reflect<M: NSObject> {
+  
   public static func mapObject(json json: AnyObject?) -> M {
     guard let json = json else { return M() }
-    guard json is NSDictionary else {
+    guard json is NSDictionary || json is [String: AnyObject] else {
       debugPrint("Reflect error: mapping model without a dictionary json")
       return M()
     }
@@ -35,12 +36,20 @@ public class Reflect<M: NSObject> {
     guard let json = json else {
       return [M]()
     }
-    guard json is NSDictionary else {
-      debugPrint("Reflect error: mapping model without a dictionary json")
+    guard json is NSArray || json is [AnyObject] else {
+      debugPrint("Reflect error: mapping object array without a array json")
       return [M]()
     }
-    let models = [M]()
-//    model.mapProperty(json)
+    
+    guard let arrayJson =  json as? [AnyObject] else {
+      debugPrint("Reflect error: mapping object array without a array json")
+      return [M]()
+    }
+    let models: [M] = arrayJson.map {
+      let model = M()
+      model.mapProperty($0)
+      return model
+    }
     return models
   }
 }
@@ -52,8 +61,8 @@ public protocol TTReflectProtocol {
   optional func setupMappingElementClass() -> [String: AnyClass]
   optional func setupMappingIgnorePropertyNames() -> [String]
 }
-
 extension NSObject: TTReflectProtocol {}
+
 
 extension NSObject {
   // main function
@@ -83,15 +92,16 @@ extension NSObject {
   }
   
   private func setPropertyValue(value: AnyObject?, forKey key: String) {
-    debugPrint("property '\(key)' class: \(valueForKey(key)?.classForCoder)")
+    
     setValue(value, forKey: key)
+    
   }
   
   //
   func ergodicObjectKeys() -> [String] {
     var keys = [String]()
     let mirror = Mirror(reflecting: self)
-    keys = mirror.children.map { $0.label! }
+    keys = mirror.children.map {$0.label!}
     return keys
   }
   

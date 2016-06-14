@@ -9,6 +9,7 @@
 import UIKit
 import AFNetworking
 import Alamofire
+import SwiftyJSON
 
 class ViewController: UIViewController {
   
@@ -24,12 +25,19 @@ class ViewController: UIViewController {
     let bookUrl = NSURL.fileURLWithPath(NSBundle.mainBundle().pathForResource("book", ofType: nil)!)
     let bookData = NSData(contentsOfURL: bookUrl)
     let json = try! NSJSONSerialization.JSONObjectWithData(bookData!, options: NSJSONReadingOptions.AllowFragments)
-    let book = Reflect<Book>.mapObject(json: json)
+//    let book = Reflect<Book>.mapObject(json: json)
 //    let books = Reflect2<[Book]>.mapping(json: json)
 //    let books = Reflect<Book>.mapObjects(json: json)
-    debugPrint(book)
+//    debugPrint(book)
     
-    self.useAFNetworking()
+    let castUrl = NSURL.fileURLWithPath(NSBundle.mainBundle().pathForResource("casts", ofType: nil)!)
+    let castsData = NSData(contentsOfURL: castUrl)
+    let castsJson = try! NSJSONSerialization.JSONObjectWithData(castsData!, options: .AllowFragments)
+    let castsJ = JSON(data: castsData!)
+    let casts = Reflect<Cast>.mapObjects(json: castsJ.rawValue)
+    debugPrint(casts)
+//    self.useAFNetworking()
+    useAlamofire()
   }
   
   func useAFNetworking() {
@@ -38,6 +46,29 @@ class ViewController: UIViewController {
       let movie = Reflect<Movie>.mapObjects(json: responseData)
       print(movie)
       }, failure: nil)
+  }
+  
+  func useAlamofire() {
+    request(.GET, "https://api.douban.com/v2/movie/subject/1764796", parameters: nil, encoding: .URL, headers: nil)
+      .response { request, response, data, error in
+        
+        
+        let j = try! NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments)
+//        switch j {
+//        case let js as [String: AnyObject]:
+//          debugPrint("dic", js)
+//        default:
+//          break
+//        }
+        if j is [String: AnyObject] {
+//          debugPrint("dic", j)
+        }
+        
+        let json = JSON(data: data!)
+//        debugPrint(json)
+        let movie = Reflect<Movie>.mapObject(json: json.rawValue)
+        debugPrint(movie)
+    }
   }
   
   override func didReceiveMemoryWarning() {
