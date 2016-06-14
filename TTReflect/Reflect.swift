@@ -10,6 +10,7 @@ import Foundation
 
 public class Reflect<M: NSObject> {
   
+  // MARK: - reflect with json
   public static func mapObject(json json: AnyObject?) -> M {
     guard let json = json else { return M() }
     guard json is NSDictionary || json is [String: AnyObject] else {
@@ -41,6 +42,7 @@ public class Reflect<M: NSObject> {
     return models
   }
   
+  // MARK: - reflect with data
   public static func mapObject(data data: NSData?) -> M {
     guard let data = data else { return M() }
     do {
@@ -62,8 +64,30 @@ public class Reflect<M: NSObject> {
     }
     return [M]()
   }
+  
+  // MARK: - reflect with plist name
+  public static func mapObject(plistName: String?) -> M {
+    let plistPath = NSBundle.mainBundle().pathForResource(plistName, ofType: "plist")
+    guard let path = plistPath else {
+      debugPrint("Reflect error: Error plist name")
+      return M()
+    }
+    let json = NSDictionary(contentsOfFile: path)
+    return Reflect<M>.mapObject(json: json)
+  }
+  
+  public static func mapObjects(plistName: String?) -> [M] {
+    let plistPath = NSBundle.mainBundle().pathForResource(plistName, ofType: "plist")
+    guard let path = plistPath else {
+      debugPrint("Reflect error: Error plist name")
+      return [M]()
+    }
+    let json = NSArray(contentsOfFile: path)
+    return Reflect<M>.mapObjects(json: json)
+  }
 }
 
+// MARK: - private function
 @objc
 public protocol TTReflectProtocol {
   optional func setupMappingReplaceProperty() -> [String: String]
