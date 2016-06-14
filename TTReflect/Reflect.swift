@@ -10,10 +10,14 @@ import Foundation
 
 public class Reflect<M: NSObject> {
   
+  public static func model<T: NSObject>(json json: AnyObject?, type: T.Type) -> T {
+    return Reflect<T>.mapObject(json: json)
+  }
+  
   public static func mapObject(json json: AnyObject?) -> M {
     guard let json = json else { return M() }
     guard json is NSDictionary || json is [String: AnyObject] else {
-      debugPrint("Reflect error: mapping model without a dictionary json")
+      debugPrint("Reflect error: Mapping model without a dictionary json")
       return M()
     }
     let model = M()
@@ -37,12 +41,12 @@ public class Reflect<M: NSObject> {
       return [M]()
     }
     guard json is NSArray || json is [AnyObject] else {
-      debugPrint("Reflect error: mapping object array without a array json")
+      debugPrint("Reflect error: Mapping object array without a array json")
       return [M]()
     }
     
     guard let arrayJson =  json as? [AnyObject] else {
-      debugPrint("Reflect error: mapping object array without a array json")
+      debugPrint("Reflect error: Mapping object array without a array json")
       return [M]()
     }
     let models: [M] = arrayJson.map {
@@ -67,9 +71,8 @@ extension NSObject: TTReflectProtocol {}
 extension NSObject {
   // main function
   private func mapProperty(json: AnyObject) {
-    if json is NSNull {
-      return
-    }
+    if json is NSNull { return }
+    
     // mapping setting
     let replacePropertyName = self.getMappingReplaceProperty()
     let ignorePropertyNames = self.getMappingIgnorePropertyNames()
@@ -78,17 +81,37 @@ extension NSObject {
     
     let keys = ergodicObjectKeys()
     for key in keys {
-      
       let jsonKey = replacePropertyName[key] ?? key
-      let value = json.valueForKey(jsonKey)
-      guard !ignorePropertyNames.contains(key) else {continue}  // ignore property
+      var value = json.valueForKey(jsonKey)
       
-      if let value =  value as? NSNull {
+      guard !ignorePropertyNames.contains(key) else {continue}  // ignore property
+      if let value =  value as? NSNull {  // ignore null porperty
         debugPrint("Reflect error: The key \(jsonKey) value is \(value)")
-      } else {
-        self.setPropertyValue(value, forKey: key)
+        continue
       }
+      
+      // map sub object
+      mapSubObject(key, jsonKey: jsonKey, value: &value!)
+      
+      // map sub array
+      setPropertyValue(value, forKey: key)
+      
     }
+  }
+  
+  private func mapSubObject(key: String, jsonKey: String, inout value: AnyObject) {
+    let mappingObjectClass = self.getMappingObjectClass()
+    guard mappingObjectClass.keys.contains(jsonKey) else {return}
+    guard let objClass = mappingObjectClass[jsonKey] as? NSObject.Type else {
+      fatalError("Reflect error: Sub-model is not a subclass of NSObject")
+    }
+    let model = objClass.init()
+    guard value is NSDictionary || value is [String: AnyObject] else {
+      debugPrint("Reflect error: Error key: \(key) -- mapping sub-model without a dictionary json")
+      return
+    }
+    model.mapProperty(value)
+    value = model
   }
   
   private func setPropertyValue(value: AnyObject?, forKey key: String) {
@@ -119,5 +142,13 @@ extension NSObject {
     let res = self.performSelector(#selector(TTReflectProtocol.setupMappingIgnorePropertyNames))
     ignorePropertyNames = res.takeUnretainedValue() as! [String]
     return ignorePropertyNames
+  }
+  
+  private func getMappingObjectClass() -> [String: AnyClass] {
+    var mappingObjectClass = [String: AnyClass]()
+    guard self.respondsToSelector(#selector(TTReflectProtocol.setupMappingObjectClass)) else {return mappingObjectClass}
+    let res = self.performSelector(#selector(TTReflectProtocol.setupMappingObjectClass))
+    mappingObjectClass = res.takeUnretainedValue() as! [String: AnyClass]
+    return mappingObjectClass
   }
 }

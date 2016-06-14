@@ -36,9 +36,13 @@ class Book: NSObject {
 //    return ["tt"]
 //  }
   
-  func setupReplaceObjectClass() -> [String : String] {
-    return ["images": "Images", "test_null": "TTNull"]
+  func setupMappingObjectClass() -> [String : AnyClass] {
+    return ["images": Images.self, "test_null": TTNull.self]
   }
+  
+//  func setupReplaceObjectClass() -> [String : String] {
+//    return ["images": "Images", "test_null": "TTNull"]
+//  }
   
   func setupReplaceElementClass() -> [String : String] {
     return ["tags": "Tag"]
