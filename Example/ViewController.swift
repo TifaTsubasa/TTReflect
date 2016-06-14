@@ -55,16 +55,6 @@ class ViewController: UIViewController {
         
         
         let j = try! NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments)
-//        switch j {
-//        case let js as [String: AnyObject]:
-//          debugPrint("dic", js)
-//        default:
-//          break
-//        }
-        if j is [String: AnyObject] {
-//          debugPrint("dic", j)
-        }
-        
         let json = JSON(data: data!)
 //        debugPrint(json)
         let movie = Reflect<Movie>.mapObject(json: json.rawValue)

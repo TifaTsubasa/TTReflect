@@ -155,33 +155,28 @@ extension NSObject {
   
   private func getMappingReplaceProperty() -> [String: String] {
     var replacePropertyName = [String: String]()
-    guard self.respondsToSelector(#selector(TTReflectProtocol.setupMappingReplaceProperty)) else {return replacePropertyName}
-    let res = self.performSelector(#selector(TTReflectProtocol.setupMappingReplaceProperty))
-    replacePropertyName = res.takeUnretainedValue() as! [String: String]
-    return replacePropertyName
+    return getProtocolSetting(&replacePropertyName, aSelector: #selector(TTReflectProtocol.setupMappingReplaceProperty))
   }
   
   private func getMappingIgnorePropertyNames() -> [String] {
     var ignorePropertyNames = [String]()
-    guard self.respondsToSelector(#selector(TTReflectProtocol.setupMappingIgnorePropertyNames)) else {return ignorePropertyNames}
-    let res = self.performSelector(#selector(TTReflectProtocol.setupMappingIgnorePropertyNames))
-    ignorePropertyNames = res.takeUnretainedValue() as! [String]
-    return ignorePropertyNames
+    return getProtocolSetting(&ignorePropertyNames, aSelector: #selector(TTReflectProtocol.setupMappingIgnorePropertyNames))
   }
   
   private func getMappingObjectClass() -> [String: AnyClass] {
     var mappingObjectClass = [String: AnyClass]()
-    guard self.respondsToSelector(#selector(TTReflectProtocol.setupMappingObjectClass)) else {return mappingObjectClass}
-    let res = self.performSelector(#selector(TTReflectProtocol.setupMappingObjectClass))
-    mappingObjectClass = res.takeUnretainedValue() as! [String: AnyClass]
-    return mappingObjectClass
+    return getProtocolSetting(&mappingObjectClass, aSelector: #selector(TTReflectProtocol.setupMappingObjectClass))
   }
   
   private func getMappingElementClass() -> [String: AnyClass] {
     var mappingElementClass = [String: AnyClass]()
-    guard self.respondsToSelector(#selector(TTReflectProtocol.setupMappingElementClass)) else {return mappingElementClass}
-    let res = self.performSelector(#selector(TTReflectProtocol.setupMappingElementClass))
-    mappingElementClass = res.takeUnretainedValue() as! [String: AnyClass]
-    return mappingElementClass
+    return getProtocolSetting(&mappingElementClass, aSelector: #selector(TTReflectProtocol.setupMappingElementClass))
+  }
+  
+  private func getProtocolSetting<T>(inout emptySetting: T, aSelector: Selector) -> T {
+    guard self.respondsToSelector(aSelector) else {return emptySetting}
+    let res = self.performSelector(aSelector)
+    emptySetting = res.takeUnretainedValue() as! T
+    return emptySetting
   }
 }
