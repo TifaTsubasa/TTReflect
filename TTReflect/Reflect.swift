@@ -76,6 +76,7 @@ extension NSObject {
     // mapping setting
     let replacePropertyName = self.getMappingReplaceProperty()
     let ignorePropertyNames = self.getMappingIgnorePropertyNames()
+    let mappingObjectClass = self.getMappingObjectClass()
     debugPrint("replacePropertyName: ", replacePropertyName)
     debugPrint("ignorePropertyNames: ", ignorePropertyNames)
     
@@ -91,7 +92,9 @@ extension NSObject {
       }
       
       // map sub object
-      mapSubObject(key, jsonKey: jsonKey, value: &value!)
+      if mappingObjectClass.keys.contains(jsonKey) {
+        mapSubObject(key, jsonKey: jsonKey, mappingObjectClass: mappingObjectClass, value: &value!)
+      }
       
       // map sub array
       setPropertyValue(value, forKey: key)
@@ -99,10 +102,23 @@ extension NSObject {
     }
   }
   
-  private func mapSubObject(key: String, jsonKey: String, inout value: AnyObject) {
-    let mappingObjectClass = self.getMappingObjectClass()
-    guard mappingObjectClass.keys.contains(jsonKey) else {return}
+  private func mapSubObject(key: String, jsonKey: String, mappingObjectClass: [String: AnyClass], inout value: AnyObject) {
     guard let objClass = mappingObjectClass[jsonKey] as? NSObject.Type else {
+      fatalError("Reflect error: Sub-model is not a subclass of NSObject")
+    }
+    let model = objClass.init()
+    guard value is NSDictionary || value is [String: AnyObject] else {
+      debugPrint("Reflect error: Error key: \(key) -- mapping sub-model without a dictionary json")
+      return
+    }
+    model.mapProperty(value)
+    value = model
+  }
+  
+  private func mapSubObjectArray(key: String, jsonKey: String, inout value: AnyObject) {
+    let mappingElementClass = self.getMappingElementClass()
+    guard mappingElementClass.keys.contains(jsonKey) else {return}
+    guard let objClass = mappingElementClass[jsonKey] as? NSObject.Type else {
       fatalError("Reflect error: Sub-model is not a subclass of NSObject")
     }
     let model = objClass.init()
@@ -150,5 +166,13 @@ extension NSObject {
     let res = self.performSelector(#selector(TTReflectProtocol.setupMappingObjectClass))
     mappingObjectClass = res.takeUnretainedValue() as! [String: AnyClass]
     return mappingObjectClass
+  }
+  
+  private func getMappingElementClass() -> [String: AnyClass] {
+    var mappingElementClass = [String: AnyClass]()
+    guard self.respondsToSelector(#selector(TTReflectProtocol.setupMappingElementClass)) else {return mappingElementClass}
+    let res = self.performSelector(#selector(TTReflectProtocol.setupMappingElementClass))
+    mappingElementClass = res.takeUnretainedValue() as! [String: AnyClass]
+    return mappingElementClass
   }
 }
