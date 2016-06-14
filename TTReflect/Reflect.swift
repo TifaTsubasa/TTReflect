@@ -148,8 +148,17 @@ extension NSObject {
   //
   func ergodicObjectKeys() -> [String] {
     var keys = [String]()
-    let mirror = Mirror(reflecting: self)
-    keys = mirror.children.map {$0.label!}
+    if #available(iOS 8.0, *) {
+      let mirror = Mirror(reflecting: self)
+      keys = mirror.children.map {$0.label!}
+    } else {
+      var propNum: UInt32 = 0
+      let propList = class_copyPropertyList(self.classForCoder, &propNum)
+      for index in 0..<numericCast(propNum) {
+        let prop: objc_property_t = propList[index]
+        keys.append(String(UTF8String: property_getName(prop))!)
+      }
+    }
     return keys
   }
   
