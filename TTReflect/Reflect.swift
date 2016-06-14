@@ -10,10 +10,6 @@ import Foundation
 
 public class Reflect<M: NSObject> {
   
-  public static func model<T: NSObject>(json json: AnyObject?, type: T.Type) -> T {
-    return Reflect<T>.mapObject(json: json)
-  }
-  
   public static func mapObject(json json: AnyObject?) -> M {
     guard let json = json else { return M() }
     guard json is NSDictionary || json is [String: AnyObject] else {
@@ -23,6 +19,26 @@ public class Reflect<M: NSObject> {
     let model = M()
     model.mapProperty(json)
     return model
+  }
+  
+  public static func mapObjects(json json: AnyObject?) -> [M] {
+    guard let json = json else {
+      return [M]()
+    }
+    guard json is NSArray || json is [AnyObject] else {
+      debugPrint("Reflect error: Mapping object array without a array json")
+      return [M]()
+    }
+    guard let arrayJson =  json as? [AnyObject] else {
+      debugPrint("Reflect error: Mapping object array without a array json")
+      return [M]()
+    }
+    let models: [M] = arrayJson.map {
+      let model = M()
+      model.mapProperty($0)
+      return model
+    }
+    return models
   }
   
   public static func mapObject(data data: NSData?) -> M {
@@ -36,25 +52,15 @@ public class Reflect<M: NSObject> {
     return M()
   }
   
-  public static func mapObjects(json json: AnyObject?) -> [M] {
-    guard let json = json else {
-      return [M]()
+  public static func mapObjects(data data: NSData?) -> [M] {
+    guard let data = data else { return [M]() }
+    do {
+      let json = try NSJSONSerialization.JSONObjectWithData(data, options: .MutableContainers)
+      return Reflect<M>.mapObjects(json: json)
+    } catch {
+      debugPrint("Serializat json error: \(error)")
     }
-    guard json is NSArray || json is [AnyObject] else {
-      debugPrint("Reflect error: Mapping object array without a array json")
-      return [M]()
-    }
-    
-    guard let arrayJson =  json as? [AnyObject] else {
-      debugPrint("Reflect error: Mapping object array without a array json")
-      return [M]()
-    }
-    let models: [M] = arrayJson.map {
-      let model = M()
-      model.mapProperty($0)
-      return model
-    }
-    return models
+    return [M]()
   }
 }
 

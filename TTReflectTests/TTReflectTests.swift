@@ -49,8 +49,8 @@ class TTReflectTests: XCTestCase {
   func testCastData() {
     let castUrl = NSURL.fileURLWithPath(NSBundle.mainBundle().pathForResource("casts", ofType: nil)!)
     let castsData = NSData(contentsOfURL: castUrl)
-//    let casts = Reflect.modelArray(data: castsData, type: Cast.self)
-//    assertCast(casts)
+    let casts = Reflect<Cast>.mapObjects(data: castsData)
+    assertCast(casts)
   }
   
   func testCastJson() {
