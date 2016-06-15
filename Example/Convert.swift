@@ -11,4 +11,6 @@ import Foundation
 class Convert: NSObject {
   var scns = 0.0
   var scne = 0.0
+  
+  var ncss = ""
 }

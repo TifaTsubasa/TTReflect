@@ -36,6 +36,7 @@ class TTReflectTests: XCTestCase {
     let convertData = NSData(contentsOfURL: convertUrl)
     let convert = Reflect<Convert>.mapObject(data: convertData)
     XCTAssertEqual(convert.scns, 42.3)
+    XCTAssertEqual(convert.ncss, "23.98")
   }
   
   func testBookData() {

@@ -199,8 +199,8 @@ extension NSObject: TTReflectProtocol {
       let jsonValue = value as! NSNumber
       if jsonValue.isBool {
         // bool -> string
-      } else {
-        // number -> string
+      } else { // number -> string
+        transValue = String(jsonValue)
       }
     }
     
