@@ -20,7 +20,9 @@ class ViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-//    let home = Reflect.modelArray("Home", type: Item.self)
+//    let home = Reflect<Item>.mapObjects("Home")
+//    debugPrint(home)
+    
     
     let bookUrl = NSURL.fileURLWithPath(NSBundle.mainBundle().pathForResource("book", ofType: nil)!)
     let bookData = NSData(contentsOfURL: bookUrl)

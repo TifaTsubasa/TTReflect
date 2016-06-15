@@ -24,6 +24,8 @@
 		045D6F701C42150C00D5B3F7 /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045D6F6F1C42150C00D5B3F7 /* Book.swift */; };
 		19C1550AEBC6DBCD7DDF8A4A /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE59346DC87EBF34AA9DF3FC /* Pods.framework */; };
 		5C089F821C43764A00341D52 /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C089F811C43764A00341D52 /* Images.swift */; };
+		5C5CC0C71D10F5A2005B680C /* Home.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5C5CC0C61D10F5A2005B680C /* Home.plist */; };
+		5C5CC0C81D10F5A2005B680C /* Home.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5C5CC0C61D10F5A2005B680C /* Home.plist */; };
 		5CD3B0771C43BA410050CDDF /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD3B0761C43BA410050CDDF /* Movie.swift */; };
 		5CF745AD1CF840B600318DE4 /* Reflect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF745AC1CF840B600318DE4 /* Reflect.swift */; };
 		5CF745AE1CF8457500318DE4 /* Reflect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF745AC1CF840B600318DE4 /* Reflect.swift */; };
@@ -69,6 +71,7 @@
 		045D6F6F1C42150C00D5B3F7 /* Book.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
 		3B0A5A9F4AD77F8A5B75B40F /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		5C089F811C43764A00341D52 /* Images.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
+		5C5CC0C61D10F5A2005B680C /* Home.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Home.plist; sourceTree = "<group>"; };
 		5CD3B0761C43BA410050CDDF /* Movie.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		5CF745AC1CF840B600318DE4 /* Reflect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reflect.swift; sourceTree = "<group>"; };
 		CBCE05229E5003B64AAF4099 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -185,6 +188,7 @@
 		045D6F6E1C42140D00D5B3F7 /* Res */ = {
 			isa = PBXGroup;
 			children = (
+				5C5CC0C61D10F5A2005B680C /* Home.plist */,
 				043EB0F01C421BB7007959D8 /* book */,
 				043EB0F41C4266AE007959D8 /* casts */,
 			);
@@ -321,6 +325,7 @@
 				043EB0F51C4266AE007959D8 /* casts in Resources */,
 				045D6F651C42135900D5B3F7 /* LaunchScreen.storyboard in Resources */,
 				043EB0F11C421BB7007959D8 /* book in Resources */,
+				5C5CC0C71D10F5A2005B680C /* Home.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -328,6 +333,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5C5CC0C81D10F5A2005B680C /* Home.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

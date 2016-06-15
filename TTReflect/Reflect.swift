@@ -11,6 +11,11 @@ import Foundation
 public class Reflect<M: NSObject> {
   
   // MARK: - reflect with json
+  /**
+   map object with json
+   
+   - returns: special type object
+   */
   public static func mapObject(json json: AnyObject?) -> M {
     guard let json = json else { return M() }
     guard json is NSDictionary || json is [String: AnyObject] else {
@@ -87,7 +92,7 @@ public class Reflect<M: NSObject> {
   }
 }
 
-// MARK: - private function
+// MARK: - object map setting protocol
 @objc
 public protocol TTReflectProtocol {
   optional func setupMappingReplaceProperty() -> [String: String]
@@ -95,10 +100,9 @@ public protocol TTReflectProtocol {
   optional func setupMappingElementClass() -> [String: AnyClass]
   optional func setupMappingIgnorePropertyNames() -> [String]
 }
-extension NSObject: TTReflectProtocol {}
 
-
-extension NSObject {
+// MARK: - private function
+extension NSObject: TTReflectProtocol {
   // main function
   private func mapProperty(json: AnyObject) {
     if json is NSNull { return }
@@ -122,21 +126,18 @@ extension NSObject {
       }
       
       // map sub object
-      if mappingObjectClass.keys.contains(jsonKey) {
-        mapSubObject(key, jsonKey: jsonKey, mappingObjectClass: mappingObjectClass, value: &value)
-      }
-      
-      if mappingElementClass.keys.contains(jsonKey) {
-        mapSubObjectArray(key, jsonKey: jsonKey, mappingElementClass: mappingElementClass, value: &value)
-      }
+      mapSubObject(key, jsonKey: jsonKey, mappingObjectClass: mappingObjectClass, value: &value)
       
       // map sub array
+      mapSubObjectArray(key, jsonKey: jsonKey, mappingElementClass: mappingElementClass, value: &value)
+      
       setPropertyValue(value, forKey: key)
       
     }
   }
   
   private func mapSubObject(key: String, jsonKey: String, mappingObjectClass: [String: AnyClass], inout value: AnyObject) {
+    guard mappingObjectClass.keys.contains(jsonKey) else {return}
     guard let objClass = mappingObjectClass[jsonKey] as? NSObject.Type else {
       fatalError("Reflect error: Sub-model is not a subclass of NSObject")
     }
@@ -150,6 +151,7 @@ extension NSObject {
   }
   
   private func mapSubObjectArray(key: String, jsonKey: String, mappingElementClass: [String: AnyClass], inout value: AnyObject) {
+    guard mappingElementClass.keys.contains(jsonKey) else {return}
     guard let objClass = mappingElementClass[jsonKey] as? NSObject.Type else {
       fatalError("Reflect error: Sub-model is not a subclass of NSObject")
     }
