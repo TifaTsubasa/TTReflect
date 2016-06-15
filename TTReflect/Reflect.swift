@@ -185,9 +185,10 @@ extension NSObject: TTReflectProtocol {
     if objType == NSNumber.self && jsonType == NSString.self {
       let objValue = valueForKey(key) as! NSNumber
       let jsonValue = value as! String
-      if objValue.isBool {
-        debugPrint("\(key) is bool")
-        // string -> bool
+      if objValue.isBool { // string -> bool
+        if jsonValue == "true" {
+          transValue = true
+        }
       } else { // string -> number
         if let res = NSNumberFormatter().numberFromString(jsonValue) {
           transValue = res
@@ -197,11 +198,7 @@ extension NSObject: TTReflectProtocol {
     
     if objType == NSString.self && jsonType == NSNumber.self {
       let jsonValue = value as! NSNumber
-      if jsonValue.isBool {
-        // bool -> string
-      } else { // number -> string
-        transValue = String(jsonValue)
-      }
+      transValue = String(jsonValue)
     }
     
     if let transValue = transValue {

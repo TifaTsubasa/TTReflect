@@ -37,6 +37,9 @@ class TTReflectTests: XCTestCase {
     let convert = Reflect<Convert>.mapObject(data: convertData)
     XCTAssertEqual(convert.scns, 42.3)
     XCTAssertEqual(convert.ncss, "23.98")
+    XCTAssertEqual(convert.bcss, "1")
+    XCTAssertEqual(convert.scbs, true)
+    XCTAssertEqual(convert.scbe, false)
   }
   
   func testBookData() {

@@ -13,4 +13,7 @@ class Convert: NSObject {
   var scne = 0.0
   
   var ncss = ""
+  var bcss = ""
+  var scbs = false
+  var scbe = false
 }
