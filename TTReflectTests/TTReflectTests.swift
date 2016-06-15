@@ -74,7 +74,7 @@ class TTReflectTests: XCTestCase {
   }
   
   func testAlamofire() {
-     let expectation = expectationWithDescription("Swift Expectations")
+     let expectation = expectationWithDescription("Alamofire request")
     Alamofire.request(.GET, "https://api.douban.com/v2/movie/subject/1764796", parameters: nil)
       .response { request, response, data, error in
         let json = JSON(data: data!)
