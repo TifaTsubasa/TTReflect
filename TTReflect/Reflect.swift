@@ -175,12 +175,12 @@ extension NSObject: TTReflectProtocol {
   private func setPropertyValue(value: AnyObject?, forKey key: String) {
     let jsonType: AnyClass? = value?.classForCoder
     let objType: AnyClass? = valueForKey(key)?.classForCoder
-//    debugPrint("\(key) --- json type: \(jsonType) --- obj type: \(objType)")
     guard jsonType != objType else {
       setValue(value, forKey: key)
       return
     }
     
+    // convert type
     var transValue: AnyObject?
     if objType == NSNumber.self && jsonType == NSString.self {
       let objValue = valueForKey(key) as! NSNumber
@@ -214,13 +214,26 @@ extension NSObject: TTReflectProtocol {
     var keys = [String]()
     if #available(iOS 8.0, *) {
       let mirror = Mirror(reflecting: self)
-      keys = mirror.children.map {$0.label!}
+      if let objectKeys = reflectObjectKeys(mirror) {
+        keys = objectKeys
+      }
     } else {
       var propNum: UInt32 = 0
       let propList = class_copyPropertyList(self.classForCoder, &propNum)
       for index in 0..<numericCast(propNum) {
         let prop: objc_property_t = propList[index]
         keys.append(String(UTF8String: property_getName(prop))!)
+      }
+    }
+    return keys
+  }
+  
+  func reflectObjectKeys(mirror: Mirror?) -> [String]? {
+    guard let mirror = mirror else { return nil }
+    var keys = mirror.children.flatMap {$0.label}
+    if mirror.superclassMirror()?.subjectType != NSObject.self {
+      if let subKeys = reflectObjectKeys(mirror.superclassMirror()) {
+        keys.appendContentsOf(subKeys)
       }
     }
     return keys

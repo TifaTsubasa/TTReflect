@@ -38,6 +38,7 @@ class ViewController: UIViewController {
     let castsJson = try! NSJSONSerialization.JSONObjectWithData(castsData!, options: .AllowFragments)
     let castsJ = JSON(data: castsData!)
     let casts = Reflect<Cast>.mapObjects(json: castsJ.rawValue)
+    let cast = casts.first
     debugPrint(casts)
 //    self.useAFNetworking()
     useAlamofire()

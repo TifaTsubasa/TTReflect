@@ -2,8 +2,10 @@
   "scns": "42.3",
   "scne": "aaa",
 
-  "ncss": 23.98,
-  "bcss": true,
   "scbs": "true",
   "scbe": "hello"
+
+  "ncss": 23.98,
+
+  "bcss": true,
 }

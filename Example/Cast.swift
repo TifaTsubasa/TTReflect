@@ -8,10 +8,19 @@
 
 import UIKit
 
-class Cast: NSObject {
+class ACast: NSObject {
   var alt: String = ""
+}
+
+class BCast: ACast {
   var id: String = ""
+}
+
+class CCast: BCast {
   var name: String = ""
+}
+
+class Cast: CCast {
   var avatars = Images()
   
   func setupMappingObjectClass() -> [String : AnyClass] {
