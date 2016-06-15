@@ -218,23 +218,32 @@ extension NSObject: TTReflectProtocol {
         keys = objectKeys
       }
     } else {
-      var propNum: UInt32 = 0
-      let propList = class_copyPropertyList(self.classForCoder, &propNum)
-      for index in 0..<numericCast(propNum) {
-        let prop: objc_property_t = propList[index]
-        keys.append(String(UTF8String: property_getName(prop))!)
-      }
+      keys = getObjectKeys(self.classForCoder)
     }
     return keys
   }
   
-  func reflectObjectKeys(mirror: Mirror?) -> [String]? {
+  func reflectObjectKeys(mirror: Mirror?) -> [String]? { // iOS8+
     guard let mirror = mirror else { return nil }
     var keys = mirror.children.flatMap {$0.label}
     if mirror.superclassMirror()?.subjectType != NSObject.self {
       if let subKeys = reflectObjectKeys(mirror.superclassMirror()) {
         keys.appendContentsOf(subKeys)
       }
+    }
+    return keys
+  }
+  
+  func getObjectKeys(cls: AnyClass) -> [String] { // iOS 7
+    var keys = [String]()
+    var propNum: UInt32 = 0
+    let propList = class_copyPropertyList(cls, &propNum)
+    for index in 0..<numericCast(propNum) {
+      let prop: objc_property_t = propList[index]
+      keys.append(String(UTF8String: property_getName(prop))!)
+    }
+    if class_getSuperclass(cls) != NSObject.self {
+      keys.appendContentsOf(getObjectKeys(class_getSuperclass(cls)))
     }
     return keys
   }
