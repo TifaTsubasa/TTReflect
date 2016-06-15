@@ -181,14 +181,17 @@ extension NSObject: TTReflectProtocol {
       return
     }
     
-    debugPrint("The value have diff type when key is '\(key)'")
+    var transValue: AnyObject?
     if objType == NSNumber.self && jsonType == NSString.self {
       let objValue = valueForKey(key) as! NSNumber
+      let jsonValue = value as! String
       if objValue.isBool {
         debugPrint("\(key) is bool")
         // string -> bool
-      } else {
-        // string -> number
+      } else { // string -> number
+        if let res = NSNumberFormatter().numberFromString(jsonValue) {
+          transValue = res
+        }
       }
     }
     
@@ -199,6 +202,13 @@ extension NSObject: TTReflectProtocol {
       } else {
         // number -> string
       }
+    }
+    
+    if let transValue = transValue {
+      debugPrint("Reflect warning: The key \(key) have different type value")
+      setValue(transValue, forKey: key)
+    } else {
+      debugPrint("Reflect error: The key \(key) map error type")
     }
   }
   

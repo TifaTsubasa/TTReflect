@@ -31,6 +31,13 @@ class TTReflectTests: XCTestCase {
     XCTAssertEqual(casts.last?.avatars.medium, "https://img1.doubanio.com/img/celebrity/medium/42033.jpg")
   }
   
+  func testConvert() {
+    let convertUrl = NSURL.fileURLWithPath(NSBundle.mainBundle().pathForResource("convert", ofType: nil)!)
+    let convertData = NSData(contentsOfURL: convertUrl)
+    let convert = Reflect<Convert>.mapObject(data: convertData)
+    XCTAssertEqual(convert.scns, 42.3)
+  }
+  
   func testBookData() {
     let bookUrl = NSURL.fileURLWithPath(NSBundle.mainBundle().pathForResource("book", ofType: nil)!)
     let bookData = NSData(contentsOfURL: bookUrl)

@@ -26,6 +26,10 @@
 		5C089F821C43764A00341D52 /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C089F811C43764A00341D52 /* Images.swift */; };
 		5C5CC0C71D10F5A2005B680C /* Home.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5C5CC0C61D10F5A2005B680C /* Home.plist */; };
 		5C5CC0C81D10F5A2005B680C /* Home.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5C5CC0C61D10F5A2005B680C /* Home.plist */; };
+		5C5CC0CA1D110B4B005B680C /* convert in Resources */ = {isa = PBXBuildFile; fileRef = 5C5CC0C91D110B4B005B680C /* convert */; };
+		5C5CC0CB1D110B4B005B680C /* convert in Resources */ = {isa = PBXBuildFile; fileRef = 5C5CC0C91D110B4B005B680C /* convert */; };
+		5C5CC0CD1D110BCE005B680C /* Convert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5CC0CC1D110BCE005B680C /* Convert.swift */; };
+		5C5CC0CE1D110BCE005B680C /* Convert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5CC0CC1D110BCE005B680C /* Convert.swift */; };
 		5CD3B0771C43BA410050CDDF /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD3B0761C43BA410050CDDF /* Movie.swift */; };
 		5CF745AD1CF840B600318DE4 /* Reflect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF745AC1CF840B600318DE4 /* Reflect.swift */; };
 		5CF745AE1CF8457500318DE4 /* Reflect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF745AC1CF840B600318DE4 /* Reflect.swift */; };
@@ -72,6 +76,8 @@
 		3B0A5A9F4AD77F8A5B75B40F /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		5C089F811C43764A00341D52 /* Images.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
 		5C5CC0C61D10F5A2005B680C /* Home.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Home.plist; sourceTree = "<group>"; };
+		5C5CC0C91D110B4B005B680C /* convert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = convert; sourceTree = "<group>"; };
+		5C5CC0CC1D110BCE005B680C /* Convert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Convert.swift; sourceTree = "<group>"; };
 		5CD3B0761C43BA410050CDDF /* Movie.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		5CF745AC1CF840B600318DE4 /* Reflect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reflect.swift; sourceTree = "<group>"; };
 		CBCE05229E5003B64AAF4099 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -181,6 +187,7 @@
 				5CD3B0761C43BA410050CDDF /* Movie.swift */,
 				043EB0FE1C43E347007959D8 /* Item.swift */,
 				043EB1001C43E350007959D8 /* User.swift */,
+				5C5CC0CC1D110BCE005B680C /* Convert.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -191,6 +198,7 @@
 				5C5CC0C61D10F5A2005B680C /* Home.plist */,
 				043EB0F01C421BB7007959D8 /* book */,
 				043EB0F41C4266AE007959D8 /* casts */,
+				5C5CC0C91D110B4B005B680C /* convert */,
 			);
 			name = Res;
 			sourceTree = "<group>";
@@ -319,6 +327,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5C5CC0CA1D110B4B005B680C /* convert in Resources */,
 				045D6F671C42135900D5B3F7 /* Info.plist in Resources */,
 				045D6F661C42135900D5B3F7 /* Main.storyboard in Resources */,
 				045D6F641C42135900D5B3F7 /* Assets.xcassets in Resources */,
@@ -333,6 +342,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5C5CC0CB1D110B4B005B680C /* convert in Resources */,
 				5C5CC0C81D10F5A2005B680C /* Home.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -407,6 +417,7 @@
 				045D6F701C42150C00D5B3F7 /* Book.swift in Sources */,
 				043EB0F71C4266D0007959D8 /* Cast.swift in Sources */,
 				5CD3B0771C43BA410050CDDF /* Movie.swift in Sources */,
+				5C5CC0CD1D110BCE005B680C /* Convert.swift in Sources */,
 				043EB1011C43E350007959D8 /* User.swift in Sources */,
 				045D6F631C42135900D5B3F7 /* AppDelegate.swift in Sources */,
 			);
@@ -417,6 +428,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5CF745AE1CF8457500318DE4 /* Reflect.swift in Sources */,
+				5C5CC0CE1D110BCE005B680C /* Convert.swift in Sources */,
 				045D6F411C42127400D5B3F7 /* TTReflectTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
