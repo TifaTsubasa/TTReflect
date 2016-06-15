@@ -131,6 +131,7 @@ extension NSObject: TTReflectProtocol {
       // map sub array
       mapSubObjectArray(key, jsonKey: jsonKey, mappingElementClass: mappingElementClass, value: &value)
       
+      
       setPropertyValue(value, forKey: key)
       
     }
@@ -172,9 +173,33 @@ extension NSObject: TTReflectProtocol {
   }
   
   private func setPropertyValue(value: AnyObject?, forKey key: String) {
+    let jsonType: AnyClass? = value?.classForCoder
+    let objType: AnyClass? = valueForKey(key)?.classForCoder
+//    debugPrint("\(key) --- json type: \(jsonType) --- obj type: \(objType)")
+    guard jsonType != objType else {
+      setValue(value, forKey: key)
+      return
+    }
     
-    setValue(value, forKey: key)
+    debugPrint("The value have diff type when key is '\(key)'")
+    if objType == NSNumber.self && jsonType == NSString.self {
+      let objValue = valueForKey(key) as! NSNumber
+      if objValue.isBool {
+        debugPrint("\(key) is bool")
+        // string -> bool
+      } else {
+        // string -> number
+      }
+    }
     
+    if objType == NSString.self && jsonType == NSNumber.self {
+      let jsonValue = value as! NSNumber
+      if jsonValue.isBool {
+        // bool -> string
+      } else {
+        // number -> string
+      }
+    }
   }
   
   //
@@ -219,5 +244,26 @@ extension NSObject: TTReflectProtocol {
     let res = self.performSelector(aSelector)
     emptySetting = res.takeUnretainedValue() as! T
     return emptySetting
+  }
+}
+
+
+// MARK: - NSNumber: Comparable
+
+extension NSNumber {
+  var isBool:Bool {
+    get {
+      let trueNumber = NSNumber(bool: true)
+      let falseNumber = NSNumber(bool: false)
+      let trueObjCType = String.fromCString(trueNumber.objCType)
+      let falseObjCType = String.fromCString(falseNumber.objCType)
+      let objCType = String.fromCString(self.objCType)
+      if (self.compare(trueNumber) == NSComparisonResult.OrderedSame && objCType == trueObjCType)
+        || (self.compare(falseNumber) == NSComparisonResult.OrderedSame && objCType == falseObjCType){
+        return true
+      } else {
+        return false
+      }
+    }
   }
 }
