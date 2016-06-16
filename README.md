@@ -174,6 +174,7 @@ class Book: NSObject {
 ### Help
 
 Sorry for my poor english，I need your help 😢
+
 1.Please commit issues when you encounter bug or expect new function, thanks!
 
 2.Please pull request when you have good idea ^ ^
