@@ -11,6 +11,7 @@
 * 更新了API，用法更加Swift
 * 支持模型的继承
 * 支持json与属性类型不对应时的类型转换
+
 > 2.0 版本使用了全新的API，不兼容旧版本
 
 ### 安装
@@ -45,6 +46,7 @@ class Tag: NSObject {
     var isOpen: Bool = false
 }
 ```
+
 > 推荐所有的属性都使用默认值，能够避免在原始数据错误时，过多的可选判断或空对象崩溃
 
 **1.模型需要继承于NSObject**
@@ -54,6 +56,7 @@ class Tag: NSObject {
 **3.对象属性可以使用可选类型**
 
 > 各类模型定义方式，详见 [测试模型](https://github.com/TifaTsubasa/TTReflect/tree/master/Example/Model)
+
 #### 关键方法
 ```
 // e.g. 模型为Tag类
