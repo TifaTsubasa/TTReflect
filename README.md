@@ -5,6 +5,7 @@
 [![CocoaPods Compatible](https://img.shields.io/cocoapods/v/TTReflect.svg)](https://img.shields.io/cocoapods/v/TTReflect.svg)
 [![Platform](https://img.shields.io/cocoapods/p/TTReflect.svg?style=flat)](http://cocoadocs.org/docsets/TTReflect)
 
+[中文说明请戳我](https://github.com/TifaTsubasa/TTReflect/blob/master/README-zh.md)
 ### Update Log
 
 #### 2.0.0
