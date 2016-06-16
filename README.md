@@ -1,38 +1,42 @@
-#TTReflect
-####swift: json convert to model
-**[中文介绍](https://github.com/TifaTsubasa/TTReflect/blob/master/README-zh.md)**
 
-### Change Log
+# TTReflect
+![Alt text](http://7xq01t.com1.z0.glb.clouddn.com/TTReflect_cover.png)
+#### json convert to object in **Swift**
+[![CocoaPods Compatible](https://img.shields.io/cocoapods/v/TTReflect.svg)](https://img.shields.io/cocoapods/v/TTReflect.svg)
+[![Platform](https://img.shields.io/cocoapods/p/TTReflect.svg?style=flat)](http://cocoadocs.org/docsets/TTReflect)
 
-#### 1.1.0
-###### 1.fix crash when run `Mirror(reflecting: self)`, it is Swift bug when iOS7
+### Update Log
 
-#### 1.0.0
-###### 1.change method name
-###### 2.return null object with error source data, avoid crash with no more unwrapped optional
+#### 2.0.0
+* new Api, more swift
+* support model inheritance
+* auto convert when json and property of different types
 
-###Installation
-####Manually
-#####
+> 2.0 override api, can not use with previous version
+
+### Installation
+#### iOS 7
+##### Manually
 drop `TTReflect.swift` to your project
 
-####iOS 8+
-#####CocoaPods
+#### iOS 8+
+##### CocoaPods
 
 ```
 platform :ios, '8.0'
 use_frameworks!
-pod 'TTReflect', '~> 1.1.0'
+pod 'TTReflect', '~> 2.0'
 ```
 
-**import lib**
+import lib
 ```
 import TTReflect
 ```
+=======
 
 
-###Usage
-####Model requirements
+### Usage
+#### Model requirements
 
 ```
 class Tag: NSObject {
@@ -42,107 +46,133 @@ class Tag: NSObject {
     var isOpen: Bool = false
 }
 ```
+
 > Commend evey property have default value, will show model with nothing, not crash with nil
 
 **1.Your model should be subclass of NSObject**
 
 **2.Comend property have default value**
 
+> Various models defined way:  [TEST MODEL](https://github.com/TifaTsubasa/TTReflect/tree/master/Example/Model)
 
-####Main function
-
-![Alt text](http://7xq01t.com1.z0.glb.clouddn.com/reflect_method_name.png)
-
-####Example
-
-#####Dictionary -> Model
-
-######Specifies json/data and model type
-
+#### Main function
 ```
-let book = Reflect.model(data: bookData, type: Book.self)
-let book = Reflect.model(json: bookJson, type: Book.self)
-```
-
-![enter image description here](http://7xq01t.com1.z0.glb.clouddn.com/tsusolo.com/qiniumodel_basic.png)
-
-#####Array<Dictionary> -> Array<Model>
-######Specifies json/data and array element type
-```
-let casts = Reflect.modelArray(data: castsData, type: Cast.self)
-let casts = Reflect.modelArray(json: castsJson, type: Cast.self)
+// e.g. Tag Model
+// convert json to object
+let tag = Reflect<Tag>.mapObject(json: json)
+// convert data to object
+let tag = Reflect<Tag>.mapObject(data: data)
+// convert json to object array
+let tags = Reflect<Tag>.mapObjects(json: json)
+// convert data to object array
+let tags = Reflect<Tag>.mapObjects(data: data)
 ```
 
-![enter image description here](http://7xq01t.com1.z0.glb.clouddn.com/tsusolo.com/qiniumodel_array_basic.png)
+#### Example
+##### Dictionary -> Model
+
+###### Specifies json/data and model type
+
+```
+let book = Reflect<Book>.mapObject(json: json)
+let book = Reflect<Book>.mapObject(data: data)
+```
+![Alt text](http://7xq01t.com1.z0.glb.clouddn.com/TTReflect_mapObject.png)
+
+##### JsonArray -> ModelArray
+###### Specifies json/data and array element type
+```
+let casts = Reflect<Cast>.mapObjects(json: json)
+let casts = Reflect<Cast>.mapObjects(data: data)
+```
+![Alt text](http://7xq01t.com1.z0.glb.clouddn.com/TTReflect_mapObjects.png)
+
+
 
 =======
 
 ###Protocol function
-
-####1.Replace attribute
-
+#### 1.Replace attribute
 json["title"] reflect model.tt
 
 ```
-func setupReplacePropertyName() -> [String : String] {
-    return ["title": "tt"]
+func setupMappingReplaceProperty() -> [String : String] {
+    return ["tt": "title"]
 }
 ```
 
-####2.Model of embedding model
+#### 2.Model of embedding model
 Specifies subclass type and key in json
 
 ```
-func setupReplaceObjectClass() -> [String : String] {
-    return ["images": "Images"]
+func setupMappingObjectClass() -> [String : AnyClass] {
+  return ["images": Images.self]
 }
 ```
 
-####3.Model array embedded in model
+#### 3.Model array embedded in model
 Specifies model array element type and key in json
 
 ```
-func setupReplaceElementClass() -> [String : String] {
-    return ["tags": "Tag"]
+func setupMappingElementClass() -> [String : AnyClass] {
+  return ["tags": Tag.self]
 }
 ```
 
-####Full model example
+#### 4.Ignore model property
+Specifies property names
+
 ```
+func setupMappingIgnorePropertyNames() -> [String] {
+  return ["tags"]
+}
+```
+
+#### Full model example
+```
+class TTNull: NSObject {
+  
+}
+
 class Book: NSObject {
-    var tt: String = ""
-    var pubdate: String = ""
-    var image: String = ""
-    var binding: String = ""
-    var pages: String = ""
-    var alt: String = ""
-    var id: String = ""
-    var publisher: String = ""
-    var summary: String = ""
-    var price: String = ""
-    var images: Images()
-    var tags = [Tag]()
+  var tt: String = ""
+  var pubdate: String = ""
+  var image: String = ""
+  var binding: String = ""
+  var pages = 0
+  var alt: String = ""
+  var id: String = ""
+  var publisher: String = ""
+  var summary: String = ""
+  var price: String = ""
+  var secretly: Bool = false
+  var imgs = Images()
+  var tags = [Tag]()
+  var test_null = TTNull()
+  
+  func setupMappingReplaceProperty() -> [String : String] {
+    return ["tt": "title", "imgs": "images"]
+  }
+  
+  func setupMappingObjectClass() -> [String : AnyClass] {
+    return ["images": Images.self, "test_null": TTNull.self]
+  }
 
-    func setupReplacePropertyName() -> [String : String] {
-        return ["title": "tt"]
-    }
-
-    func setupReplaceObjectClass() -> [String : String] {
-        return ["images": "Images"]
-    }
-
-    func setupReplaceElementClass() -> [String : String] {
-        return ["tags": "Tag"]
-    }
+  func setupMappingElementClass() -> [String : AnyClass] {
+    return ["tags": Tag.self]
+  }
 }
 ```
 
-####Full reflect
-![enter image description here](http://7xq01t.com1.z0.glb.clouddn.com/tsusolo.com/qiniumodel_full.png)
+#### Full reflect
+![Alt text](http://7xq01t.com1.z0.glb.clouddn.com/TTReflect_fullmap.png)
+
 
 
 =======
-###Help
+### Help
+
+Sorry for my poor english，I need your help 😢
 1.Please commit issues when you encounter bug or expect new function, thanks!
 
 2.Please pull request when you have good idea ^ ^
