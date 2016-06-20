@@ -182,23 +182,21 @@ extension NSObject: TTReflectProtocol {
     
     // convert type
     var transValue: AnyObject?
-    if objType == NSNumber.self && jsonType == NSString.self {
-      let objValue = valueForKey(key) as! NSNumber
-      let jsonValue = value as! String
+    let valueTuple = (valueForKey(key), value)
+    switch valueTuple {
+    case let (objValue as NSNumber, jsonValue as NSString):
       if objValue.isBool { // string -> bool
         if jsonValue == "true" {
           transValue = true
         }
       } else { // string -> number
-        if let res = NSNumberFormatter().numberFromString(jsonValue) {
+        if let res = NSNumberFormatter().numberFromString(jsonValue as String) {
           transValue = res
         }
       }
-    }
-    
-    if objType == NSString.self && jsonType == NSNumber.self {
-      let jsonValue = value as! NSNumber
+    case let (_ as NSString, jsonValue as NSNumber):
       transValue = String(jsonValue)
+    default: break
     }
     
     if let transValue = transValue {
@@ -212,7 +210,7 @@ extension NSObject: TTReflectProtocol {
   //
   func ergodicObjectKeys() -> [String] {
     var keys = [String]()
-    if #available(iOS 8.0, *) {
+    if #available(iOS 10.0, *) {
       let mirror = Mirror(reflecting: self)
       if let objectKeys = reflectObjectKeys(mirror) {
         keys = objectKeys
