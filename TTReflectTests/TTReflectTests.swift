@@ -87,4 +87,16 @@ class TTReflectTests: XCTestCase {
     }
     waitForExpectationsWithTimeout(10, handler: nil)
   }
+  
+  func testAlamofireObjects() {
+    let expectation = expectationWithDescription("Alamofire objects request")
+    Alamofire.request(.GET, "https://api.douban.com/v2/movie/in_theaters", parameters: nil)
+      .response { request, response, data, error in
+        let json = JSON(data: data!)
+        let movie = Reflect<Movie>.mapObjects(json: json["subjects"].rawValue)
+        XCTAssertNotEqual(movie.first?.title, "")
+        expectation.fulfill()
+    }
+    waitForExpectationsWithTimeout(10, handler: nil)
+  }
 }

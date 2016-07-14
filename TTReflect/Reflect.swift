@@ -40,9 +40,7 @@ public class Reflect<M: NSObject> {
       return [M]()
     }
     let models: [M] = arrayJson.map {
-      let model = M()
-      model.mapProperty($0)
-      return model
+      return Reflect<M>.mapObject(json: $0)
     }
     return models
   }
@@ -119,7 +117,7 @@ extension NSObject: TTReflectProtocol {
       let jsonValue = json.valueForKey(jsonKey)
       
       guard !ignorePropertyNames.contains(key) else {continue}  // ignore property
-      guard var value = jsonValue else {return}
+      guard var value = jsonValue else {continue}
       if value is NSNull {  // ignore null porperty
         debugPrint("Reflect error: The key \(jsonKey) value is \(value)")
         continue
