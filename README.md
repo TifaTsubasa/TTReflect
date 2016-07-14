@@ -8,6 +8,9 @@
 [中文说明请戳我](https://github.com/TifaTsubasa/TTReflect/blob/master/README-zh.md)
 ### Update Log
 
+#### 2.0.1
+* fix bug: reflect will skip when json without keyValue
+
 #### 2.0.0
 * new Api, more swift
 * support model inheritance
