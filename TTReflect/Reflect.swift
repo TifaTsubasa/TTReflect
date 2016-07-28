@@ -208,7 +208,7 @@ extension NSObject: TTReflectProtocol {
   //
   func ergodicObjectKeys() -> [String] {
     var keys = [String]()
-    if #available(iOS 10.0, *) {
+    if #available(iOS 8.0, *) {
       let mirror = Mirror(reflecting: self)
       if let objectKeys = reflectObjectKeys(mirror) {
         keys = objectKeys
