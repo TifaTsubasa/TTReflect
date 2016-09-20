@@ -5,6 +5,9 @@
 [![CocoaPods Compatible](https://img.shields.io/cocoapods/v/TTReflect.svg)](https://img.shields.io/cocoapods/v/TTReflect.svg)
 [![Platform](https://img.shields.io/cocoapods/p/TTReflect.svg?style=flat)](http://cocoadocs.org/docsets/TTReflect)
 
+### 适配 Xcode8 & Swift3
+切换到`swift3`分支, 手动拖拽`Reflect.swift`文件到你的项目中
+
 ### 更新记录
 
 #### 2.0.1
@@ -20,7 +23,7 @@
 ### 安装
 #### iOS 7
 ##### 手动导入
-将TTReflect.swift拖到项目中即可使用
+将`Reflect.swift`拖到项目中即可使用
 
 #### iOS 8+
 ##### 使用CocoaPods安装
