@@ -6,6 +6,10 @@
 [![Platform](https://img.shields.io/cocoapods/p/TTReflect.svg?style=flat)](http://cocoadocs.org/docsets/TTReflect)
 
 [中文说明请戳我](https://github.com/TifaTsubasa/TTReflect/blob/master/README-zh.md)
+
+### FOR Xcode8 & Swift3
+Switch to branch `swift3`, and drop `TTReflect.swift` to you project
+
 ### Update Log
 
 #### 2.0.1
