@@ -7,8 +7,12 @@
 
 [中文说明请戳我](https://github.com/TifaTsubasa/TTReflect/blob/master/README-zh.md)
 
-### FOR Xcode8 & Swift3
-Switch to branch `swift3`, and drop `Reflect.swift` to you project
+### FOR Xcode8 & Swift3 (iOS 8+)
+1. Switch to branch `swift3`, and drop `Reflect.swift` to you project
+
+2. Cocoapods (version 1.1.1 or higher)
+
+`pod 'TTReflect', :git => 'https://github.com/TifaTsubasa/TTReflect.git', :branch => 'swift3'`
 
 ### Update Log
 
