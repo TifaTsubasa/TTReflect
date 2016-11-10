@@ -8,7 +8,7 @@
 ### 适配 Xcode8 & Swift3 (iOS 8+)
 1. 切换到`swift3`分支, 手动拖拽`Reflect.swift`文件到你的项目中
 
-2.CocoaPods (版本1.1.1或更高)
+2. CocoaPods (版本1.1.1或更高)
 
 `pod 'TTReflect', :git => 'https://github.com/TifaTsubasa/TTReflect.git', :branch => 'swift3'`
 
