@@ -6,6 +6,7 @@
 build/
 DerivedData
 iOSInjectionProject/
+.DS_Store
 
 ## Various settings
 *.pbxuser
@@ -34,6 +35,7 @@ xcuserdata
 # you should judge for yourself, the pros and cons are mentioned at:
 # http://guides.cocoapods.org/using/using-cocoapods.html#should-i-ignore-the-pods-directory-in-source-control
 #
+
 Pods/
 
 # Carthage
