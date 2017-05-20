@@ -8,23 +8,18 @@
 [中文说明请戳我](https://github.com/TifaTsubasa/TTReflect/blob/master/README-zh.md)
 
 ### FOR Xcode8 & Swift3 (iOS 8+)
-1. Switch to branch `swift3`, and drop `Reflect.swift` to you project
+1. Drop `Reflect.swift` to you project
 
 2. Cocoapods (version 1.1.1 or higher)
 
-`pod 'TTReflect', :git => 'https://github.com/TifaTsubasa/TTReflect.git', :branch => 'swift3'`
+`pod 'TTReflect', '3.0.0'`
 
-### Update Log
+### FOR Swift2.3 (iOS 8+)
+1. Switch to branch `swift2.3`, and drop `Reflect.swift` to you project
 
-#### 2.0.1
-* fix bug: reflect will skip when json without keyValue
+2. Cocoapods
 
-#### 2.0.0
-* new Api, more swift
-* support model inheritance
-* auto convert when json and property of different types
-
-> 2.0 override api, can not use with previous version
+`pod 'TTReflect', '2.1.0'`
 
 ### Installation
 #### iOS 7
@@ -37,10 +32,10 @@ drop `Reflect.swift` to your project
 ```
 platform :ios, '8.0'
 use_frameworks!
-pod 'TTReflect', '~> 2.0'
+pod 'TTReflect', '~> 3.0'
 ```
 
-import lib
+### import lib
 ```
 import TTReflect
 ```
@@ -184,10 +179,8 @@ class Book: NSObject {
 =======
 ### Help
 
-Sorry for my poor english，I need your help 😢
-
 1.Please commit issues when you encounter bug or expect new function, thanks!
 
-2.Please pull request when you have good idea ^ ^
+2.Pull request when you have good idea ^ ^
 
 **E-mail: tifatsubasa@163.com**
