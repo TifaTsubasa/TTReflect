@@ -7,9 +7,10 @@
 //
 
 import UIKit
-import AFNetworking
+
 import Alamofire
 import SwiftyJSON
+import AFNetworking
 
 class ViewController: UIViewController {
   
@@ -20,48 +21,50 @@ class ViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-//    let home = Reflect<Item>.mapObjects("Home")
-//    debugPrint(home)
+    //    let home = Reflect<Item>.mapObjects("Home")
+    //    debugPrint(home)
     
     
-    let bookUrl = NSURL.fileURLWithPath(NSBundle.mainBundle().pathForResource("book", ofType: nil)!)
-    let bookData = NSData(contentsOfURL: bookUrl)
-    let json = try! NSJSONSerialization.JSONObjectWithData(bookData!, options: NSJSONReadingOptions.AllowFragments)
-//    let book = Reflect<Book>.mapObject(json: json)
-//    let books = Reflect2<[Book]>.mapping(json: json)
-//    let books = Reflect<Book>.mapObjects(json: json)
-//    let tag = book.tags.first
-//    debugPrint(book)
+    let bookUrl = URL(fileURLWithPath: Bundle.main.path(forResource: "book", ofType: nil)!)
+    let bookData = try? Data(contentsOf: bookUrl)
+    let json = try! JSONSerialization.jsonObject(with: bookData!, options: JSONSerialization.ReadingOptions.allowFragments)
+    //    let book = Reflect<Book>.mapObject(json: json)
+    //    let books = Reflect2<[Book]>.mapping(json: json)
+    //    let books = Reflect<Book>.mapObjects(json: json)
+    //    let tag = book.tags.first
+    //    debugPrint(book)
     
-    let castUrl = NSURL.fileURLWithPath(NSBundle.mainBundle().pathForResource("casts", ofType: nil)!)
-    let castsData = NSData(contentsOfURL: castUrl)
-    let castsJson = try! NSJSONSerialization.JSONObjectWithData(castsData!, options: .AllowFragments)
+    let castUrl = URL(fileURLWithPath: Bundle.main.path(forResource: "casts", ofType: nil)!)
+    let castsData = try? Data(contentsOf: castUrl)
+    let castsJson = try! JSONSerialization.jsonObject(with: castsData!, options: .allowFragments)
     let castsJ = JSON(data: castsData!)
-    let casts = Reflect<Cast>.mapObjects(json: castsJ.rawValue)
+    let casts = Reflect<Cast>.mapObjects(json: castsJ.rawValue as AnyObject)
     let cast = casts.first
     debugPrint(casts)
-//    self.useAFNetworking()
+    //    self.useAFNetworking()
     useAlamofire()
   }
   
   func useAFNetworking() {
+    
     let manager = AFHTTPRequestOperationManager()
-    manager.GET("https://api.douban.com/v2/movie/subject/1764796", parameters: nil, success: { (operation, responseData) -> Void in
-      let movie = Reflect<Movie>.mapObjects(json: responseData)
+    manager.get("https://api.douban.com/v2/movie/subject/1764796", parameters: nil, success: { (operation, responseData) -> Void in
+      let movie = Reflect<Movie>.mapObjects(json: responseData as AnyObject)
       print(movie)
-      }, failure: nil)
+    }, failure: nil)
   }
   
   func useAlamofire() {
-    request(.GET, "https://api.douban.com/v2/movie/subject/1764796", parameters: nil, encoding: .URL, headers: nil)
-      .response { request, response, data, error in
-        
-        
-        let j = try! NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments)
-        let json = JSON(data: data!)
-//        debugPrint(json)
-        let movie = Reflect<Movie>.mapObject(json: json.rawValue)
-        debugPrint(movie)
+    Alamofire.request("https://api.douban.com/v2/movie/subject/1764796", method: .get, parameters: nil, encoding: URLEncoding.default, headers: nil).response { response in
+      
+      let data = response.data
+      let j = try! JSONSerialization.jsonObject(with: data!, options: .allowFragments)
+      let json = JSON(data: data!)
+      //        debugPrint(json)
+      
+      let movie = Reflect<Movie>.mapObject(json: json.rawValue as AnyObject)
+      
+      debugPrint(movie)
     }
   }
   

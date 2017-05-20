@@ -1,10 +1,10 @@
-platform :ios, '9.0'
+platform :ios, '8.0'
 
 target 'TTReflect' do
   use_frameworks!
-  pod 'Alamofire', '~> 3.0'
+  pod 'Alamofire', '~> 4.0'
   pod 'AFNetworking', '2.6.3'
-  pod 'SwiftyJSON', '~> 2.3.2'
+  pod 'SwiftyJSON'
 
   target 'TTReflectTests' do
     inherit! :search_paths

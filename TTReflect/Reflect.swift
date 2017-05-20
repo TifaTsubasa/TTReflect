@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class Reflect<M: NSObject> {
+open class Reflect<M: NSObject> {
   
   // MARK: - reflect with json
   /**
@@ -16,7 +16,7 @@ public class Reflect<M: NSObject> {
    
    - returns: special type object
    */
-  public static func mapObject(json json: AnyObject?) -> M {
+  open static func mapObject(json: AnyObject?) -> M {
     guard let json = json else { return M() }
     guard json is NSDictionary || json is [String: AnyObject] else {
       debugPrint("Reflect error: Mapping model without a dictionary json")
@@ -27,7 +27,7 @@ public class Reflect<M: NSObject> {
     return model
   }
   
-  public static func mapObjects(json json: AnyObject?) -> [M] {
+  open static func mapObjects(json: AnyObject?) -> [M] {
     guard let json = json else {
       return [M]()
     }
@@ -46,22 +46,22 @@ public class Reflect<M: NSObject> {
   }
   
   // MARK: - reflect with data
-  public static func mapObject(data data: NSData?) -> M {
+  open static func mapObject(data: Data?) -> M {
     guard let data = data else { return M() }
     do {
-      let json = try NSJSONSerialization.JSONObjectWithData(data, options: .MutableContainers)
-      return Reflect<M>.mapObject(json: json)
+      let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers)
+      return Reflect<M>.mapObject(json: json as AnyObject?)
     } catch {
       debugPrint("Serializat json error: \(error)")
     }
     return M()
   }
   
-  public static func mapObjects(data data: NSData?) -> [M] {
+  open static func mapObjects(data: Data?) -> [M] {
     guard let data = data else { return [M]() }
     do {
-      let json = try NSJSONSerialization.JSONObjectWithData(data, options: .MutableContainers)
-      return Reflect<M>.mapObjects(json: json)
+      let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers)
+      return Reflect<M>.mapObjects(json: json as AnyObject?)
     } catch {
       debugPrint("Serializat json error: \(error)")
     }
@@ -69,8 +69,8 @@ public class Reflect<M: NSObject> {
   }
   
   // MARK: - reflect with plist name
-  public static func mapObject(plistName: String?) -> M {
-    let plistPath = NSBundle.mainBundle().pathForResource(plistName, ofType: "plist")
+  open static func mapObject(_ plistName: String?) -> M {
+    let plistPath = Bundle.main.path(forResource: plistName, ofType: "plist")
     guard let path = plistPath else {
       debugPrint("Reflect error: Error plist name")
       return M()
@@ -79,8 +79,8 @@ public class Reflect<M: NSObject> {
     return Reflect<M>.mapObject(json: json)
   }
   
-  public static func mapObjects(plistName: String?) -> [M] {
-    let plistPath = NSBundle.mainBundle().pathForResource(plistName, ofType: "plist")
+  open static func mapObjects(_ plistName: String?) -> [M] {
+    let plistPath = Bundle.main.path(forResource: plistName, ofType: "plist")
     guard let path = plistPath else {
       debugPrint("Reflect error: Error plist name")
       return [M]()
@@ -93,16 +93,16 @@ public class Reflect<M: NSObject> {
 // MARK: - object map setting protocol
 @objc
 public protocol TTReflectProtocol {
-  optional func setupMappingReplaceProperty() -> [String: String]
-  optional func setupMappingObjectClass() -> [String: AnyClass]
-  optional func setupMappingElementClass() -> [String: AnyClass]
-  optional func setupMappingIgnorePropertyNames() -> [String]
+  @objc optional func setupMappingReplaceProperty() -> [String: String]
+  @objc optional func setupMappingObjectClass() -> [String: AnyClass]
+  @objc optional func setupMappingElementClass() -> [String: AnyClass]
+  @objc optional func setupMappingIgnorePropertyNames() -> [String]
 }
 
 // MARK: - private function
 extension NSObject: TTReflectProtocol {
   // main function
-  private func mapProperty(json: AnyObject) {
+  fileprivate func mapProperty(_ json: AnyObject) {
     if json is NSNull { return }
     
     // mapping setting
@@ -114,49 +114,50 @@ extension NSObject: TTReflectProtocol {
     let keys = ergodicObjectKeys()
     for key in keys {
       let jsonKey = replacePropertyName[key] ?? key
-      let jsonValue = json.valueForKey(jsonKey)
+      let jsonValue = json.value(forKey: jsonKey)
       
       guard !ignorePropertyNames.contains(key) else {continue}  // ignore property
-      guard var value = jsonValue else {continue}
+      guard let value = jsonValue else {continue}
       if value is NSNull {  // ignore null porperty
         debugPrint("Reflect error: The key \(jsonKey) value is \(value)")
         continue
       }
       
+      setPropertyValue(value as AnyObject, forKey: key)
       // map sub object
-      mapSubObject(key, jsonKey: jsonKey, mappingObjectClass: mappingObjectClass, value: &value)
+      if let trackObject = mapSubObject(key, jsonKey: jsonKey, mappingObjectClass: mappingObjectClass, value: value as AnyObject){
+        setValue(trackObject, forKey: key)
+      }
       
       // map sub array
-      mapSubObjectArray(key, jsonKey: jsonKey, mappingElementClass: mappingElementClass, value: &value)
-      
-      
-      setPropertyValue(value, forKey: key)
-      
+      if let trackObjects = mapSubObjectArray(key, jsonKey: jsonKey, mappingElementClass: mappingElementClass, value: value as AnyObject) {
+        setValue(trackObjects, forKey: key)
+      }
     }
   }
   
-  private func mapSubObject(key: String, jsonKey: String, mappingObjectClass: [String: AnyClass], inout value: AnyObject) {
-    guard mappingObjectClass.keys.contains(jsonKey) else {return}
+  fileprivate func mapSubObject(_ key: String, jsonKey: String, mappingObjectClass: [String: AnyClass], value: AnyObject) -> AnyObject? {
+    guard mappingObjectClass.keys.contains(jsonKey) else {return nil}
     guard let objClass = mappingObjectClass[jsonKey] as? NSObject.Type else {
       fatalError("Reflect error: Sub-model is not a subclass of NSObject")
     }
     let model = objClass.init()
     guard value is NSDictionary || value is [String: AnyObject] else {
       debugPrint("Reflect error: Error key: \(key) -- mapping sub-model without a dictionary json")
-      return
+      return nil
     }
     model.mapProperty(value)
-    value = model
+    return model
   }
   
-  private func mapSubObjectArray(key: String, jsonKey: String, mappingElementClass: [String: AnyClass], inout value: AnyObject) {
-    guard mappingElementClass.keys.contains(jsonKey) else {return}
+  fileprivate func mapSubObjectArray(_ key: String, jsonKey: String, mappingElementClass: [String: AnyClass], value: AnyObject) -> AnyObject? {
+    guard mappingElementClass.keys.contains(jsonKey) else {return nil}
     guard let objClass = mappingElementClass[jsonKey] as? NSObject.Type else {
       fatalError("Reflect error: Sub-model is not a subclass of NSObject")
     }
     guard let subArrayJson = value as? [AnyObject] else {
       debugPrint("Reflect error: Error key: \(key) -- mapping sub-model array without a array json")
-      return
+      return nil
     }
     let submodelArray: [NSObject] = subArrayJson.map {
       let submodel = objClass.init()
@@ -167,124 +168,124 @@ extension NSObject: TTReflectProtocol {
       }
       return submodel
     }
-    value = submodelArray
+    return submodelArray as AnyObject
   }
   
-  private func setPropertyValue(value: AnyObject?, forKey key: String) {
-    let jsonType: AnyClass? = value?.classForCoder
-    let objType: AnyClass? = valueForKey(key)?.classForCoder
-    guard jsonType != objType else {
-      setValue(value, forKey: key)
-      return
-    }
+  fileprivate func setPropertyValue(_ value: AnyObject?, forKey key: String) {
+    
+    
     
     // convert type
+    var transFlag: Bool?
+    
     var transValue: AnyObject?
-    let valueTuple = (valueForKey(key), value)
+    let valueTuple = (self.value(forKey: key), value)
     switch valueTuple {
     case let (objValue as NSNumber, jsonValue as NSString):
+      transFlag = false
       if objValue.isBool { // string -> bool
         if jsonValue == "true" {
-          transValue = true
+          transValue = true as AnyObject?
+          transFlag = true
         }
       } else { // string -> number
-        if let res = NSNumberFormatter().numberFromString(jsonValue as String) {
+        if let res = NumberFormatter().number(from: jsonValue as String) {
           transValue = res
+          transFlag = true
         }
       }
     case let (_ as NSString, jsonValue as NSNumber):
-      transValue = String(jsonValue)
-    default: break
+      transValue = "\(jsonValue)" as AnyObject?
+      transFlag = true
+    default:
+      setValue(value, forKey: key)
     }
     
-    if let transValue = transValue {
-      debugPrint("Reflect warning: The key \(key) have different type value")
-      setValue(transValue, forKey: key)
-    } else {
-      debugPrint("Reflect error: The key \(key) map error type")
+    if let transFlag = transFlag {
+      if transFlag {
+        debugPrint("Reflect warning: The key \(key) have different type value")
+        setValue(transValue, forKey: key)
+      } else {
+        debugPrint("Reflect error: The key \(key) map error type")
+      }
     }
   }
   
   //
   func ergodicObjectKeys() -> [String] {
     var keys = [String]()
-    if #available(iOS 8.0, *) {
-      let mirror = Mirror(reflecting: self)
-      if let objectKeys = reflectObjectKeys(mirror) {
-        keys = objectKeys
-      }
-    } else {
-      keys = getObjectKeys(self.classForCoder)
+    let mirror = Mirror(reflecting: self)
+    if let objectKeys = reflectObjectKeys(mirror) {
+      keys = objectKeys
     }
     return keys
   }
   
-  func reflectObjectKeys(mirror: Mirror?) -> [String]? { // iOS8+
+  func reflectObjectKeys(_ mirror: Mirror?) -> [String]? { // iOS8+
     guard let mirror = mirror else { return nil }
     var keys = mirror.children.flatMap {$0.label}
-    if mirror.superclassMirror()?.subjectType != NSObject.self {
-      if let subKeys = reflectObjectKeys(mirror.superclassMirror()) {
-        keys.appendContentsOf(subKeys)
+    if mirror.superclassMirror?.subjectType != NSObject.self {
+      if let subKeys = reflectObjectKeys(mirror.superclassMirror) {
+        keys.append(contentsOf: subKeys)
       }
     }
     return keys
   }
   
-  func getObjectKeys(cls: AnyClass) -> [String] { // iOS 7
+  func getObjectKeys(_ cls: AnyClass) -> [String] { // iOS 7
     var keys = [String]()
     var propNum: UInt32 = 0
     let propList = class_copyPropertyList(cls, &propNum)
     for index in 0..<numericCast(propNum) {
-      let prop: objc_property_t = propList[index]
-      keys.append(String(UTF8String: property_getName(prop))!)
+      let prop: objc_property_t = propList![index]!
+      keys.append(String(validatingUTF8: property_getName(prop))!)
     }
     if class_getSuperclass(cls) != NSObject.self {
-      keys.appendContentsOf(getObjectKeys(class_getSuperclass(cls)))
+      keys.append(contentsOf: getObjectKeys(class_getSuperclass(cls)))
     }
     return keys
   }
   
-  private func getMappingReplaceProperty() -> [String: String] {
+  fileprivate func getMappingReplaceProperty() -> [String: String] {
     var replacePropertyName = [String: String]()
     return getProtocolSetting(&replacePropertyName, aSelector: #selector(TTReflectProtocol.setupMappingReplaceProperty))
   }
   
-  private func getMappingIgnorePropertyNames() -> [String] {
+  fileprivate func getMappingIgnorePropertyNames() -> [String] {
     var ignorePropertyNames = [String]()
     return getProtocolSetting(&ignorePropertyNames, aSelector: #selector(TTReflectProtocol.setupMappingIgnorePropertyNames))
   }
   
-  private func getMappingObjectClass() -> [String: AnyClass] {
+  fileprivate func getMappingObjectClass() -> [String: AnyClass] {
     var mappingObjectClass = [String: AnyClass]()
     return getProtocolSetting(&mappingObjectClass, aSelector: #selector(TTReflectProtocol.setupMappingObjectClass))
   }
   
-  private func getMappingElementClass() -> [String: AnyClass] {
+  fileprivate func getMappingElementClass() -> [String: AnyClass] {
     var mappingElementClass = [String: AnyClass]()
     return getProtocolSetting(&mappingElementClass, aSelector: #selector(TTReflectProtocol.setupMappingElementClass))
   }
   
-  private func getProtocolSetting<T>(inout emptySetting: T, aSelector: Selector) -> T {
-    guard self.respondsToSelector(aSelector) else {return emptySetting}
-    let res = self.performSelector(aSelector)
-    emptySetting = res.takeUnretainedValue() as! T
+  fileprivate func getProtocolSetting<T>(_ emptySetting: inout T, aSelector: Selector) -> T {
+    guard self.responds(to: aSelector) else {return emptySetting}
+    let res = self.perform(aSelector)
+    emptySetting = res?.takeUnretainedValue() as! T
     return emptySetting
   }
 }
 
 
 // MARK: - NSNumber: Comparable
-
 extension NSNumber {
   var isBool:Bool {
     get {
-      let trueNumber = NSNumber(bool: true)
-      let falseNumber = NSNumber(bool: false)
-      let trueObjCType = String.fromCString(trueNumber.objCType)
-      let falseObjCType = String.fromCString(falseNumber.objCType)
-      let objCType = String.fromCString(self.objCType)
-      if (self.compare(trueNumber) == NSComparisonResult.OrderedSame && objCType == trueObjCType)
-        || (self.compare(falseNumber) == NSComparisonResult.OrderedSame && objCType == falseObjCType){
+      let trueNumber = NSNumber(value: true as Bool)
+      let falseNumber = NSNumber(value: false as Bool)
+      let trueObjCType = String(cString: trueNumber.objCType)
+      let falseObjCType = String(cString: falseNumber.objCType)
+      let objCType = String(cString: self.objCType)
+      if (self.compare(trueNumber) == ComparisonResult.orderedSame && objCType == trueObjCType)
+        || (self.compare(falseNumber) == ComparisonResult.orderedSame && objCType == falseObjCType){
         return true
       } else {
         return false

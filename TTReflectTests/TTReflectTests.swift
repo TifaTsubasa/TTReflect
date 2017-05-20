@@ -13,7 +13,7 @@ import SwiftyJSON
 
 class TTReflectTests: XCTestCase {
   
-  func assertBook(book: Book) {
+  func assertBook(_ book: Book) {
     XCTAssertEqual(book.tt, "满月之夜白鲸现")
     XCTAssertEqual(book.tags.count, 8)
     XCTAssertEqual(book.tags.first?.count, 136)
@@ -26,15 +26,15 @@ class TTReflectTests: XCTestCase {
     XCTAssertNotNil(book.test_null)
   }
   
-  func assertCast(casts: [Cast]) {
+  func assertCast(_ casts: [Cast]) {
     XCTAssertEqual(casts.count, 4)
     XCTAssertEqual(casts.first?.alt, "http://movie.douban.com/celebrity/1054395/")
     XCTAssertEqual(casts.last?.avatars.medium, "https://img1.doubanio.com/img/celebrity/medium/42033.jpg")
   }
   
   func testConvert() {
-    let convertUrl = NSURL.fileURLWithPath(NSBundle.mainBundle().pathForResource("convert", ofType: nil)!)
-    let convertData = NSData(contentsOfURL: convertUrl)
+    let convertUrl = URL(fileURLWithPath: Bundle.main.path(forResource: "convert", ofType: nil)!)
+    let convertData = try? Data(contentsOf: convertUrl)
     let convert = Reflect<Convert>.mapObject(data: convertData)
     XCTAssertEqual(convert.scns, 42.3)
     XCTAssertEqual(convert.ncss, "23.98")
@@ -44,59 +44,58 @@ class TTReflectTests: XCTestCase {
   }
   
   func testBookData() {
-    let bookUrl = NSURL.fileURLWithPath(NSBundle.mainBundle().pathForResource("book", ofType: nil)!)
-    let bookData = NSData(contentsOfURL: bookUrl)
+    let bookUrl = URL(fileURLWithPath: Bundle.main.path(forResource: "book", ofType: nil)!)
+    let bookData = try? Data(contentsOf: bookUrl)
     let book = Reflect<Book>.mapObject(data: bookData)
     assertBook(book)
   }
   
   func testBookJson() {
-    let bookUrl = NSURL.fileURLWithPath(NSBundle.mainBundle().pathForResource("book", ofType: nil)!)
-    let bookData = NSData(contentsOfURL: bookUrl)
-    let json = try! NSJSONSerialization.JSONObjectWithData(bookData!, options: .MutableContainers)
-    let book = Reflect<Book>.mapObject(json: json)
+    let bookUrl = URL(fileURLWithPath: Bundle.main.path(forResource: "book", ofType: nil)!)
+    let bookData = try? Data(contentsOf: bookUrl)
+    let json = try! JSONSerialization.jsonObject(with: bookData!, options: .mutableContainers)
+    let book = Reflect<Book>.mapObject(json: json as AnyObject)
     assertBook(book)
   }
   
   func testCastData() {
-    let castUrl = NSURL.fileURLWithPath(NSBundle.mainBundle().pathForResource("casts", ofType: nil)!)
-    let castsData = NSData(contentsOfURL: castUrl)
+    let castUrl = URL(fileURLWithPath: Bundle.main.path(forResource: "casts", ofType: nil)!)
+    let castsData = try? Data(contentsOf: castUrl)
     let casts = Reflect<Cast>.mapObjects(data: castsData)
     assertCast(casts)
   }
   
   func testCastJson() {
-    let castUrl = NSURL.fileURLWithPath(NSBundle.mainBundle().pathForResource("casts", ofType: nil)!)
-    let castsData = NSData(contentsOfURL: castUrl)
-    let castsJson = try! NSJSONSerialization.JSONObjectWithData(castsData!, options: .MutableContainers)
-    let casts = Reflect<Cast>.mapObjects(json: castsJson)
+    let castUrl = URL(fileURLWithPath: Bundle.main.path(forResource: "casts", ofType: nil)!)
+    let castsData = try? Data(contentsOf: castUrl)
+    let castsJson = try! JSONSerialization.jsonObject(with: castsData!, options: .mutableContainers)
+    let casts = Reflect<Cast>.mapObjects(json: castsJson as AnyObject)
     assertCast(casts)
   }
   
   func testAlamofire() {
-     let expectation = expectationWithDescription("Alamofire request")
-    Alamofire.request(.GET, "https://api.douban.com/v2/movie/subject/1764796", parameters: nil)
-      .response { request, response, data, error in
-        let json = JSON(data: data!)
-        debugPrint(json)
-        let movie = Reflect<Movie>.mapObject(json: json.rawValue)
-        XCTAssertEqual(movie.title, "机器人9号")
-//        XCTAssertEqual(movie.images.small, "https://img1.doubanio.com/view/movie_poster_cover/ipst/public/p494268647.jpg")
-        XCTAssertEqual(movie.subtype, "movie")
-        expectation.fulfill()
+    let expectation = self.expectation(description: "Alamofire request")
+    Alamofire.request("https://api.douban.com/v2/movie/subject/1764796", method: .get, parameters: nil, encoding: URLEncoding.default, headers: nil).response { response in
+      let data = response.data
+      let json = JSON(data: data!)
+      debugPrint(json)
+      let movie = Reflect<Movie>.mapObject(json: json.rawValue as AnyObject)
+      XCTAssertEqual(movie.title, "机器人9号")
+      XCTAssertEqual(movie.subtype, "movie")
+      expectation.fulfill()
     }
-    waitForExpectationsWithTimeout(10, handler: nil)
+    waitForExpectations(timeout: 10, handler: nil)
   }
   
   func testAlamofireObjects() {
-    let expectation = expectationWithDescription("Alamofire objects request")
-    Alamofire.request(.GET, "https://api.douban.com/v2/movie/in_theaters", parameters: nil)
-      .response { request, response, data, error in
-        let json = JSON(data: data!)
-        let movie = Reflect<Movie>.mapObjects(json: json["subjects"].rawValue)
-        XCTAssertNotEqual(movie.first?.title, "")
-        expectation.fulfill()
+    let expectation = self.expectation(description: "Alamofire objects request")
+    Alamofire.request("https://api.douban.com/v2/movie/in_theaters", method: .get, parameters: nil, encoding: URLEncoding.default, headers: nil).response { response in
+      let data = response.data
+      let json = JSON(data: data!)
+      let movie = Reflect<Movie>.mapObjects(json: json["subjects"].rawValue as AnyObject)
+      XCTAssertNotEqual(movie.first?.title, "")
+      expectation.fulfill()
     }
-    waitForExpectationsWithTimeout(10, handler: nil)
+    waitForExpectations(timeout: 10, handler: nil)
   }
 }
