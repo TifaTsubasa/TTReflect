@@ -16,7 +16,7 @@ open class Reflect<M: NSObject> {
    
    - returns: special type object
    */
-  open static func mapObject(json: AnyObject?) -> M {
+  open static func mapObject(json: Any?) -> M {
     guard let json = json else { return M() }
     guard json is NSDictionary || json is [String: AnyObject] else {
       debugPrint("Reflect error: Mapping model without a dictionary json")
@@ -27,7 +27,7 @@ open class Reflect<M: NSObject> {
     return model
   }
   
-  open static func mapObjects(json: AnyObject?) -> [M] {
+  open static func mapObjects(json: Any?) -> [M] {
     guard let json = json else {
       return [M]()
     }
@@ -102,7 +102,7 @@ public protocol TTReflectProtocol {
 // MARK: - private function
 extension NSObject: TTReflectProtocol {
   // main function
-  fileprivate func mapProperty(_ json: AnyObject) {
+  fileprivate func mapProperty(_ json: Any) {
     if json is NSNull { return }
     
     // mapping setting
@@ -114,7 +114,7 @@ extension NSObject: TTReflectProtocol {
     let keys = ergodicObjectKeys()
     for key in keys {
       let jsonKey = replacePropertyName[key] ?? key
-      let jsonValue = json.value(forKey: jsonKey)
+      let jsonValue = (json as AnyObject).value(forKey: jsonKey)
       
       guard !ignorePropertyNames.contains(key) else {continue}  // ignore property
       guard let value = jsonValue else {continue}

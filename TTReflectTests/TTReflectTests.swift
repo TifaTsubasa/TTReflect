@@ -54,7 +54,7 @@ class TTReflectTests: XCTestCase {
     let bookUrl = URL(fileURLWithPath: Bundle.main.path(forResource: "book", ofType: nil)!)
     let bookData = try? Data(contentsOf: bookUrl)
     let json = try! JSONSerialization.jsonObject(with: bookData!, options: .mutableContainers)
-    let book = Reflect<Book>.mapObject(json: json as AnyObject)
+    let book = Reflect<Book>.mapObject(json: json)
     assertBook(book)
   }
   
@@ -69,7 +69,7 @@ class TTReflectTests: XCTestCase {
     let castUrl = URL(fileURLWithPath: Bundle.main.path(forResource: "casts", ofType: nil)!)
     let castsData = try? Data(contentsOf: castUrl)
     let castsJson = try! JSONSerialization.jsonObject(with: castsData!, options: .mutableContainers)
-    let casts = Reflect<Cast>.mapObjects(json: castsJson as AnyObject)
+    let casts = Reflect<Cast>.mapObjects(json: castsJson)
     assertCast(casts)
   }
   
@@ -79,7 +79,7 @@ class TTReflectTests: XCTestCase {
       let data = response.data
       let json = JSON(data: data!)
       debugPrint(json)
-      let movie = Reflect<Movie>.mapObject(json: json.rawValue as AnyObject)
+      let movie = Reflect<Movie>.mapObject(json: json.rawValue)
       XCTAssertEqual(movie.title, "机器人9号")
       XCTAssertEqual(movie.subtype, "movie")
       expectation.fulfill()
@@ -92,10 +92,10 @@ class TTReflectTests: XCTestCase {
     Alamofire.request("https://api.douban.com/v2/movie/in_theaters", method: .get, parameters: nil, encoding: URLEncoding.default, headers: nil).response { response in
       let data = response.data
       let json = JSON(data: data!)
-      let movie = Reflect<Movie>.mapObjects(json: json["subjects"].rawValue as AnyObject)
+      let movie = Reflect<Movie>.mapObjects(json: json["subjects"].rawValue)
       XCTAssertNotEqual(movie.first?.title, "")
       expectation.fulfill()
     }
-    waitForExpectations(timeout: 10, handler: nil)
+    waitForExpectations(timeout: 15, handler: nil)
   }
 }

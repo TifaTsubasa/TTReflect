@@ -62,7 +62,7 @@ class ViewController: UIViewController {
       let json = JSON(data: data!)
       //        debugPrint(json)
       
-      let movie = Reflect<Movie>.mapObject(json: json.rawValue as AnyObject)
+      let movie = Reflect<Movie>.mapObject(json: json.rawValue)
       
       debugPrint(movie)
     }
