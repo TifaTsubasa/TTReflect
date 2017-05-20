@@ -10,19 +10,14 @@
 
 2. CocoaPods (版本1.1.1或更高)
 
-`pod 'TTReflect', :git => 'https://github.com/TifaTsubasa/TTReflect.git', :branch => 'swift3'`
+`pod 'TTReflect', '~> 3.0.0'`
 
-### 更新记录
+### 适配 Swift2.3 (iOS 8+)
+1. 切换到`swift2.3`分支, 手动拖拽`Reflect.swift`文件到你的项目中
 
-#### 2.0.1
-* 修复了当json没有对应的键值时，会跳过映射的问题
+2. Cocoapods
 
-#### 2.0.0
-* 更新了API，用法更加Swift
-* 支持模型的继承
-* 支持json与属性类型不对应时的类型转换
-
-> 2.0 版本使用了全新的API，不兼容旧版本
+`pod 'TTReflect', '2.1.0'`
 
 ### 安装
 #### iOS 7
@@ -35,7 +30,7 @@
 ```
 platform :ios, '8.0'
 use_frameworks!
-pod 'TTReflect', '~> 2.0'
+pod 'TTReflect', '~> 3.0'
 ```
 
 使用前需要导入框架
