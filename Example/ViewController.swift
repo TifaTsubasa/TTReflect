@@ -28,7 +28,9 @@ class ViewController: UIViewController {
     let bookUrl = URL(fileURLWithPath: Bundle.main.path(forResource: "book", ofType: nil)!)
     let bookData = try? Data(contentsOf: bookUrl)
     let json = try! JSONSerialization.jsonObject(with: bookData!, options: JSONSerialization.ReadingOptions.allowFragments)
-    //    let book = Reflect<Book>.mapObject(json: json)
+    let book = Book()
+    
+        let b = Reflect<Book>.mapObject(json: json, override: book)
     //    let books = Reflect2<[Book]>.mapping(json: json)
     //    let books = Reflect<Book>.mapObjects(json: json)
     //    let tag = book.tags.first

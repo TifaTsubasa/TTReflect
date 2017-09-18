@@ -32,10 +32,7 @@ class TTReflectTests: XCTestCase {
     XCTAssertEqual(casts.last?.avatars.medium, "https://img1.doubanio.com/img/celebrity/medium/42033.jpg")
   }
   
-  func testConvert() {
-    let convertUrl = URL(fileURLWithPath: Bundle.main.path(forResource: "convert", ofType: nil)!)
-    let convertData = try? Data(contentsOf: convertUrl)
-    let convert = Reflect<Convert>.mapObject(data: convertData)
+  func assertConvert(_ convert: Convert) {
     XCTAssertEqual(convert.scns, 42.3)
     XCTAssertEqual(convert.ncss, "23.98")
     XCTAssertEqual(convert.bcss, "1")
@@ -43,11 +40,40 @@ class TTReflectTests: XCTestCase {
     XCTAssertEqual(convert.scbe, false)
   }
   
+  func testConvert() {
+    let convertUrl = URL(fileURLWithPath: Bundle.main.path(forResource: "convert", ofType: nil)!)
+    let convertData = try? Data(contentsOf: convertUrl)
+    let convert = Reflect<Convert>.mapObject(data: convertData)
+    assertConvert(convert)
+  }
+  
+  func testConvertWithModel() {
+    let convertUrl = URL(fileURLWithPath: Bundle.main.path(forResource: "convert", ofType: nil)!)
+    let convertData = try? Data(contentsOf: convertUrl)
+    let oldScns = 33.3
+    let oldConvert = Convert()
+    oldConvert.scns = oldScns
+    let convert = Reflect<Convert>.mapObject(data: convertData)
+    XCTAssertNotEqual(convert.scns, oldScns)
+    assertConvert(convert)
+  }
+  
   func testBookData() {
     let bookUrl = URL(fileURLWithPath: Bundle.main.path(forResource: "book", ofType: nil)!)
     let bookData = try? Data(contentsOf: bookUrl)
     let book = Reflect<Book>.mapObject(data: bookData)
     assertBook(book)
+  }
+  
+  func testBookDataWithModel() {
+    let bookUrl = URL(fileURLWithPath: Bundle.main.path(forResource: "book", ofType: nil)!)
+    let bookData = try? Data(contentsOf: bookUrl)
+    let oldId = "old book"
+    let oldBook = Book()
+    oldBook.id = oldId
+    let newBook = Reflect<Book>.mapObject(data: bookData, override: oldBook)
+    XCTAssertNotEqual(newBook.id, oldId)
+    assertBook(newBook)
   }
   
   func testBookJson() {
@@ -82,6 +108,24 @@ class TTReflectTests: XCTestCase {
       let movie = Reflect<Movie>.mapObject(json: json.rawValue)
       XCTAssertEqual(movie.title, "机器人9号")
       XCTAssertEqual(movie.subtype, "movie")
+      expectation.fulfill()
+    }
+    waitForExpectations(timeout: 10, handler: nil)
+  }
+  
+  func testAlamofireWithModel() {
+    let expectation = self.expectation(description: "Alamofire request with model")
+    Alamofire.request("https://api.douban.com/v2/movie/subject/1764796", method: .get, parameters: nil, encoding: URLEncoding.default, headers: nil).response { response in
+      let data = response.data
+      let json = JSON(data: data!)
+      debugPrint(json)
+      let oldMovie = Movie()
+      let oldMovieTitle = "old movie"
+      oldMovie.title = oldMovieTitle
+      let newMovie = Reflect<Movie>.mapObject(json: json.rawValue, override: oldMovie)
+      XCTAssertNotEqual(newMovie.title, oldMovieTitle)
+      XCTAssertEqual(newMovie.title, "机器人9号")
+      XCTAssertEqual(newMovie.subtype, "movie")
       expectation.fulfill()
     }
     waitForExpectations(timeout: 10, handler: nil)

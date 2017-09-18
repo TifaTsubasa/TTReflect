@@ -16,13 +16,19 @@ open class Reflect<M: NSObject> {
    
    - returns: special type object
    */
-  open static func mapObject(json: Any?) -> M {
-    guard let json = json else { return M() }
+  
+  /// map object with json
+  ///
+  /// - Parameters:
+  ///   - json: json
+  ///   - model: refactor the model, keep old value when json without new property
+  /// - Returns: return model as same as override model
+  open static func mapObject(json: Any?, override model: M = M()) -> M  {
+    guard let json = json else { return model }
     guard json is NSDictionary || json is [String: AnyObject] else {
       debugPrint("Reflect error: Mapping model without a dictionary json")
-      return M()
+      return model
     }
-    let model = M()
     model.mapProperty(json)
     return model
   }
@@ -45,16 +51,21 @@ open class Reflect<M: NSObject> {
     return models
   }
   
-  // MARK: - reflect with data
-  open static func mapObject(data: Data?) -> M {
-    guard let data = data else { return M() }
+  /// map object with json
+  ///
+  /// - Parameters:
+  ///   - data: json data
+  ///   - model: refactor the model, keep old value when json without new property
+  /// - Returns: return model as same as override model
+  open static func mapObject(data: Data?, override model: M = M()) -> M {
+    guard let data = data else { return model }
     do {
       let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers)
-      return Reflect<M>.mapObject(json: json as AnyObject?)
+      return Reflect<M>.mapObject(json: json as AnyObject?, override: model)
     } catch {
       debugPrint("Serializat json error: \(error)")
     }
-    return M()
+    return model
   }
   
   open static func mapObjects(data: Data?) -> [M] {
@@ -69,14 +80,14 @@ open class Reflect<M: NSObject> {
   }
   
   // MARK: - reflect with plist name
-  open static func mapObject(_ plistName: String?) -> M {
+  open static func mapObject(_ plistName: String?, override model: M = M()) -> M {
     let plistPath = Bundle.main.path(forResource: plistName, ofType: "plist")
     guard let path = plistPath else {
       debugPrint("Reflect error: Error plist name")
-      return M()
+      return model
     }
     let json = NSDictionary(contentsOfFile: path)
-    return Reflect<M>.mapObject(json: json)
+    return Reflect<M>.mapObject(json: json, override: model)
   }
   
   open static func mapObjects(_ plistName: String?) -> [M] {
@@ -87,6 +98,14 @@ open class Reflect<M: NSObject> {
     }
     let json = NSArray(contentsOfFile: path)
     return Reflect<M>.mapObjects(json: json)
+  }
+  
+}
+
+// MARK: Supply Function
+extension Reflect {
+  open static func mapObject(json: Any?, with Model: M) {
+    
   }
 }
 

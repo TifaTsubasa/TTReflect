@@ -324,6 +324,7 @@
 				TargetAttributes = {
 					045D6F271C42127400D5B3F7 = {
 						CreatedOnToolsVersion = 7.2;
+						DevelopmentTeam = 5C7PDH2R53;
 						LastSwiftMigration = 0830;
 					};
 					045D6F3B1C42127400D5B3F7 = {
@@ -696,6 +697,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 04D7CCCBC0D8E7616F508334 /* Pods-TTReflect.debug.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = 5C7PDH2R53;
 				INFOPLIST_FILE = "$(SRCROOT)/Example/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -709,6 +711,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 90E4A8802775AF43AD7A26C1 /* Pods-TTReflect.release.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = 5C7PDH2R53;
 				INFOPLIST_FILE = "$(SRCROOT)/Example/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
