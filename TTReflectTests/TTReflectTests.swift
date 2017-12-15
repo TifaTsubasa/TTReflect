@@ -63,6 +63,10 @@ class TTReflectTests: XCTestCase {
     let bookData = try? Data(contentsOf: bookUrl)
     let book = Reflect<Book>.mapObject(data: bookData)
     assertBook(book)
+    
+    book.toReflectJsonModel()
+//   Reflect<Book>.mapObject(json: book.toJSONModel())
+//    assertBook(Reflect<Book>.mapObject(json: book.toJSONModel()))
   }
   
   func testBookDataWithModel() {

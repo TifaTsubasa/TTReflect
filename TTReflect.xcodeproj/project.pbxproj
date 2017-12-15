@@ -42,6 +42,8 @@
 		5CF745AD1CF840B600318DE4 /* Reflect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF745AC1CF840B600318DE4 /* Reflect.swift */; };
 		5CF745AE1CF8457500318DE4 /* Reflect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF745AC1CF840B600318DE4 /* Reflect.swift */; };
 		81A738B98CA0527E64FF994B /* Pods_TTReflect.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37CB28C8D4409CBA4A3C5E39 /* Pods_TTReflect.framework */; };
+		8395A1121FE3C4F3002A561E /* ReflectJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8395A1111FE3C4F3002A561E /* ReflectJson.swift */; };
+		8395A1131FE3C4F3002A561E /* ReflectJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8395A1111FE3C4F3002A561E /* ReflectJson.swift */; };
 		B6D58B0C0703C3CF7F1B7DE0 /* Pods_TTReflectUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D63AD2CFAE357600D4CBB1D2 /* Pods_TTReflectUITests.framework */; };
 		FE4F88F4A506D73140B16CCA /* Pods_TTReflectTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DC4DE9406AEA86009721DCF /* Pods_TTReflectTests.framework */; };
 /* End PBXBuildFile section */
@@ -97,6 +99,7 @@
 		5DC4DE9406AEA86009721DCF /* Pods_TTReflectTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TTReflectTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6579D7C3BEEC3118C06AD12D /* Pods-TTReflectUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TTReflectUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TTReflectUITests/Pods-TTReflectUITests.release.xcconfig"; sourceTree = "<group>"; };
 		7753FFC794659BCB5B1D9DFE /* Pods-TTReflectUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TTReflectUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TTReflectUITests/Pods-TTReflectUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		8395A1111FE3C4F3002A561E /* ReflectJson.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReflectJson.swift; sourceTree = "<group>"; };
 		90E4A8802775AF43AD7A26C1 /* Pods-TTReflect.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TTReflect.release.xcconfig"; path = "Pods/Target Support Files/Pods-TTReflect/Pods-TTReflect.release.xcconfig"; sourceTree = "<group>"; };
 		D63AD2CFAE357600D4CBB1D2 /* Pods_TTReflectUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TTReflectUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE59346DC87EBF34AA9DF3FC /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -192,6 +195,7 @@
 		045D6F621C42135900D5B3F7 /* TTReflect */ = {
 			isa = PBXGroup;
 			children = (
+				8395A1111FE3C4F3002A561E /* ReflectJson.swift */,
 				5CF745AC1CF840B600318DE4 /* Reflect.swift */,
 			);
 			path = TTReflect;
@@ -402,13 +406,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-TTReflect-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		7CC2E43044D2B4B9779E90C0 /* [CP] Embed Pods Frameworks */ = {
@@ -432,13 +439,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-TTReflectTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		98EF6E33D1E3AE96E6F6CD35 /* [CP] Check Pods Manifest.lock */ = {
@@ -447,13 +457,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-TTReflectUITests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		A213E8D4F46B857896441B42 /* [CP] Copy Pods Resources */ = {
@@ -522,9 +535,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-TTReflect/Pods-TTReflect-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AFNetworking.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -541,6 +561,7 @@
 				5C5CC0F51D124EB5005B680C /* Images.swift in Sources */,
 				5C5CC0EF1D124EB5005B680C /* Book.swift in Sources */,
 				5C5CC0FB1D124EB5005B680C /* Tag.swift in Sources */,
+				8395A1121FE3C4F3002A561E /* ReflectJson.swift in Sources */,
 				5C5CC0F91D124EB5005B680C /* Movie.swift in Sources */,
 				5C5CC0F31D124EB5005B680C /* Convert.swift in Sources */,
 				5CF745AD1CF840B600318DE4 /* Reflect.swift in Sources */,
@@ -557,6 +578,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5C5CC0F21D124EB5005B680C /* Cast.swift in Sources */,
+				8395A1131FE3C4F3002A561E /* ReflectJson.swift in Sources */,
 				5C5CC0F61D124EB5005B680C /* Images.swift in Sources */,
 				5C5CC0F41D124EB5005B680C /* Convert.swift in Sources */,
 				5CF745AE1CF8457500318DE4 /* Reflect.swift in Sources */,
