@@ -114,8 +114,11 @@ class TTReflectTests: XCTestCase {
       let json = JSON(data: data!)
       debugPrint(json)
       let movie = Reflect<Movie>.mapObject(json: json.rawValue)
+      let transJsonMovie = Reflect<Movie>.mapObject(data: movie.toJSONString()?.data(using: .utf8))
       XCTAssertEqual(movie.title, "机器人9号")
       XCTAssertEqual(movie.subtype, "movie")
+      XCTAssertEqual(transJsonMovie.title, "机器人9号")
+      XCTAssertEqual(transJsonMovie.subtype, "movie")
       expectation.fulfill()
     }
     waitForExpectations(timeout: 10, handler: nil)
