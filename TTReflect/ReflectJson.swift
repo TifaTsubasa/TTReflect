@@ -33,9 +33,10 @@ extension ReflectJson {
     let replacePropertys = (self as? TTReflectProtocol)?.setupMappingReplaceProperty?() ?? [:]
     
     let mirror = Mirror(reflecting: self)
+    let keyValues = getMirrorKeyValues(mirror)
     if mirror.children.count > 0 {
       var result: [String: AnyObject] = [:]
-      for case let (label?, value) in mirror.children {
+      for (label, value) in keyValues {
         let sourceLabel = replacePropertys.keys.contains(label) ? replacePropertys[label]! : label
         debugPrint("source label: ", sourceLabel)
         if let jsonValue = value as? ReflectJson {
