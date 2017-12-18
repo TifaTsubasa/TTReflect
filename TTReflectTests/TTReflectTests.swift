@@ -56,6 +56,7 @@ class TTReflectTests: XCTestCase {
     let convert = Reflect<Convert>.mapObject(data: convertData)
     XCTAssertNotEqual(convert.scns, oldScns)
     assertConvert(convert)
+//    assertConvert(Reflect<Convert>.mapObject(data: convert.toJSONString()?.data(using: .utf8)))
   }
   
   func testBookData() {
@@ -63,10 +64,7 @@ class TTReflectTests: XCTestCase {
     let bookData = try? Data(contentsOf: bookUrl)
     let book = Reflect<Book>.mapObject(data: bookData)
     assertBook(book)
-    
-    book.toReflectJsonModel()
-//   Reflect<Book>.mapObject(json: book.toJSONModel())
-//    assertBook(Reflect<Book>.mapObject(json: book.toJSONModel()))
+    assertBook(Reflect<Book>.mapObject(data: book.toJSONString()?.data(using: .utf8)))
   }
   
   func testBookDataWithModel() {

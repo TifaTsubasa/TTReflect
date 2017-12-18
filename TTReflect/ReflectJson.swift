@@ -16,18 +16,23 @@ protocol ReflectJson {
 extension ReflectJson {
   //将数据转成可用的JSON模型
   func toJSONModel() -> AnyObject? {
+    let replacePropertys = (self as? TTReflectProtocol)?.setupMappingReplaceProperty?() ?? [:]
+    
     let mirror = Mirror(reflecting: self)
     if mirror.children.count > 0 {
       var result: [String: AnyObject] = [:]
       for case let (label?, value) in mirror.children {
-        debugPrint(label, ", ", value)
+        let sourceLabel = replacePropertys.keys.contains(label) ? replacePropertys[label]! : label
+        debugPrint("source label: ", sourceLabel)
         if let jsonValue = value as? ReflectJson {
           if let hasResult = jsonValue.toJSONModel() {
-            result[label] = hasResult
+//            debugPrint("has result: ", label, "-", hasResult)
+            result[sourceLabel] = hasResult
           } else {
             let valueMirror = Mirror(reflecting: value)
             if valueMirror.superclassMirror?.subjectType != NSObject.self {
-              result[label] = value as AnyObject
+//              debugPrint("not object: ", label, "-", value)
+              result[sourceLabel] = value as AnyObject
             }
           }
         }
@@ -52,12 +57,7 @@ extension ReflectJson {
   }
 }
 
-extension NSObject: ReflectJson {
-  //可选类型重写toJSONModel()方法
-//  func toJSONModel() -> AnyObject? {
-//    return self.toJSONModel()
-//  }
-}
+extension NSObject: ReflectJson { }
 
 extension String: ReflectJson { }
 extension Int: ReflectJson { }

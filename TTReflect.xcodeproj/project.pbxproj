@@ -43,7 +43,6 @@
 		5CF745AE1CF8457500318DE4 /* Reflect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF745AC1CF840B600318DE4 /* Reflect.swift */; };
 		81A738B98CA0527E64FF994B /* Pods_TTReflect.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37CB28C8D4409CBA4A3C5E39 /* Pods_TTReflect.framework */; };
 		8395A1121FE3C4F3002A561E /* ReflectJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8395A1111FE3C4F3002A561E /* ReflectJson.swift */; };
-		8395A1131FE3C4F3002A561E /* ReflectJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8395A1111FE3C4F3002A561E /* ReflectJson.swift */; };
 		B6D58B0C0703C3CF7F1B7DE0 /* Pods_TTReflectUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D63AD2CFAE357600D4CBB1D2 /* Pods_TTReflectUITests.framework */; };
 		FE4F88F4A506D73140B16CCA /* Pods_TTReflectTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DC4DE9406AEA86009721DCF /* Pods_TTReflectTests.framework */; };
 /* End PBXBuildFile section */
@@ -578,7 +577,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5C5CC0F21D124EB5005B680C /* Cast.swift in Sources */,
-				8395A1131FE3C4F3002A561E /* ReflectJson.swift in Sources */,
 				5C5CC0F61D124EB5005B680C /* Images.swift in Sources */,
 				5C5CC0F41D124EB5005B680C /* Convert.swift in Sources */,
 				5CF745AE1CF8457500318DE4 /* Reflect.swift in Sources */,
