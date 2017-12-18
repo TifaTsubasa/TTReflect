@@ -14,6 +14,20 @@ protocol ReflectJson {
 }
 
 extension ReflectJson {
+  func getMirrorKeyValues(_ mirror: Mirror?) -> [String: Any] { // iOS8+
+    var keyValues = [String: Any]()
+    guard let mirror = mirror else { return keyValues }
+    for case let (label?, value) in mirror.children {
+      keyValues[label] = value
+    }
+    if mirror.superclassMirror?.subjectType != NSObject.self {
+      getMirrorKeyValues(mirror.superclassMirror).forEach({ (key, value) in
+        keyValues[key] = value
+      })
+    }
+    return keyValues
+  }
+  
   //将数据转成可用的JSON模型
   func toJSONModel() -> AnyObject? {
     let replacePropertys = (self as? TTReflectProtocol)?.setupMappingReplaceProperty?() ?? [:]
@@ -61,6 +75,7 @@ extension NSObject: ReflectJson { }
 
 extension String: ReflectJson { }
 extension Int: ReflectJson { }
+extension Double: ReflectJson { }
 extension Bool: ReflectJson { }
 extension Dictionary: ReflectJson { }
 //扩展Array，格式化输出

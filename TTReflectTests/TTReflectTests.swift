@@ -55,8 +55,9 @@ class TTReflectTests: XCTestCase {
     oldConvert.scns = oldScns
     let convert = Reflect<Convert>.mapObject(data: convertData)
     XCTAssertNotEqual(convert.scns, oldScns)
+    let tranformJsonConvert = Reflect<Convert>.mapObject(data: convert.toJSONString()?.data(using: .utf8))
     assertConvert(convert)
-//    assertConvert(Reflect<Convert>.mapObject(data: convert.toJSONString()?.data(using: .utf8)))
+    assertConvert(tranformJsonConvert)
   }
   
   func testBookData() {
@@ -76,6 +77,7 @@ class TTReflectTests: XCTestCase {
     let newBook = Reflect<Book>.mapObject(data: bookData, override: oldBook)
     XCTAssertNotEqual(newBook.id, oldId)
     assertBook(newBook)
+    assertBook(Reflect<Book>.mapObject(data: newBook.toJSONString()?.data(using: .utf8)))
   }
   
   func testBookJson() {
@@ -90,7 +92,11 @@ class TTReflectTests: XCTestCase {
     let castUrl = URL(fileURLWithPath: Bundle.main.path(forResource: "casts", ofType: nil)!)
     let castsData = try? Data(contentsOf: castUrl)
     let casts = Reflect<Cast>.mapObjects(data: castsData)
+    let tranformJsonCasts = Reflect<Cast>.mapObjects(data: casts.toJSONString()?.data(using: .utf8))
+    debugPrint(casts, tranformJsonCasts)
+    debugPrint(casts, tranformJsonCasts)
     assertCast(casts)
+    assertCast(tranformJsonCasts)
   }
   
   func testCastJson() {
