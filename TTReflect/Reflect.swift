@@ -23,7 +23,7 @@ open class Reflect<M: NSObject> {
   ///   - json: json
   ///   - model: refactor the model, keep old value when json without new property
   /// - Returns: return model as same as override model
-  open static func mapObject(json: Any?, override model: M = M()) -> M  {
+  public static func mapObject(json: Any?, override model: M = M()) -> M  {
     guard let json = json else { return model }
     guard json is NSDictionary || json is [String: AnyObject] else {
       debugPrint("Reflect error: Mapping model without a dictionary json")
@@ -33,7 +33,7 @@ open class Reflect<M: NSObject> {
     return model
   }
   
-  open static func mapObjects(json: Any?) -> [M] {
+  public static func mapObjects(json: Any?) -> [M] {
     guard let json = json else {
       return [M]()
     }
@@ -57,7 +57,7 @@ open class Reflect<M: NSObject> {
   ///   - data: json data
   ///   - model: refactor the model, keep old value when json without new property
   /// - Returns: return model as same as override model
-  open static func mapObject(data: Data?, override model: M = M()) -> M {
+  public static func mapObject(data: Data?, override model: M = M()) -> M {
     guard let data = data else { return model }
     do {
       let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers)
@@ -68,7 +68,7 @@ open class Reflect<M: NSObject> {
     return model
   }
   
-  open static func mapObjects(data: Data?) -> [M] {
+  public static func mapObjects(data: Data?) -> [M] {
     guard let data = data else { return [M]() }
     do {
       let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers)
@@ -80,7 +80,7 @@ open class Reflect<M: NSObject> {
   }
   
   // MARK: - reflect with plist name
-  open static func mapObject(_ plistName: String?, override model: M = M()) -> M {
+  public static func mapObject(_ plistName: String?, override model: M = M()) -> M {
     let plistPath = Bundle.main.path(forResource: plistName, ofType: "plist")
     guard let path = plistPath else {
       debugPrint("Reflect error: Error plist name")
@@ -90,7 +90,7 @@ open class Reflect<M: NSObject> {
     return Reflect<M>.mapObject(json: json, override: model)
   }
   
-  open static func mapObjects(_ plistName: String?) -> [M] {
+  public static func mapObjects(_ plistName: String?) -> [M] {
     let plistPath = Bundle.main.path(forResource: plistName, ofType: "plist")
     guard let path = plistPath else {
       debugPrint("Reflect error: Error plist name")
@@ -100,13 +100,6 @@ open class Reflect<M: NSObject> {
     return Reflect<M>.mapObjects(json: json)
   }
   
-}
-
-// MARK: Supply Function
-extension Reflect {
-  open static func mapObject(json: Any?, with Model: M) {
-    
-  }
 }
 
 // MARK: - object map setting protocol
@@ -191,13 +184,13 @@ extension NSObject: TTReflectProtocol {
   }
   
   fileprivate func setPropertyValue(_ value: AnyObject?, forKey key: String) {
-    
-    
-    
     // convert type
     var transFlag: Bool?
     
     var transValue: AnyObject?
+//    let vvalue = self.value(forKeyPath: key)
+//    
+//    print("--- \(vvalue)")
     let valueTuple = (self.value(forKey: key), value)
     switch valueTuple {
     case let (objValue as NSNumber, jsonValue as NSString):
@@ -251,19 +244,19 @@ extension NSObject: TTReflectProtocol {
     return keys
   }
   
-  func getObjectKeys(_ cls: AnyClass) -> [String] { // iOS 7
-    var keys = [String]()
-    var propNum: UInt32 = 0
-    let propList = class_copyPropertyList(cls, &propNum)
-    for index in 0..<numericCast(propNum) {
-      let prop: objc_property_t = propList![index]!
-      keys.append(String(validatingUTF8: property_getName(prop))!)
-    }
-    if class_getSuperclass(cls) != NSObject.self {
-      keys.append(contentsOf: getObjectKeys(class_getSuperclass(cls)))
-    }
-    return keys
-  }
+//  func getObjectKeys(_ cls: AnyClass) -> [String] { // iOS 7
+//    var keys = [String]()
+//    var propNum: UInt32 = 0
+//    let propList = class_copyPropertyList(cls, &propNum)
+//    for index in 0..<numericCast(propNum) {
+//      let prop: objc_property_t = propList![index]!
+//      keys.append(String(validatingUTF8: property_getName(prop))!)
+//    }
+//    if class_getSuperclass(cls) != NSObject.self {
+//      keys.append(contentsOf: getObjectKeys(class_getSuperclass(cls)))
+//    }
+//    return keys
+//  }
   
   fileprivate func getMappingReplaceProperty() -> [String: String] {
     var replacePropertyName = [String: String]()

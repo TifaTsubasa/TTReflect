@@ -8,7 +8,7 @@
 
 import UIKit
 
-class User: NSObject {
+@objcMembers class User: NSObject {
   var avatar: String = ""
   var avatar_large: String = ""
   var link: String = ""

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Movie: NSObject {
+@objcMembers class Movie: NSObject {
   var reviews_count = 0
   var wish_count = 0
   var collect_count = 0

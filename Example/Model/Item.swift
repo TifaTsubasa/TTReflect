@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Item: NSObject {
+@objcMembers class Item: NSObject {
     var username: String = ""
     var index: Int = 0
     var type: String = ""

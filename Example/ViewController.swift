@@ -29,11 +29,11 @@ class ViewController: UIViewController {
     let bookData = try? Data(contentsOf: bookUrl)
     let json = try! JSONSerialization.jsonObject(with: bookData!, options: JSONSerialization.ReadingOptions.allowFragments)
     let book = Reflect<Book>.mapObject(data: bookData)
-    let bookJsonString = book.toJSONString() ?? ""
-    let d = bookJsonString.data(using: .utf8)
-    let newBook = Reflect<Book>.mapObject(data: d)
-    debugPrint(book, newBook)
-    debugPrint(book, newBook)
+//    let bookJsonString = book.toJSONString() ?? ""
+//    let d = bookJsonString.data(using: .utf8)
+//    let newBook = Reflect<Book>.mapObject(data: d)
+    debugPrint(book)
+//    debugPrint(book, newBook)
 //    debugPrint(TTNull().toJSONString())
     
     

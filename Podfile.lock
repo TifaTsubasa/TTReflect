@@ -20,12 +20,12 @@ PODS:
   - AFNetworking/UIKit (2.6.3):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
-  - Alamofire (4.4.0)
+  - Alamofire (4.8.1)
   - SwiftyJSON (3.1.4)
 
 DEPENDENCIES:
   - AFNetworking (= 2.6.3)
-  - Alamofire (~> 4.0)
+  - Alamofire (~> 4.8.1)
   - SwiftyJSON
 
 SPEC REPOS:
@@ -36,9 +36,9 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
-  Alamofire: dc44b1600b800eb63da6a19039a0083d62a6a62d
+  Alamofire: 16ce2c353fb72865124ddae8a57c5942388f4f11
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
 
-PODFILE CHECKSUM: dd84159a96917cd44516a905efe4434f6d3181f6
+PODFILE CHECKSUM: 0ec41146fa4498f702e54728ade1c605ce7e414b
 
 COCOAPODS: 1.5.3

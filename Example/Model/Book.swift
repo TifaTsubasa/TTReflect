@@ -8,11 +8,11 @@
 
 import UIKit
 
-class TTNull: NSObject {
+@objcMembers class TTNull: NSObject {
   
 }
 
-class Book: NSObject {
+@objcMembers class Book: NSObject {
   var tt: String = ""
   var pubdate: String = ""
   var image: String = ""
