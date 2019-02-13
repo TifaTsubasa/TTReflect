@@ -235,7 +235,7 @@ extension NSObject: TTReflectProtocol {
   
   func reflectObjectKeys(_ mirror: Mirror?) -> [String]? { // iOS8+
     guard let mirror = mirror else { return nil }
-    var keys = mirror.children.flatMap {$0.label}
+    var keys = mirror.children.compactMap {$0.label}
     if mirror.superclassMirror?.subjectType != NSObject.self {
       if let subKeys = reflectObjectKeys(mirror.superclassMirror) {
         keys.append(contentsOf: subKeys)

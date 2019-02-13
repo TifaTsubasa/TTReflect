@@ -11,6 +11,9 @@ Pod::Spec.new do |s|
   s.source       = { :git => "https://github.com/TifaTsubasa/TTReflect.git", :tag => s.version }
   s.source_files  = "TTReflect/**/*"
   s.platform     = :ios, "8.0"
+  s.ios.deployment_target  = '8.0'
+  s.swift_version = '4.0'
   s.requires_arc = true
+  s.ios.framework  = 'UIKit'
 
 end
