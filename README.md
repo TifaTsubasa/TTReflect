@@ -5,6 +5,23 @@
 [![CocoaPods Compatible](https://img.shields.io/cocoapods/v/TTReflect.svg)](https://img.shields.io/cocoapods/v/TTReflect.svg)
 [![Platform](https://img.shields.io/cocoapods/p/TTReflect.svg?style=flat)](http://cocoadocs.org/docsets/TTReflect)
 
+*Swift4+推荐官方的Codable 和 JSONDecoder，项目中有可参考的代码*
+```
+JSONDecoder 和 TTReflect的对比
+
+JSONDecoder:
+√ JSONDecoder是原生支持
+√ 使用结构体（值类型）作为模型
+√ 映射对象和数组属性时更简单
+× 有自定义的属性映射时需要重写所有属性
+× 无法映射不同类型的属性
+
+TTRflect:
+√ 自定义的属性映射只需要改写相应的属性
+√ 全面的类型映射，对json有更高的容错性
+× 使用Class作为模型，需要依赖NSObject的KVC （致命问题）
+```
+
 ### 适配 Swift 4+ (iOS 8+)
 1. 切换到`master`分支, 手动拖拽`Reflect.swift`文件到你的项目中
 
