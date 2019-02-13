@@ -5,6 +5,13 @@
 [![CocoaPods Compatible](https://img.shields.io/cocoapods/v/TTReflect.svg)](https://img.shields.io/cocoapods/v/TTReflect.svg)
 [![Platform](https://img.shields.io/cocoapods/p/TTReflect.svg?style=flat)](http://cocoadocs.org/docsets/TTReflect)
 
+### 适配 Swift 4+ (iOS 8+)
+1. 切换到`master`分支, 手动拖拽`Reflect.swift`文件到你的项目中
+
+2. CocoaPods
+
+`pod 'TTReflect', '~> 4.0.0'`
+
 ### 适配 Xcode8 & Swift3 (iOS 8+)
 1. 切换到`swift3`分支, 手动拖拽`Reflect.swift`文件到你的项目中
 

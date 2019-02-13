@@ -5,6 +5,13 @@
 [![CocoaPods Compatible](https://img.shields.io/cocoapods/v/TTReflect.svg)](https://img.shields.io/cocoapods/v/TTReflect.svg)
 [![Platform](https://img.shields.io/cocoapods/p/TTReflect.svg?style=flat)](http://cocoadocs.org/docsets/TTReflect)
 
+### FOR Swift 4+ (iOS 8+)
+1. Drop `Reflect.swift` to you project
+
+2. Cocoapods
+
+`pod 'TTReflect', '4.0.0'`
+
 ### FOR Xcode8 & Swift3 (iOS 8+)
 1. Drop `Reflect.swift` to you project
 
