@@ -1,6 +1,6 @@
 
 # TTReflect
-![Alt text](http://7xq01t.com1.z0.glb.clouddn.com/TTReflect_cover.png)
+![Alt text](http://images.upmer.com/TTReflect_cover.png)
 #### json convert to object in **Swift**
 [![CocoaPods Compatible](https://img.shields.io/cocoapods/v/TTReflect.svg)](https://img.shields.io/cocoapods/v/TTReflect.svg)
 [![Platform](https://img.shields.io/cocoapods/p/TTReflect.svg?style=flat)](http://cocoadocs.org/docsets/TTReflect)
@@ -84,7 +84,7 @@ let tags = Reflect<Tag>.mapObjects(data: data)
 let book = Reflect<Book>.mapObject(json: json)
 let book = Reflect<Book>.mapObject(data: data)
 ```
-![Alt text](http://7xq01t.com1.z0.glb.clouddn.com/TTReflect_mapObject.png)
+![Alt text](http://images.upmer.com/TTReflect_mapObject.png)
 
 ##### JsonArray -> ModelArray
 ###### Specifies json/data and array element type
@@ -92,7 +92,7 @@ let book = Reflect<Book>.mapObject(data: data)
 let casts = Reflect<Cast>.mapObjects(json: json)
 let casts = Reflect<Cast>.mapObjects(data: data)
 ```
-![Alt text](http://7xq01t.com1.z0.glb.clouddn.com/TTReflect_mapObjects.png)
+![Alt text](http://images.upmer.com/TTReflect_mapObjects.png)
 
 
 
@@ -138,7 +138,7 @@ func setupMappingIgnorePropertyNames() -> [String] {
 #### Full model example
 ```
 class TTNull: NSObject {
-  
+
 }
 
 class Book: NSObject {
@@ -156,11 +156,11 @@ class Book: NSObject {
   var imgs = Images()
   var tags = [Tag]()
   var test_null = TTNull()
-  
+
   func setupMappingReplaceProperty() -> [String : String] {
     return ["tt": "title", "imgs": "images"]
   }
-  
+
   func setupMappingObjectClass() -> [String : AnyClass] {
     return ["images": Images.self, "test_null": TTNull.self]
   }
@@ -172,7 +172,7 @@ class Book: NSObject {
 ```
 
 #### Full reflect
-![Alt text](http://7xq01t.com1.z0.glb.clouddn.com/TTReflect_fullmap.png)
+![Alt text](http://images.upmer.com/TTReflect_fullmap.png)
 
 
 
