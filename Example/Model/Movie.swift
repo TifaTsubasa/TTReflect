@@ -24,3 +24,8 @@ import UIKit
     return ["images": Images.self]
   }
 }
+
+struct MovieStruct: Codable {
+  var reviews_count: Int
+  var title: String
+}

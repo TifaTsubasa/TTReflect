@@ -21,6 +21,13 @@ class ViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    // Swift JSONDecoder test
+    let bookUrl = URL(fileURLWithPath: Bundle.main.path(forResource: "book", ofType: nil)!)
+    let bookData = try? Data(contentsOf: bookUrl)
+    let book: BookStruct? = try? JSONDecoder().decode(BookStruct.self, from: bookData!)
+  }
+  
+  func testReflect() {
     //    let home = Reflect<Item>.mapObjects("Home")
     //    debugPrint(home)
     
@@ -29,15 +36,15 @@ class ViewController: UIViewController {
     let bookData = try? Data(contentsOf: bookUrl)
     let json = try! JSONSerialization.jsonObject(with: bookData!, options: JSONSerialization.ReadingOptions.allowFragments)
     let book = Reflect<Book>.mapObject(data: bookData)
-//    let bookJsonString = book.toJSONString() ?? ""
-//    let d = bookJsonString.data(using: .utf8)
-//    let newBook = Reflect<Book>.mapObject(data: d)
+    //    let bookJsonString = book.toJSONString() ?? ""
+    //    let d = bookJsonString.data(using: .utf8)
+    //    let newBook = Reflect<Book>.mapObject(data: d)
     debugPrint(book)
-//    debugPrint(book, newBook)
-//    debugPrint(TTNull().toJSONString())
+    //    debugPrint(book, newBook)
+    //    debugPrint(TTNull().toJSONString())
     
     
-        let b = Reflect<Book>.mapObject(json: json, override: book)
+    let b = Reflect<Book>.mapObject(json: json, override: book)
     //    let books = Reflect2<[Book]>.mapping(json: json)
     //    let books = Reflect<Book>.mapObjects(json: json)
     //    let tag = book.tags.first
